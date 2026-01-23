@@ -1,0 +1,383 @@
+[
+  {
+    "id": "my-juggler-v",
+    "machineName": "マイジャグラーV",
+    "maker": "北電子",
+    "settings": [1, 2, 3, 4, 5, 6],
+    "elements": [
+      {
+        "id": "grape",
+        "name": "ぶどう",
+        "probabilities": [
+          { "setting": 1, "denominator": 5.98 },
+          { "setting": 2, "denominator": 5.88 },
+          { "setting": 3, "denominator": 5.84 },
+          { "setting": 4, "denominator": 5.81 },
+          { "setting": 5, "denominator": 5.76 },
+          { "setting": 6, "denominator": 5.65 }
+        ]
+      },
+      {
+        "id": "cherry",
+        "name": "チェリー",
+        "probabilities": [
+          { "setting": 1, "denominator": 36.0 },
+          { "setting": 2, "denominator": 36.0 },
+          { "setting": 3, "denominator": 36.0 },
+          { "setting": 4, "denominator": 36.0 },
+          { "setting": 5, "denominator": 36.0 },
+          { "setting": 6, "denominator": 36.0 }
+        ]
+      },
+      {
+        "id": "big",
+        "name": "BIG",
+        "isBonus": true,
+        "probabilities": [
+          { "setting": 1, "denominator": 273.1 },
+          { "setting": 2, "denominator": 269.7 },
+          { "setting": 3, "denominator": 265.9 },
+          { "setting": 4, "denominator": 259.0 },
+          { "setting": 5, "denominator": 252.1 },
+          { "setting": 6, "denominator": 240.9 }
+        ]
+      },
+      {
+        "id": "reg",
+        "name": "REG",
+        "isBonus": true,
+        "probabilities": [
+          { "setting": 1, "denominator": 452.0 },
+          { "setting": 2, "denominator": 423.4 },
+          { "setting": 3, "denominator": 372.4 },
+          { "setting": 4, "denominator": 320.3 },
+          { "setting": 5, "denominator": 294.9 },
+          { "setting": 6, "denominator": 266.4 }
+        ]
+      },
+      {
+        "id": "solo-reg",
+        "name": "単独REG",
+        "parentId": "reg",
+        "probabilities": [
+          { "setting": 1, "denominator": 628.1 },
+          { "setting": 2, "denominator": 598.1 },
+          { "setting": 3, "denominator": 498.3 },
+          { "setting": 4, "denominator": 403.4 },
+          { "setting": 5, "denominator": 381.1 },
+          { "setting": 6, "denominator": 334.3 }
+        ]
+      },
+      {
+        "id": "cherry-reg",
+        "name": "チェリーREG",
+        "parentId": "reg",
+        "probabilities": [
+          { "setting": 1, "denominator": 1079.9 },
+          { "setting": 2, "denominator": 1071.8 },
+          { "setting": 3, "denominator": 1079.9 },
+          { "setting": 4, "denominator": 1078.7 },
+          { "setting": 5, "denominator": 890.5 },
+          { "setting": 6, "denominator": 813.0 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "aim-juggler-ex",
+    "machineName": "アイムジャグラーEX",
+    "maker": "北電子",
+    "settings": [1, 2, 3, 4, 5, 6],
+    "elements": [
+      {
+        "id": "grape",
+        "name": "ぶどう",
+        "probabilities": [
+          { "setting": 1, "denominator": 6.01 },
+          { "setting": 2, "denominator": 6.01 },
+          { "setting": 3, "denominator": 6.01 },
+          { "setting": 4, "denominator": 6.01 },
+          { "setting": 5, "denominator": 6.01 },
+          { "setting": 6, "denominator": 5.8 }
+        ]
+      },
+      {
+        "id": "cherry",
+        "name": "チェリー",
+        "probabilities": [
+          { "setting": 1, "denominator": 35.5 },
+          { "setting": 2, "denominator": 35.5 },
+          { "setting": 3, "denominator": 35.5 },
+          { "setting": 4, "denominator": 35.5 },
+          { "setting": 5, "denominator": 35.5 },
+          { "setting": 6, "denominator": 35.5 }
+        ]
+      },
+      {
+        "id": "big",
+        "name": "BIG",
+        "isBonus": true,
+        "probabilities": [
+          { "setting": 1, "denominator": 273.1 },
+          { "setting": 2, "denominator": 269.7 },
+          { "setting": 3, "denominator": 269.7 },
+          { "setting": 4, "denominator": 259.0 },
+          { "setting": 5, "denominator": 259.0 },
+          { "setting": 6, "denominator": 255.0 }
+        ]
+      },
+      {
+        "id": "reg",
+        "name": "REG",
+        "isBonus": true,
+        "probabilities": [
+          { "setting": 1, "denominator": 439.8 },
+          { "setting": 2, "denominator": 399.6 },
+          { "setting": 3, "denominator": 331.0 },
+          { "setting": 4, "denominator": 315.1 },
+          { "setting": 5, "denominator": 255.0 },
+          { "setting": 6, "denominator": 255.0 }
+        ]
+      },
+      {
+        "id": "cherry-reg",
+        "name": "チェリーREG",
+        "parentId": "reg",
+        "probabilities": [
+          { "setting": 1, "denominator": 1388.9 },
+          { "setting": 2, "denominator": 1234.6 },
+          { "setting": 3, "denominator": 1098.9 },
+          { "setting": 4, "denominator": 1052.6 },
+          { "setting": 5, "denominator": 854.7 },
+          { "setting": 6, "denominator": 847.5 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "funky-juggler-2",
+    "machineName": "ファンキージャグラー2",
+    "maker": "北電子",
+    "settings": [1, 2, 3, 4, 5, 6],
+    "elements": [
+      {
+        "id": "grape",
+        "name": "ぶどう",
+        "probabilities": [
+          { "setting": 1, "denominator": 5.94 },
+          { "setting": 2, "denominator": 5.92 },
+          { "setting": 3, "denominator": 5.9 },
+          { "setting": 4, "denominator": 5.83 },
+          { "setting": 5, "denominator": 5.8 },
+          { "setting": 6, "denominator": 5.7 }
+        ]
+      },
+      {
+        "id": "cherry",
+        "name": "チェリー",
+        "probabilities": [
+          { "setting": 1, "denominator": 36.0 },
+          { "setting": 2, "denominator": 36.0 },
+          { "setting": 3, "denominator": 36.0 },
+          { "setting": 4, "denominator": 36.0 },
+          { "setting": 5, "denominator": 36.0 },
+          { "setting": 6, "denominator": 36.0 }
+        ]
+      },
+      {
+        "id": "big",
+        "name": "BIG",
+        "isBonus": true,
+        "probabilities": [
+          { "setting": 1, "denominator": 266.4 },
+          { "setting": 2, "denominator": 264.3 },
+          { "setting": 3, "denominator": 260.1 },
+          { "setting": 4, "denominator": 253.0 },
+          { "setting": 5, "denominator": 249.2 },
+          { "setting": 6, "denominator": 219.9 }
+        ]
+      },
+      {
+        "id": "reg",
+        "name": "REG",
+        "isBonus": true,
+        "probabilities": [
+          { "setting": 1, "denominator": 439.8 },
+          { "setting": 2, "denominator": 404.5 },
+          { "setting": 3, "denominator": 356.2 },
+          { "setting": 4, "denominator": 312.1 },
+          { "setting": 5, "denominator": 286.2 },
+          { "setting": 6, "denominator": 262.1 }
+        ]
+      },
+      {
+        "id": "solo-reg",
+        "name": "単独REG",
+        "parentId": "reg",
+        "probabilities": [
+          { "setting": 1, "denominator": 632.1 },
+          { "setting": 2, "denominator": 598.8 },
+          { "setting": 3, "denominator": 498.3 },
+          { "setting": 4, "denominator": 402.3 },
+          { "setting": 5, "denominator": 381.7 },
+          { "setting": 6, "denominator": 330.8 }
+        ]
+      },
+      {
+        "id": "cherry-reg",
+        "name": "チェリーREG",
+        "parentId": "reg",
+        "probabilities": [
+          { "setting": 1, "denominator": 1488.1 },
+          { "setting": 2, "denominator": 1173.7 },
+          { "setting": 3, "denominator": 1075.3 },
+          { "setting": 4, "denominator": 1057.1 },
+          { "setting": 5, "denominator": 871.1 },
+          { "setting": 6, "denominator": 814.3 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "gogo-juggler-3",
+    "machineName": "ゴーゴージャグラー3",
+    "maker": "北電子",
+    "settings": [1, 2, 3, 4, 5, 6],
+    "elements": [
+      {
+        "id": "grape",
+        "name": "ぶどう",
+        "probabilities": [
+          { "setting": 1, "denominator": 6.25 },
+          { "setting": 2, "denominator": 6.2 },
+          { "setting": 3, "denominator": 6.15 },
+          { "setting": 4, "denominator": 6.07 },
+          { "setting": 5, "denominator": 6.0 },
+          { "setting": 6, "denominator": 5.92 }
+        ]
+      },
+      {
+        "id": "cherry",
+        "name": "チェリー",
+        "probabilities": [
+          { "setting": 1, "denominator": 36.0 },
+          { "setting": 2, "denominator": 36.0 },
+          { "setting": 3, "denominator": 36.0 },
+          { "setting": 4, "denominator": 36.0 },
+          { "setting": 5, "denominator": 36.0 },
+          { "setting": 6, "denominator": 36.0 }
+        ]
+      },
+      {
+        "id": "big",
+        "name": "BIG",
+        "isBonus": true,
+        "probabilities": [
+          { "setting": 1, "denominator": 259.0 },
+          { "setting": 2, "denominator": 258.0 },
+          { "setting": 3, "denominator": 257.0 },
+          { "setting": 4, "denominator": 254.0 },
+          { "setting": 5, "denominator": 247.3 },
+          { "setting": 6, "denominator": 234.9 }
+        ]
+      },
+      {
+        "id": "reg",
+        "name": "REG",
+        "isBonus": true,
+        "probabilities": [
+          { "setting": 1, "denominator": 354.2 },
+          { "setting": 2, "denominator": 332.7 },
+          { "setting": 3, "denominator": 306.2 },
+          { "setting": 4, "denominator": 268.6 },
+          { "setting": 5, "denominator": 247.3 },
+          { "setting": 6, "denominator": 234.9 }
+        ]
+      },
+      {
+        "id": "solo-reg",
+        "name": "単独REG",
+        "parentId": "reg",
+        "probabilities": [
+          { "setting": 1, "denominator": 472.3 },
+          { "setting": 2, "denominator": 447.4 },
+          { "setting": 3, "denominator": 417.8 },
+          { "setting": 4, "denominator": 362.9 },
+          { "setting": 5, "denominator": 331.0 },
+          { "setting": 6, "denominator": 317.2 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "happy-juggler-v3",
+    "machineName": "ハッピージャグラーVⅢ",
+    "maker": "北電子",
+    "settings": [1, 2, 3, 4, 5, 6],
+    "elements": [
+      {
+        "id": "grape",
+        "name": "ぶどう",
+        "probabilities": [
+          { "setting": 1, "denominator": 6.05 },
+          { "setting": 2, "denominator": 6.03 },
+          { "setting": 3, "denominator": 6.02 },
+          { "setting": 4, "denominator": 5.93 },
+          { "setting": 5, "denominator": 5.85 },
+          { "setting": 6, "denominator": 5.79 }
+        ]
+      },
+      {
+        "id": "cherry",
+        "name": "チェリー",
+        "probabilities": [
+          { "setting": 1, "denominator": 36.0 },
+          { "setting": 2, "denominator": 36.0 },
+          { "setting": 3, "denominator": 36.0 },
+          { "setting": 4, "denominator": 36.0 },
+          { "setting": 5, "denominator": 36.0 },
+          { "setting": 6, "denominator": 36.0 }
+        ]
+      },
+      {
+        "id": "big",
+        "name": "BIG",
+        "isBonus": true,
+        "probabilities": [
+          { "setting": 1, "denominator": 273.1 },
+          { "setting": 2, "denominator": 270.8 },
+          { "setting": 3, "denominator": 263.2 },
+          { "setting": 4, "denominator": 256.0 },
+          { "setting": 5, "denominator": 249.2 },
+          { "setting": 6, "denominator": 229.1 }
+        ]
+      },
+      {
+        "id": "reg",
+        "name": "REG",
+        "isBonus": true,
+        "probabilities": [
+          { "setting": 1, "denominator": 397.2 },
+          { "setting": 2, "denominator": 362.1 },
+          { "setting": 3, "denominator": 332.7 },
+          { "setting": 4, "denominator": 293.7 },
+          { "setting": 5, "denominator": 268.6 },
+          { "setting": 6, "denominator": 256.0 }
+        ]
+      },
+      {
+        "id": "cherry-reg",
+        "name": "チェリーREG",
+        "parentId": "reg",
+        "probabilities": [
+          { "setting": 1, "denominator": 1057.1 },
+          { "setting": 2, "denominator": 993.0 },
+          { "setting": 3, "denominator": 885.7 },
+          { "setting": 4, "denominator": 809.1 },
+          { "setting": 5, "denominator": 728.9 },
+          { "setting": 6, "denominator": 641.0 }
+        ]
+      }
+    ]
+  }
+]
