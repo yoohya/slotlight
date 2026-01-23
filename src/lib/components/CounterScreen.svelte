@@ -1,10 +1,12 @@
 <script lang="ts">
   import { appStore, estimation } from '../store';
   import { getClosestSetting } from '../estimation';
+  import ProbTableModal from './ProbTableModal.svelte';
   import type { CounterElement } from '../types';
 
   let showResetConfirm = false;
   let showEstimation = false;
+  let showProbTable = false;
 
   $: machine = $appStore.currentMachine!;
   $: totalGames = $appStore.totalGames;
@@ -149,6 +151,15 @@
         設定
       </button>
 
+      <!-- Prob Table Button -->
+      <button
+        class="px-2 py-1 text-xs font-semibold rounded transition-colors bg-bg-card-hover text-gray-400 hover:bg-gray-600"
+        onclick={() => showProbTable = true}
+        aria-label="確率表"
+      >
+        確率
+      </button>
+
       <!-- Estimation Panel Toggle (Slider) -->
       <label class="flex items-center gap-1 cursor-pointer">
         <span class="text-[10px] text-gray-400">推測</span>
@@ -284,4 +295,7 @@
       </div>
     </div>
   {/if}
+
+  <!-- Prob Table Modal -->
+  <ProbTableModal {machine} isOpen={showProbTable} onClose={() => showProbTable = false} />
 </div>

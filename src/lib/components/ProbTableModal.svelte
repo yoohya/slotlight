@@ -28,7 +28,14 @@
 </script>
 
 {#if isOpen}
-  <div class="modal" on:click={handleBackdropClick} role="dialog" aria-modal="true">
+  <div
+    class="modal"
+    onclick={handleBackdropClick}
+    onkeydown={(e) => e.key === 'Escape' && onClose()}
+    role="dialog"
+    aria-modal="true"
+    tabindex="-1"
+  >
     <div class="modal-content">
       <h3>{machine.machineName} 確率表</h3>
 
@@ -59,7 +66,7 @@
       </div>
 
       <div class="modal-buttons">
-        <button class="btn-primary" on:click={onClose}>閉じる</button>
+        <button class="btn-primary" onclick={onClose}>閉じる</button>
       </div>
     </div>
   </div>
