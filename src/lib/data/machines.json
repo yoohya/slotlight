@@ -379,5 +379,245 @@
         ]
       }
     ]
+  },
+  {
+    "id": "tokyo-ghoul",
+    "machineName": "スマスロ東京グール",
+    "maker": "スパイキー",
+    "settings": [1, 2, 3, 4, 5, 6],
+    "elements": [
+      {
+        "id": "at-hit",
+        "name": "AT初当たり",
+        "isBonus": true,
+        "probabilities": [
+          { "setting": 1, "denominator": 394.4 },
+          { "setting": 2, "denominator": 380.5 },
+          { "setting": 3, "denominator": 357.0 },
+          { "setting": 4, "denominator": 325.9 },
+          { "setting": 5, "denominator": 291.2 },
+          { "setting": 6, "denominator": 261.3 }
+        ]
+      },
+      {
+        "id": "reminiscence",
+        "name": "レミニセンス",
+        "probabilities": [
+          { "setting": 1, "denominator": 300.6 },
+          { "setting": 2, "denominator": 295.3 },
+          { "setting": 3, "denominator": 287.6 },
+          { "setting": 4, "denominator": 276.7 },
+          { "setting": 5, "denominator": 262.7 },
+          { "setting": 6, "denominator": 251.3 }
+        ]
+      },
+      {
+        "id": "ogui-rize",
+        "name": "大喰いのリゼ",
+        "probabilities": [
+          { "setting": 1, "denominator": 2079.1 },
+          { "setting": 2, "denominator": 1906.5 },
+          { "setting": 3, "denominator": 1722.8 },
+          { "setting": 4, "denominator": 1478.9 },
+          { "setting": 5, "denominator": 1226.6 },
+          { "setting": 6, "denominator": 1074.9 }
+        ]
+      },
+      {
+        "id": "episode-bonus",
+        "name": "エピソードボーナス",
+        "probabilities": [
+          { "setting": 1, "denominator": 6620.2 },
+          { "setting": 2, "denominator": 5879.7 },
+          { "setting": 3, "denominator": 5114.5 },
+          { "setting": 4, "denominator": 4062.5 },
+          { "setting": 5, "denominator": 3166.7 },
+          { "setting": 6, "denominator": 2639.5 }
+        ]
+      },
+      {
+        "id": "at-direct",
+        "name": "AT直撃",
+        "probabilities": [
+          { "setting": 1, "denominator": 28460.6 },
+          { "setting": 2, "denominator": 24453.5 },
+          { "setting": 3, "denominator": 18093.0 },
+          { "setting": 4, "denominator": 12019.5 },
+          { "setting": 5, "denominator": 8615.4 },
+          { "setting": 6, "denominator": 7036.8 }
+        ]
+      },
+      {
+        "id": "kakugan-replay",
+        "name": "赫眼リプレイ",
+        "probabilities": [
+          { "setting": 1, "denominator": 1260.3 },
+          { "setting": 2, "denominator": 1213.6 },
+          { "setting": 3, "denominator": 1170.3 },
+          { "setting": 4, "denominator": 1129.9 },
+          { "setting": 5, "denominator": 1092.3 },
+          { "setting": 6, "denominator": 1024.0 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "monkey-turn-5",
+    "machineName": "スマスロモンキーターン5",
+    "maker": "山佐ネクスト",
+    "settings": [1, 2, 4, 5, 6],
+    "elements": [
+      {
+        "id": "five-mai",
+        "name": "5枚役",
+        "probabilities": [
+          { "setting": 1, "denominator": 38.15 },
+          { "setting": 2, "denominator": 36.86 },
+          { "setting": 4, "denominator": 30.27 },
+          { "setting": 5, "denominator": 24.51 },
+          { "setting": 6, "denominator": 22.53 }
+        ]
+      },
+      {
+        "id": "at-hit",
+        "name": "AT初当たり",
+        "isBonus": true,
+        "probabilities": [
+          { "setting": 1, "denominator": 299.8 },
+          { "setting": 2, "denominator": 295.5 },
+          { "setting": 4, "denominator": 258.8 },
+          { "setting": 5, "denominator": 235.7 },
+          { "setting": 6, "denominator": 222.9 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "crea-hihouden-bt",
+    "machineName": "スマスロクレアの秘宝伝BT",
+    "maker": "大都技研",
+    "settings": [1, 2, 3, 4, 5, 6],
+    "elements": [
+      {
+        "id": "big",
+        "name": "BIG",
+        "isBonus": true,
+        "probabilities": [
+          { "setting": 1, "denominator": 299.3 },
+          { "setting": 2, "denominator": 293.9 },
+          { "setting": 3, "denominator": 284.9 },
+          { "setting": 4, "denominator": 274.2 },
+          { "setting": 5, "denominator": 262.1 },
+          { "setting": 6, "denominator": 240.1 }
+        ]
+      },
+      {
+        "id": "reg",
+        "name": "REG",
+        "isBonus": true,
+        "probabilities": [
+          { "setting": 1, "denominator": 383.3 },
+          { "setting": 2, "denominator": 376.6 },
+          { "setting": 3, "denominator": 358.1 },
+          { "setting": 4, "denominator": 334.4 },
+          { "setting": 5, "denominator": 299.3 },
+          { "setting": 6, "denominator": 247.3 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "eva-bt",
+    "machineName": "Lエヴァンゲリオン約束の扉BT",
+    "maker": "ビスティ",
+    "settings": [1, 2, 3, 4, 5, 6],
+    "elements": [
+      {
+        "id": "big",
+        "name": "BIG",
+        "isBonus": true,
+        "probabilities": [
+          { "setting": 1, "denominator": 300.6 },
+          { "setting": 2, "denominator": 290.0 },
+          { "setting": 3, "denominator": 281.3 },
+          { "setting": 4, "denominator": 266.4 },
+          { "setting": 5, "denominator": 254.0 },
+          { "setting": 6, "denominator": 240.9 }
+        ]
+      },
+      {
+        "id": "reg",
+        "name": "REG",
+        "isBonus": true,
+        "probabilities": [
+          { "setting": 1, "denominator": 569.9 },
+          { "setting": 2, "denominator": 546.1 },
+          { "setting": 3, "denominator": 508.0 },
+          { "setting": 4, "denominator": 474.9 },
+          { "setting": 5, "denominator": 442.8 },
+          { "setting": 6, "denominator": 404.5 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "shake-bt",
+    "machineName": "LシェイクBT",
+    "maker": "オリンピア",
+    "settings": [1, 2, 5, 6],
+    "elements": [
+      {
+        "id": "bell",
+        "name": "ベル",
+        "probabilities": [
+          { "setting": 1, "denominator": 10.3 },
+          { "setting": 2, "denominator": 10.2 },
+          { "setting": 5, "denominator": 9.9 },
+          { "setting": 6, "denominator": 9.6 }
+        ]
+      },
+      {
+        "id": "cherry",
+        "name": "チェリー",
+        "probabilities": [
+          { "setting": 1, "denominator": 36.9 },
+          { "setting": 2, "denominator": 36.4 },
+          { "setting": 5, "denominator": 35.9 },
+          { "setting": 6, "denominator": 33.6 }
+        ]
+      },
+      {
+        "id": "suika",
+        "name": "スイカ",
+        "probabilities": [
+          { "setting": 1, "denominator": 65.5 },
+          { "setting": 2, "denominator": 63.6 },
+          { "setting": 5, "denominator": 60.0 },
+          { "setting": 6, "denominator": 58.4 }
+        ]
+      },
+      {
+        "id": "big",
+        "name": "BIG",
+        "isBonus": true,
+        "probabilities": [
+          { "setting": 1, "denominator": 350.5 },
+          { "setting": 2, "denominator": 327.7 },
+          { "setting": 5, "denominator": 341.3 },
+          { "setting": 6, "denominator": 297.9 }
+        ]
+      },
+      {
+        "id": "reg",
+        "name": "REG",
+        "isBonus": true,
+        "probabilities": [
+          { "setting": 1, "denominator": 425.6 },
+          { "setting": 2, "denominator": 332.7 },
+          { "setting": 5, "denominator": 409.6 },
+          { "setting": 6, "denominator": 297.9 }
+        ]
+      }
+    ]
   }
 ]
