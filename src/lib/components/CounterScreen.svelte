@@ -110,109 +110,197 @@
 
 <div class="h-full flex flex-col bg-bg-primary">
   <!-- Header -->
-  <header class="flex items-center justify-between px-3 py-2 bg-bg-card border-b border-border">
-    <div class="flex items-center gap-2">
-      <button
-        class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-bg-card-hover active:scale-95 transition-transform"
-        onclick={handleBack}
-        aria-label="戻る"
-      >
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-        </svg>
-      </button>
-      <h1 class="text-base font-bold">{machine.machineName}</h1>
-    </div>
-
-    <div class="flex items-center gap-2">
-      <!-- Minus Mode Toggle (Slider) -->
-      <label class="flex items-center gap-1 cursor-pointer">
-        <span class="text-[10px] text-gray-400">{minusMode ? '−' : '+'}</span>
+  <header class="bg-bg-card border-b border-border">
+    <!-- Row 1: Navigation & Title -->
+    <div class="flex items-center justify-between px-3 py-2">
+      <div class="flex items-center gap-2">
         <button
-          type="button"
-          role="switch"
-          aria-checked={minusMode}
-          aria-label="マイナスモード"
-          class="relative w-9 h-5 rounded-full transition-colors {minusMode ? 'bg-accent' : 'bg-gray-600'}"
-          onclick={toggleMinusMode}
+          class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-bg-card-hover active:scale-95 transition-transform"
+          onclick={handleBack}
+          aria-label="戻る"
         >
-          <span
-            class="absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full transition-transform {minusMode ? 'translate-x-4' : 'translate-x-0'}"
-          ></span>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
         </button>
-      </label>
-
-      <!-- Show Settings Toggle -->
-      <button
-        class="px-2 py-1 text-xs font-semibold rounded transition-colors {showSettings ? 'bg-success text-white' : 'bg-bg-card-hover text-gray-400'}"
-        onclick={toggleShowSettings}
-        aria-label="設定表示"
-      >
-        設定
-      </button>
-
-      <!-- Prob Table Button -->
-      <button
-        class="px-2 py-1 text-xs font-semibold rounded transition-colors bg-bg-card-hover text-gray-400 hover:bg-gray-600"
-        onclick={() => showProbTable = true}
-        aria-label="確率表"
-      >
-        確率
-      </button>
-
-      <!-- Estimation Panel Toggle (Slider) -->
-      <label class="flex items-center gap-1 cursor-pointer">
-        <span class="text-[10px] text-gray-400">推測</span>
-        <button
-          type="button"
-          role="switch"
-          aria-checked={showEstimation}
-          aria-label="設定推測パネル"
-          class="relative w-9 h-5 rounded-full transition-colors {showEstimation ? 'bg-blue-500' : 'bg-gray-600'}"
-          onclick={() => showEstimation = !showEstimation}
-        >
-          <span
-            class="absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full transition-transform {showEstimation ? 'translate-x-4' : 'translate-x-0'}"
-          ></span>
-        </button>
-      </label>
-
-      <span class="text-[10px] text-gray-500 ml-2">総回転:</span>
-      <span class="text-sm font-bold tabular-nums min-w-[3.5rem] text-right">{totalGames.toLocaleString()}</span>
-
-      <div class="flex gap-0.5 ml-1">
-        {#each [10, 100, 1000] as delta}
-          <button
-            class="px-1.5 py-1 text-[10px] font-semibold rounded transition-colors active:scale-95 {minusMode ? 'bg-accent/80 hover:bg-accent' : 'bg-bg-card-hover hover:bg-gray-600'}"
-            onclick={() => handleGamesDelta(delta)}
-          >
-            {minusMode ? `−${delta}` : `+${delta}`}
-          </button>
-        {/each}
+        <h1 class="text-base font-bold">{machine.machineName}</h1>
       </div>
 
-      <button
-        class="ml-1 w-7 h-7 flex items-center justify-center rounded-lg hover:bg-bg-card-hover active:scale-95 transition-transform"
-        onclick={handleReset}
-        aria-label="リセット"
-      >
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-        </svg>
-      </button>
+      <!-- Landscape: All controls in one row -->
+      <div class="hidden landscape:flex items-center gap-2">
+        <!-- Minus Mode Toggle (Slider) -->
+        <label class="flex items-center gap-1 cursor-pointer">
+          <span class="text-[10px] text-gray-400">{minusMode ? '−' : '+'}</span>
+          <button
+            type="button"
+            role="switch"
+            aria-checked={minusMode}
+            aria-label="マイナスモード"
+            class="relative w-9 h-5 rounded-full transition-colors {minusMode ? 'bg-accent' : 'bg-gray-600'}"
+            onclick={toggleMinusMode}
+          >
+            <span
+              class="absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full transition-transform {minusMode ? 'translate-x-4' : 'translate-x-0'}"
+            ></span>
+          </button>
+        </label>
+
+        <!-- Show Settings Toggle -->
+        <button
+          class="px-2 py-1 text-xs font-semibold rounded transition-colors {showSettings ? 'bg-success text-white' : 'bg-bg-card-hover text-gray-400'}"
+          onclick={toggleShowSettings}
+          aria-label="設定表示"
+        >
+          設定
+        </button>
+
+        <!-- Prob Table Button -->
+        <button
+          class="px-2 py-1 text-xs font-semibold rounded transition-colors bg-bg-card-hover text-gray-400 hover:bg-gray-600"
+          onclick={() => showProbTable = true}
+          aria-label="確率表"
+        >
+          確率
+        </button>
+
+        <!-- Estimation Panel Toggle (Slider) -->
+        <label class="flex items-center gap-1 cursor-pointer">
+          <span class="text-[10px] text-gray-400">推測</span>
+          <button
+            type="button"
+            role="switch"
+            aria-checked={showEstimation}
+            aria-label="設定推測パネル"
+            class="relative w-9 h-5 rounded-full transition-colors {showEstimation ? 'bg-blue-500' : 'bg-gray-600'}"
+            onclick={() => showEstimation = !showEstimation}
+          >
+            <span
+              class="absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full transition-transform {showEstimation ? 'translate-x-4' : 'translate-x-0'}"
+            ></span>
+          </button>
+        </label>
+
+        <span class="text-[10px] text-gray-500 ml-2">総回転:</span>
+        <span class="text-sm font-bold tabular-nums min-w-[3.5rem] text-right">{totalGames.toLocaleString()}</span>
+
+        <div class="flex gap-0.5 ml-1">
+          {#each [10, 100, 1000] as delta}
+            <button
+              class="px-1.5 py-1 text-[10px] font-semibold rounded transition-colors active:scale-95 {minusMode ? 'bg-accent/80 hover:bg-accent' : 'bg-bg-card-hover hover:bg-gray-600'}"
+              onclick={() => handleGamesDelta(delta)}
+            >
+              {minusMode ? `−${delta}` : `+${delta}`}
+            </button>
+          {/each}
+        </div>
+
+        <button
+          class="ml-1 w-7 h-7 flex items-center justify-center rounded-lg hover:bg-bg-card-hover active:scale-95 transition-transform"
+          onclick={handleReset}
+          aria-label="リセット"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Portrait: Only reset button in first row -->
+      <div class="flex landscape:hidden items-center gap-2">
+        <button
+          class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-bg-card-hover active:scale-95 transition-transform"
+          onclick={handleReset}
+          aria-label="リセット"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Row 2: Controls (Portrait only) -->
+    <div class="flex landscape:hidden items-center justify-between px-3 py-1.5 border-t border-border/50">
+      <div class="flex items-center gap-2">
+        <!-- Minus Mode Toggle -->
+        <label class="flex items-center gap-1 cursor-pointer">
+          <span class="text-[10px] text-gray-400">{minusMode ? '−' : '+'}</span>
+          <button
+            type="button"
+            role="switch"
+            aria-checked={minusMode}
+            aria-label="マイナスモード"
+            class="relative w-9 h-5 rounded-full transition-colors {minusMode ? 'bg-accent' : 'bg-gray-600'}"
+            onclick={toggleMinusMode}
+          >
+            <span
+              class="absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full transition-transform {minusMode ? 'translate-x-4' : 'translate-x-0'}"
+            ></span>
+          </button>
+        </label>
+
+        <!-- Show Settings Toggle -->
+        <button
+          class="px-2 py-1 text-xs font-semibold rounded transition-colors {showSettings ? 'bg-success text-white' : 'bg-bg-card-hover text-gray-400'}"
+          onclick={toggleShowSettings}
+        >
+          設定
+        </button>
+
+        <!-- Prob Table Button -->
+        <button
+          class="px-2 py-1 text-xs font-semibold rounded transition-colors bg-bg-card-hover text-gray-400 hover:bg-gray-600"
+          onclick={() => showProbTable = true}
+        >
+          確率
+        </button>
+
+        <!-- Estimation Panel Toggle -->
+        <label class="flex items-center gap-1 cursor-pointer">
+          <span class="text-[10px] text-gray-400">推測</span>
+          <button
+            type="button"
+            role="switch"
+            aria-checked={showEstimation}
+            aria-label="設定推測パネル"
+            class="relative w-9 h-5 rounded-full transition-colors {showEstimation ? 'bg-blue-500' : 'bg-gray-600'}"
+            onclick={() => showEstimation = !showEstimation}
+          >
+            <span
+              class="absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full transition-transform {showEstimation ? 'translate-x-4' : 'translate-x-0'}"
+            ></span>
+          </button>
+        </label>
+      </div>
+
+      <!-- Games counter -->
+      <div class="flex items-center gap-1">
+        <span class="text-[10px] text-gray-500">総回転:</span>
+        <span class="text-sm font-bold tabular-nums">{totalGames.toLocaleString()}</span>
+        <div class="flex gap-0.5 ml-1">
+          {#each [10, 100, 1000] as delta}
+            <button
+              class="px-1.5 py-1 text-[10px] font-semibold rounded transition-colors active:scale-95 {minusMode ? 'bg-accent/80 hover:bg-accent' : 'bg-bg-card-hover hover:bg-gray-600'}"
+              onclick={() => handleGamesDelta(delta)}
+            >
+              {minusMode ? `−${delta}` : `+${delta}`}
+            </button>
+          {/each}
+        </div>
+      </div>
     </div>
   </header>
 
   <!-- Main Content -->
-  <div class="flex-1 flex overflow-hidden">
+  <div class="flex-1 flex flex-col landscape:flex-row overflow-hidden">
     <!-- Counter Grid -->
     <main class="flex-1 p-2 overflow-auto">
-      <div class="grid grid-cols-3 gap-2 h-full" style="grid-template-rows: repeat(2, 1fr);">
+      <div class="grid grid-cols-2 landscape:grid-cols-3 gap-2 h-full portrait:auto-rows-fr" style="--landscape-rows: repeat(2, 1fr);">
         {#each machine.elements as element (element.id)}
           {@const count = counts[element.id] ?? 0}
           {@const badge = showSettings ? getSettingBadge(element) : null}
           <button
-            class="relative flex flex-col items-center justify-center rounded-xl border transition-all cursor-pointer active:scale-[0.98] {minusMode ? 'bg-accent/10 border-accent/50 hover:bg-accent/20' : 'bg-bg-card border-border hover:bg-bg-card-hover'}"
+            class="relative flex flex-col items-center justify-center rounded-xl border transition-all cursor-pointer active:scale-[0.98] min-h-[80px] landscape:min-h-0 {minusMode ? 'bg-accent/10 border-accent/50 hover:bg-accent/20' : 'bg-bg-card border-border hover:bg-bg-card-hover'}"
             onclick={() => handleCounterClick(element.id)}
             oncontextmenu={(e) => handleCounterRightClick(e, element.id)}
           >
@@ -238,11 +326,33 @@
       </div>
     </main>
 
-    <!-- Estimation Panel (Side) -->
+    <!-- Estimation Panel -->
     {#if showEstimation}
-      <aside class="w-48 bg-bg-card border-l border-border p-2 overflow-auto">
+      <!-- Landscape: Side panel -->
+      <aside class="hidden landscape:block w-48 bg-bg-card border-l border-border p-2 overflow-auto">
         <h3 class="text-xs font-bold text-gray-400 mb-2">設定推測</h3>
         <div class="space-y-1.5">
+          {#each $estimation as item (item.setting)}
+            {@const maxPercentage = Math.max(...$estimation.map(e => e.percentage))}
+            {@const barWidth = maxPercentage > 0 ? (item.percentage / maxPercentage) * 100 : 0}
+            <div class="flex items-center gap-1.5">
+              <span class="text-[10px] font-semibold w-6 text-right">設{item.setting}</span>
+              <div class="flex-1 h-4 bg-black/30 rounded overflow-hidden">
+                <div
+                  class="h-full rounded transition-all duration-300 {getSettingColorClass(item.setting)}"
+                  style="width: {barWidth}%"
+                ></div>
+              </div>
+              <span class="text-[10px] font-bold tabular-nums w-10 text-right">{item.percentage.toFixed(1)}%</span>
+            </div>
+          {/each}
+        </div>
+      </aside>
+
+      <!-- Portrait: Bottom panel -->
+      <aside class="landscape:hidden bg-bg-card border-t border-border p-2 overflow-auto max-h-[30vh]">
+        <h3 class="text-xs font-bold text-gray-400 mb-2">設定推測</h3>
+        <div class="grid grid-cols-2 gap-x-4 gap-y-1">
           {#each $estimation as item (item.setting)}
             {@const maxPercentage = Math.max(...$estimation.map(e => e.percentage))}
             {@const barWidth = maxPercentage > 0 ? (item.percentage / maxPercentage) * 100 : 0}
