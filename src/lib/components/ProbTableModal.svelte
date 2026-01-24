@@ -18,6 +18,19 @@
     return prob?.denominator ?? null;
   }
 
+  // 設定の色クラス取得
+  function getSettingColorClass(setting: number): string {
+    const colorClasses: Record<number, string> = {
+      1: 'text-setting-1',
+      2: 'text-setting-2',
+      3: 'text-setting-3',
+      4: 'text-setting-4',
+      5: 'text-setting-5',
+      6: 'text-setting-6',
+    };
+    return colorClasses[setting] ?? 'text-gray-400';
+  }
+
   $: elementsWithDiff = machine.elements.filter((el) => hasSettingDiff(el));
 
   function handleBackdropClick(e: MouseEvent) {
@@ -29,135 +42,54 @@
 
 {#if isOpen}
   <div
-    class="modal"
+    class="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4"
     onclick={handleBackdropClick}
     onkeydown={(e) => e.key === 'Escape' && onClose()}
     role="dialog"
     aria-modal="true"
     tabindex="-1"
   >
-    <div class="modal-content">
-      <h3>{machine.machineName} 確率表</h3>
+    <div class="bg-bg-card rounded-2xl p-5 w-full max-w-md shadow-2xl border border-border">
+      <!-- Header -->
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-bold">{machine.machineName}</h3>
+        <span class="text-xs text-gray-500">確率表</span>
+      </div>
 
-      <div class="prob-table-container">
+      <!-- Tables Container -->
+      <div class="max-h-[60vh] overflow-y-auto space-y-4 pr-1">
         {#each elementsWithDiff as element (element.id)}
-          <table class="prob-table">
-            <caption>{element.name}</caption>
-            <thead>
-              <tr>
-                <th>設定</th>
-                <th>確率</th>
-                <th>%</th>
-              </tr>
-            </thead>
-            <tbody>
+          <div class="bg-bg-primary rounded-xl p-3">
+            <!-- Element Name -->
+            <h4 class="text-sm font-bold text-accent mb-2">{element.name}</h4>
+
+            <!-- Table -->
+            <div class="grid grid-cols-3 gap-1 text-xs">
+              <!-- Header -->
+              <div class="text-gray-500 font-semibold py-1">設定</div>
+              <div class="text-gray-500 font-semibold py-1 text-center">確率</div>
+              <div class="text-gray-500 font-semibold py-1 text-right">%</div>
+
+              <!-- Rows -->
               {#each machine.settings as setting (setting)}
                 {@const denom = getDenominator(element, setting) ?? 0}
                 {@const prob = denom > 0 ? (1 / denom * 100).toFixed(3) : '0.000'}
-                <tr>
-                  <td>設定{setting}</td>
-                  <td>1/{denom.toFixed(2)}</td>
-                  <td>{prob}%</td>
-                </tr>
+                <div class="py-1.5 font-semibold {getSettingColorClass(setting)}">設定{setting}</div>
+                <div class="py-1.5 text-center tabular-nums">1/{denom.toFixed(2)}</div>
+                <div class="py-1.5 text-right tabular-nums text-gray-400">{prob}%</div>
               {/each}
-            </tbody>
-          </table>
+            </div>
+          </div>
         {/each}
       </div>
 
-      <div class="modal-buttons">
-        <button class="btn-primary" onclick={onClose}>閉じる</button>
-      </div>
+      <!-- Close Button -->
+      <button
+        class="w-full mt-4 py-3 rounded-xl bg-accent hover:bg-red-500 font-semibold transition-colors active:scale-[0.98]"
+        onclick={onClose}
+      >
+        閉じる
+      </button>
     </div>
   </div>
 {/if}
-
-<style>
-  .modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 100;
-  }
-
-  .modal-content {
-    background: var(--bg-secondary);
-    border-radius: 16px;
-    padding: 1.5rem;
-    width: 90%;
-    max-width: 400px;
-  }
-
-  h3 {
-    font-size: 1rem;
-    margin-bottom: 1rem;
-    text-align: center;
-  }
-
-  .prob-table-container {
-    max-height: 60vh;
-    overflow-y: auto;
-    margin-bottom: 1rem;
-  }
-
-  .prob-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.8rem;
-    margin-bottom: 1rem;
-  }
-
-  .prob-table caption {
-    text-align: left;
-    font-weight: 600;
-    font-size: 0.875rem;
-    padding: 0.5rem 0;
-    color: var(--accent);
-  }
-
-  .prob-table th,
-  .prob-table td {
-    padding: 0.4rem 0.5rem;
-    text-align: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .prob-table th {
-    background: var(--bg-card);
-    font-weight: 600;
-    color: var(--text-secondary);
-  }
-
-  .prob-table td {
-    font-variant-numeric: tabular-nums;
-  }
-
-  .prob-table tr:last-child td {
-    border-bottom: none;
-  }
-
-  .modal-buttons {
-    display: flex;
-    gap: 0.75rem;
-  }
-
-  .btn-primary {
-    flex: 1;
-    padding: 0.75rem;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    background: var(--accent);
-    color: white;
-    transition: opacity 0.15s;
-  }
-
-  .btn-primary:active {
-    opacity: 0.8;
-  }
-</style>
