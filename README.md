@@ -1,47 +1,67 @@
-# Svelte + TS + Vite
+# Slotlight
 
-This template should help get you started developing with Svelte and TypeScript in Vite.
+パチスロの子役カウンター＆設定推測PWAアプリ
 
-## Recommended IDE Setup
+## 概要
 
-[VS Code](https://code.visualstudio.com/) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode).
+Slotlightは、パチスロ（主にジャグラーシリーズ）の子役をカウントし、ベイズ推定を用いて設定を推測するWebアプリケーションです。PWA対応のため、スマートフォンのホーム画面に追加してネイティブアプリのように使用できます。
 
-## Need an official Svelte framework?
+**Demo**: https://yoohya.github.io/slotlight/
 
-Check out [SvelteKit](https://github.com/sveltejs/kit#readme), which is also powered by Vite. Deploy anywhere with its serverless-first approach and adapt to various platforms, with out of the box support for TypeScript, SCSS, and Less, and easily-added support for mdsvex, GraphQL, PostCSS, Tailwind CSS, and more.
+## 機能
 
-## Technical considerations
+- **子役カウント**: ぶどう、チェリー、BIG、REGなどをタップでカウント
+- **設定推測**: ベイズ推定による設定1〜6の確率表示
+- **確率表示**: 実測確率をリアルタイムで計算・表示
+- **確率表**: 各機種の設定別確率を一覧表示
+- **ゲーム数管理**: 打ち始め・現在ゲーム数から総回転数を自動計算
+- **データ保存**: ローカルストレージに自動保存、ブラウザを閉じても継続可能
+- **PWA対応**: オフライン動作、ホーム画面への追加が可能
+- **レスポンシブ**: 横画面・縦画面両対応
 
-**Why use this over SvelteKit?**
+## 対応機種
 
-- It brings its own routing solution which might not be preferable for some users.
-- It is first and foremost a framework that just happens to use Vite under the hood, not a Vite app.
+- マイジャグラーV
+- アイムジャグラーEX
+- ファンキージャグラー2
+- ゴーゴージャグラー3
+- ハッピージャグラーVⅢ
 
-This template contains as little as possible to get started with Vite + TypeScript + Svelte, while taking into account the developer experience with regards to HMR and intellisense. It demonstrates capabilities on par with the other `create-vite` templates and is a good starting point for beginners dipping their toes into a Vite + Svelte project.
+## 技術スタック
 
-Should you later need the extended capabilities and extensibility provided by SvelteKit, the template has been structured similarly to SvelteKit so that it is easy to migrate.
+- [Svelte 5](https://svelte.dev/) - UIフレームワーク
+- [TypeScript](https://www.typescriptlang.org/) - 型安全な開発
+- [Vite](https://vitejs.dev/) - ビルドツール
+- [Tailwind CSS v4](https://tailwindcss.com/) - スタイリング
+- [vite-plugin-pwa](https://vite-pwa-org.netlify.app/) - PWA対応
 
-**Why `global.d.ts` instead of `compilerOptions.types` inside `jsconfig.json` or `tsconfig.json`?**
+## 開発
 
-Setting `compilerOptions.types` shuts out all other types not explicitly listed in the configuration. Using triple-slash references keeps the default TypeScript setting of accepting type information from the entire workspace, while also adding `svelte` and `vite/client` type information.
+```bash
+# 依存関係のインストール
+npm install
 
-**Why include `.vscode/extensions.json`?**
+# 開発サーバー起動
+npm run dev
 
-Other templates indirectly recommend extensions via the README, but this file allows VS Code to prompt the user to install the recommended extension upon opening the project.
+# ビルド
+npm run build
 
-**Why enable `allowJs` in the TS template?**
-
-While `allowJs: false` would indeed prevent the use of `.js` files in the project, it does not prevent the use of JavaScript syntax in `.svelte` files. In addition, it would force `checkJs: false`, bringing the worst of both worlds: not being able to guarantee the entire codebase is TypeScript, and also having worse typechecking for the existing JavaScript. In addition, there are valid use cases in which a mixed codebase may be relevant.
-
-**Why is HMR not preserving my local component state?**
-
-HMR state preservation comes with a number of gotchas! It has been disabled by default in both `svelte-hmr` and `@sveltejs/vite-plugin-svelte` due to its often surprising behavior. You can read the details [here](https://github.com/rixo/svelte-hmr#svelte-hmr).
-
-If you have state that's important to retain within a component, consider creating an external store which would not be replaced by HMR.
-
-```ts
-// store.ts
-// An extremely simple external store
-import { writable } from 'svelte/store'
-export default writable(0)
+# プレビュー
+npm run preview
 ```
+
+## PWAとしてインストール
+
+### iPhone/iPad
+1. Safariで https://yoohya.github.io/slotlight/ を開く
+2. 共有ボタン（□に↑）をタップ
+3. 「ホーム画面に追加」を選択
+
+### Android
+1. Chromeで https://yoohya.github.io/slotlight/ を開く
+2. メニューから「ホーム画面に追加」または「アプリをインストール」を選択
+
+## ライセンス
+
+MIT
