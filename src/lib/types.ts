@@ -51,8 +51,10 @@ export type Counts = Record<string, number>;
 export interface AppState {
   /** 選択中の機種 */
   currentMachine: MachineData | null;
-  /** 総回転数 */
-  totalGames: number;
+  /** 打ち始めゲーム数 */
+  startGames: number;
+  /** 現在ゲーム数 */
+  currentGames: number;
   /** 要素ごとのカウント */
   counts: Counts;
   /** マイナスモード */
@@ -79,7 +81,8 @@ export type EstimationResult = SettingEstimation[];
  */
 export interface StorageData {
   machineId: string;
-  totalGames: number;
+  startGames: number;
+  currentGames: number;
   counts: Counts;
   timestamp: number;
 }

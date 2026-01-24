@@ -11,7 +11,8 @@ const STORAGE_KEY = 'slotlight_data';
  */
 const initialState: AppState = {
   currentMachine: null,
-  totalGames: 0,
+  startGames: 0,
+  currentGames: 0,
   counts: {},
   minusMode: false,
   showSettings: false,
@@ -40,7 +41,8 @@ function loadFromStorage(): Partial<AppState> {
 
     return {
       currentMachine: machine,
-      totalGames: parsed.totalGames || 0,
+      startGames: parsed.startGames || 0,
+      currentGames: parsed.currentGames || 0,
       counts,
     };
   } catch {
@@ -56,7 +58,8 @@ function saveToStorage(state: AppState): void {
 
   const data: StorageData = {
     machineId: state.currentMachine.id,
-    totalGames: state.totalGames,
+    startGames: state.startGames,
+    currentGames: state.currentGames,
     counts: state.counts,
     timestamp: Date.now(),
   };
@@ -92,7 +95,8 @@ function createAppStore() {
           const newState = {
             ...state,
             currentMachine: machine,
-            totalGames: 0,
+            startGames: 0,
+            currentGames: 0,
             counts,
           };
           saveToStorage(newState);
@@ -141,13 +145,13 @@ function createAppStore() {
     },
 
     /**
-     * 総回転数を更新
+     * 現在ゲーム数を更新
      */
-    updateTotalGames(delta: number): void {
+    updateCurrentGames(delta: number): void {
       update((state) => {
         const newState = {
           ...state,
-          totalGames: Math.max(0, state.totalGames + delta),
+          currentGames: Math.max(state.startGames, state.currentGames + delta),
         };
         saveToStorage(newState);
         return newState;
@@ -155,13 +159,29 @@ function createAppStore() {
     },
 
     /**
-     * 総回転数を直接設定
+     * 現在ゲーム数を直接設定
      */
-    setTotalGames(value: number): void {
+    setCurrentGames(value: number): void {
       update((state) => {
         const newState = {
           ...state,
-          totalGames: Math.max(0, value),
+          currentGames: Math.max(state.startGames, value),
+        };
+        saveToStorage(newState);
+        return newState;
+      });
+    },
+
+    /**
+     * 打ち始めゲーム数を設定
+     */
+    setStartGames(value: number): void {
+      update((state) => {
+        const startGames = Math.max(0, value);
+        const newState = {
+          ...state,
+          startGames,
+          currentGames: Math.max(startGames, state.currentGames),
         };
         saveToStorage(newState);
         return newState;
@@ -180,7 +200,8 @@ function createAppStore() {
 
         const newState = {
           ...state,
-          totalGames: 0,
+          startGames: 0,
+          currentGames: 0,
           counts,
         };
         saveToStorage(newState);
@@ -216,6 +237,13 @@ export const appStore = createAppStore();
 export { getClosestSetting };
 
 /**
+ * 総回転数（計算値）
+ */
+export const totalGames = derived(appStore, ($state): number => {
+  return Math.max(0, $state.currentGames - $state.startGames);
+});
+
+/**
  * 設定推測（ベイズ推定）
  */
 export const estimation = derived(appStore, ($state): EstimationResult => {
@@ -224,9 +252,10 @@ export const estimation = derived(appStore, ($state): EstimationResult => {
     return [1, 2, 3, 4, 5, 6].map((setting) => ({ setting, percentage: 16.67 }));
   }
 
+  const total = Math.max(0, $state.currentGames - $state.startGames);
   return calculateEstimations(
     $state.currentMachine,
-    $state.totalGames,
+    total,
     $state.counts
   );
 });

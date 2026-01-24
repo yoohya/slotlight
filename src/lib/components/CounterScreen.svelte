@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { appStore, estimation } from '../store';
+  import { appStore, estimation, totalGames } from '../store';
   import { getClosestSetting } from '../estimation';
   import ProbTableModal from './ProbTableModal.svelte';
   import type { CounterElement } from '../types';
@@ -7,9 +7,12 @@
   let showResetConfirm = false;
   let showEstimation = false;
   let showProbTable = false;
+  let showStartGamesInput = false;
+  let startGamesInputValue = '';
 
   $: machine = $appStore.currentMachine!;
-  $: totalGames = $appStore.totalGames;
+  $: startGames = $appStore.startGames;
+  $: currentGames = $appStore.currentGames;
   $: counts = $appStore.counts;
   $: minusMode = $appStore.minusMode;
   $: showSettings = $appStore.showSettings;
@@ -24,7 +27,7 @@
   // 実測確率の分母を計算
   function getActualDenom(elementId: string): number | null {
     const count = counts[elementId] ?? 0;
-    return count > 0 && totalGames > 0 ? totalGames / count : null;
+    return count > 0 && $totalGames > 0 ? $totalGames / count : null;
   }
 
   // 確率テキスト
@@ -96,7 +99,7 @@
 
   function handleGamesDelta(delta: number) {
     const actualDelta = minusMode ? -delta : delta;
-    appStore.updateTotalGames(actualDelta);
+    appStore.updateCurrentGames(actualDelta);
   }
 
   function toggleMinusMode() {
@@ -105,6 +108,23 @@
 
   function toggleShowSettings() {
     appStore.toggleShowSettings();
+  }
+
+  function openStartGamesInput() {
+    startGamesInputValue = startGames.toString();
+    showStartGamesInput = true;
+  }
+
+  function confirmStartGames() {
+    const value = parseInt(startGamesInputValue, 10);
+    if (!isNaN(value) && value >= 0) {
+      appStore.setStartGames(value);
+      // 現在ゲーム数も同じ値に設定（打ち始めから開始）
+      if (currentGames < value) {
+        appStore.setCurrentGames(value);
+      }
+    }
+    showStartGamesInput = false;
   }
 </script>
 
@@ -180,18 +200,29 @@
           </button>
         </label>
 
-        <span class="text-[10px] text-gray-500 ml-2">総回転:</span>
-        <span class="text-sm font-bold tabular-nums min-w-[3.5rem] text-right">{totalGames.toLocaleString()}</span>
-
-        <div class="flex gap-0.5 ml-1">
-          {#each [10, 100, 1000] as delta}
-            <button
-              class="px-1.5 py-1 text-[10px] font-semibold rounded transition-colors active:scale-95 {minusMode ? 'bg-accent/80 hover:bg-accent' : 'bg-bg-card-hover hover:bg-gray-600'}"
-              onclick={() => handleGamesDelta(delta)}
-            >
-              {minusMode ? `−${delta}` : `+${delta}`}
-            </button>
-          {/each}
+        <!-- Games Display -->
+        <div class="flex items-center gap-2 ml-2">
+          <button
+            class="text-[10px] text-gray-500 hover:text-gray-300 transition-colors"
+            onclick={openStartGamesInput}
+            title="打ち始めゲーム数を設定"
+          >
+            開始:<span class="tabular-nums">{startGames.toLocaleString()}</span>
+          </button>
+          <span class="text-[10px] text-gray-500">現在:</span>
+          <span class="text-sm font-bold tabular-nums">{currentGames.toLocaleString()}</span>
+          <div class="flex gap-0.5">
+            {#each [10, 100, 1000] as delta}
+              <button
+                class="px-1.5 py-1 text-[10px] font-semibold rounded transition-colors active:scale-95 {minusMode ? 'bg-accent/80 hover:bg-accent' : 'bg-bg-card-hover hover:bg-gray-600'}"
+                onclick={() => handleGamesDelta(delta)}
+              >
+                {minusMode ? `−${delta}` : `+${delta}`}
+              </button>
+            {/each}
+          </div>
+          <span class="text-[10px] text-blue-400 ml-1">総回転:</span>
+          <span class="text-sm font-bold tabular-nums text-blue-400">{$totalGames.toLocaleString()}</span>
         </div>
 
         <button
@@ -275,9 +306,15 @@
 
       <!-- Games counter -->
       <div class="flex items-center gap-1">
-        <span class="text-[10px] text-gray-500">総回転:</span>
-        <span class="text-sm font-bold tabular-nums">{totalGames.toLocaleString()}</span>
-        <div class="flex gap-0.5 ml-1">
+        <button
+          class="text-[10px] text-gray-500 hover:text-gray-300"
+          onclick={openStartGamesInput}
+        >
+          開始:<span class="tabular-nums">{startGames.toLocaleString()}</span>
+        </button>
+        <span class="text-[10px] text-gray-500">現在:</span>
+        <span class="text-sm font-bold tabular-nums">{currentGames.toLocaleString()}</span>
+        <div class="flex gap-0.5">
           {#each [10, 100, 1000] as delta}
             <button
               class="px-1.5 py-1 text-[10px] font-semibold rounded transition-colors active:scale-95 {minusMode ? 'bg-accent/80 hover:bg-accent' : 'bg-bg-card-hover hover:bg-gray-600'}"
@@ -288,6 +325,12 @@
           {/each}
         </div>
       </div>
+    </div>
+
+    <!-- Row 3: Total Games (Portrait only) -->
+    <div class="flex landscape:hidden items-center justify-center px-3 py-1 border-t border-border/50 bg-blue-500/10">
+      <span class="text-[10px] text-blue-400">総回転:</span>
+      <span class="text-sm font-bold tabular-nums text-blue-400 ml-1">{$totalGames.toLocaleString()}</span>
     </div>
   </header>
 
@@ -371,6 +414,48 @@
       </aside>
     {/if}
   </div>
+
+  <!-- Start Games Input Modal -->
+  {#if showStartGamesInput}
+    <div
+      class="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
+      onclick={() => showStartGamesInput = false}
+      onkeydown={(e) => e.key === 'Escape' && (showStartGamesInput = false)}
+      role="dialog"
+      aria-modal="true"
+      tabindex="-1"
+    >
+      <div
+        class="bg-bg-card rounded-2xl p-6 mx-4 max-w-sm w-full"
+        onclick={(e) => e.stopPropagation()}
+        role="document"
+      >
+        <h3 class="text-lg font-bold mb-4 text-center">打ち始めゲーム数</h3>
+        <input
+          type="number"
+          inputmode="numeric"
+          class="w-full px-4 py-3 rounded-xl bg-bg-primary border border-border text-center text-xl font-bold tabular-nums focus:outline-none focus:border-blue-500"
+          bind:value={startGamesInputValue}
+          onkeydown={(e) => e.key === 'Enter' && confirmStartGames()}
+        />
+        <p class="text-xs text-gray-500 text-center mt-2">台に表示されているゲーム数を入力</p>
+        <div class="flex gap-3 mt-4">
+          <button
+            class="flex-1 py-3 rounded-xl bg-gray-700 hover:bg-gray-600 font-semibold transition-colors"
+            onclick={() => showStartGamesInput = false}
+          >
+            キャンセル
+          </button>
+          <button
+            class="flex-1 py-3 rounded-xl bg-blue-500 hover:bg-blue-400 font-semibold transition-colors"
+            onclick={confirmStartGames}
+          >
+            設定
+          </button>
+        </div>
+      </div>
+    </div>
+  {/if}
 
   <!-- Reset Confirmation Modal -->
   {#if showResetConfirm}
