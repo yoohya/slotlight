@@ -51,6 +51,27 @@ function loadFromStorage(): Partial<AppState> {
 }
 
 /**
+ * ストレージから特定の機種のデータを読み込み
+ */
+function loadMachineDataFromStorage(machineId: string): { startGames: number; currentGames: number; counts: Counts } | null {
+  try {
+    const data = localStorage.getItem(STORAGE_KEY);
+    if (!data) return null;
+
+    const parsed: StorageData = JSON.parse(data);
+    if (parsed.machineId !== machineId) return null;
+
+    return {
+      startGames: parsed.startGames || 0,
+      currentGames: parsed.currentGames || 0,
+      counts: parsed.counts || {},
+    };
+  } catch {
+    return null;
+  }
+}
+
+/**
  * ローカルストレージに保存
  */
 function saveToStorage(state: AppState): void {
@@ -85,24 +106,46 @@ function createAppStore() {
      */
     selectMachine(machine: MachineData): void {
       update((state) => {
-        // 機種が変わった場合はリセット
-        if (state.currentMachine?.id !== machine.id) {
-          const counts: Counts = {};
+        // 既に同じ機種が選択されている場合は何もしない
+        if (state.currentMachine?.id === machine.id) {
+          return state;
+        }
+
+        // ストレージに同じ機種のデータがあれば復元
+        const savedData = loadMachineDataFromStorage(machine.id);
+        if (savedData) {
+          // 足りない要素があれば追加
+          const counts: Counts = { ...savedData.counts };
           machine.elements.forEach((el) => {
-            counts[el.id] = 0;
+            if (!(el.id in counts)) {
+              counts[el.id] = 0;
+            }
           });
 
-          const newState = {
+          return {
             ...state,
             currentMachine: machine,
-            startGames: 0,
-            currentGames: 0,
+            startGames: savedData.startGames,
+            currentGames: savedData.currentGames,
             counts,
           };
-          saveToStorage(newState);
-          return newState;
         }
-        return state;
+
+        // 新規または別の機種の場合はリセット
+        const counts: Counts = {};
+        machine.elements.forEach((el) => {
+          counts[el.id] = 0;
+        });
+
+        const newState = {
+          ...state,
+          currentMachine: machine,
+          startGames: 0,
+          currentGames: 0,
+          counts,
+        };
+        saveToStorage(newState);
+        return newState;
       });
     },
 
