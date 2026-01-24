@@ -9,6 +9,7 @@
   let showProbTable = false;
   let showStartGamesInput = false;
   let startGamesInputValue = '';
+  let flashingElements: Set<string> = new Set();
 
   $: machine = $appStore.currentMachine!;
   $: startGames = $appStore.startGames;
@@ -86,15 +87,26 @@
     showResetConfirm = false;
   }
 
+  function triggerFlash(elementId: string) {
+    flashingElements.add(elementId);
+    flashingElements = flashingElements; // trigger reactivity
+    setTimeout(() => {
+      flashingElements.delete(elementId);
+      flashingElements = flashingElements; // trigger reactivity
+    }, 150);
+  }
+
   function handleCounterClick(elementId: string) {
     const delta = minusMode ? -1 : 1;
     appStore.updateCount(elementId, delta);
+    triggerFlash(elementId);
   }
 
   function handleCounterRightClick(e: MouseEvent, elementId: string) {
     e.preventDefault();
     const delta = minusMode ? 1 : -1;
     appStore.updateCount(elementId, delta);
+    triggerFlash(elementId);
   }
 
   function handleGamesDelta(delta: number) {
@@ -225,8 +237,9 @@
         {#each machine.elements as element (element.id)}
           {@const count = counts[element.id] ?? 0}
           {@const badge = showSettings ? getSettingBadge(element) : null}
+          {@const isFlashing = flashingElements.has(element.id)}
           <button
-            class="relative flex flex-col items-center justify-center rounded-xl border transition-all cursor-pointer active:scale-[0.98] min-h-[80px] landscape:min-h-0 {minusMode ? 'bg-accent/10 border-accent/50 hover:bg-accent/20' : 'bg-bg-card border-border hover:bg-bg-card-hover'}"
+            class="relative flex flex-col items-center justify-center rounded-xl border transition-all duration-150 cursor-pointer active:scale-[0.98] min-h-[80px] landscape:min-h-0 {minusMode ? 'bg-accent/10 border-accent/50 hover:bg-accent/20' : 'bg-bg-card border-border hover:bg-bg-card-hover'} {isFlashing ? (minusMode ? 'bg-accent/40 border-accent' : 'bg-success/30 border-success') : ''}"
             onclick={() => handleCounterClick(element.id)}
             oncontextmenu={(e) => handleCounterRightClick(e, element.id)}
           >
