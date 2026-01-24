@@ -185,10 +185,10 @@
     </div>
 
     <!-- Row 2: Games Counter -->
-    <div class="flex items-center justify-between px-2 py-1.5 border-t border-border/50 bg-bg-primary/50">
+    <div class="flex items-center justify-end gap-3 px-2 py-1.5 border-t border-border/50 bg-bg-primary/50">
       <!-- Start Games -->
       <button
-        class="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-bg-card-hover hover:bg-gray-600 transition-all active:scale-95"
+        class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-bg-card-hover hover:bg-gray-600 transition-all active:scale-95"
         onclick={openStartGamesInput}
       >
         <span class="text-[10px] text-gray-400">開始</span>
@@ -210,7 +210,7 @@
       </div>
 
       <!-- Total Games -->
-      <div class="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-blue-500/20">
+      <div class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-blue-500/20">
         <span class="text-[10px] text-blue-400">総回転</span>
         <span class="text-sm font-bold tabular-nums text-blue-400">{$totalGames.toLocaleString()}</span>
       </div>
