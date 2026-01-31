@@ -6,11 +6,13 @@ import type { MachineData, SettingEstimation } from './types';
  * @param machineData 機種データ
  * @param totalSpins 総回転数 (N)
  * @param counts 各要素のカウント数 (n) { 'grape': 100, 'reg_solo': 2 ... }
+ * @param ignoredElements 推測計算から無視する要素
  */
 export function calculateEstimations(
   machineData: MachineData,
   totalSpins: number,
-  counts: Record<string, number>
+  counts: Record<string, number>,
+  ignoredElements: Record<string, boolean> = {}
 ): SettingEstimation[] {
 
   if (totalSpins <= 0) {
@@ -25,6 +27,9 @@ export function calculateEstimations(
 
     // 各要素（ぶどう、REG等）についてループ
     for (const element of machineData.elements) {
+      // 無視された要素はスキップ
+      if (ignoredElements[element.id]) continue;
+
       const count = counts[element.id] || 0; // ユーザーの入力値
       const probData = element.probabilities.find(p => p.setting === setting);
 

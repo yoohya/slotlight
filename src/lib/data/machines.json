@@ -619,5 +619,85 @@
         ]
       }
     ]
+  },
+  {
+    "id": "cranky-crest",
+    "machineName": "クランキークレスト",
+    "maker": "ユニバーサル",
+    "settings": [1, 2, 5, 6],
+    "elements": [
+      {
+        "id": "bell-a",
+        "name": "ベルA",
+        "probabilities": [
+          { "setting": 1, "denominator": 12.7 },
+          { "setting": 2, "denominator": 12.4 },
+          { "setting": 5, "denominator": 12.1 },
+          { "setting": 6, "denominator": 11.8 }
+        ]
+      },
+      {
+        "id": "big",
+        "name": "BIG",
+        "isBonus": true,
+        "probabilities": [
+          { "setting": 1, "denominator": 275.4 },
+          { "setting": 2, "denominator": 275.4 },
+          { "setting": 5, "denominator": 262.1 },
+          { "setting": 6, "denominator": 254.0 }
+        ]
+      },
+      {
+        "id": "reg",
+        "name": "REG",
+        "isBonus": true,
+        "probabilities": [
+          { "setting": 1, "denominator": 407.1 },
+          { "setting": 2, "denominator": 370.3 },
+          { "setting": 5, "denominator": 336.1 },
+          { "setting": 6, "denominator": 304.8 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alex-bright",
+    "machineName": "アレックスブライト",
+    "maker": "ユニバーサル",
+    "settings": [1, 2, 5, 6],
+    "elements": [
+      {
+        "id": "hane",
+        "name": "羽",
+        "probabilities": [
+          { "setting": 1, "denominator": 13.4 },
+          { "setting": 2, "denominator": 13.0 },
+          { "setting": 5, "denominator": 12.6 },
+          { "setting": 6, "denominator": 12.2 }
+        ]
+      },
+      {
+        "id": "big",
+        "name": "BIG",
+        "isBonus": true,
+        "probabilities": [
+          { "setting": 1, "denominator": 309.1 },
+          { "setting": 2, "denominator": 303.4 },
+          { "setting": 5, "denominator": 295.2 },
+          { "setting": 6, "denominator": 287.4 }
+        ]
+      },
+      {
+        "id": "reg",
+        "name": "REG",
+        "isBonus": true,
+        "probabilities": [
+          { "setting": 1, "denominator": 428.3 },
+          { "setting": 2, "denominator": 409.6 },
+          { "setting": 5, "denominator": 366.1 },
+          { "setting": 6, "denominator": 312.1 }
+        ]
+      }
+    ]
   }
 ]

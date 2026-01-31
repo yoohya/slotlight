@@ -14,6 +14,7 @@ const initialState: AppState = {
   startGames: 0,
   currentGames: 0,
   counts: {},
+  ignoredElements: {},
   minusMode: false,
   showSettings: false,
 };
@@ -44,6 +45,7 @@ function loadFromStorage(): Partial<AppState> {
       startGames: parsed.startGames || 0,
       currentGames: parsed.currentGames || 0,
       counts,
+      ignoredElements: parsed.ignoredElements || {},
     };
   } catch {
     return {};
@@ -53,7 +55,7 @@ function loadFromStorage(): Partial<AppState> {
 /**
  * ストレージから特定の機種のデータを読み込み
  */
-function loadMachineDataFromStorage(machineId: string): { startGames: number; currentGames: number; counts: Counts } | null {
+function loadMachineDataFromStorage(machineId: string): { startGames: number; currentGames: number; counts: Counts; ignoredElements: Record<string, boolean> } | null {
   try {
     const data = localStorage.getItem(STORAGE_KEY);
     if (!data) return null;
@@ -65,6 +67,7 @@ function loadMachineDataFromStorage(machineId: string): { startGames: number; cu
       startGames: parsed.startGames || 0,
       currentGames: parsed.currentGames || 0,
       counts: parsed.counts || {},
+      ignoredElements: parsed.ignoredElements || {},
     };
   } catch {
     return null;
@@ -82,6 +85,7 @@ function saveToStorage(state: AppState): void {
     startGames: state.startGames,
     currentGames: state.currentGames,
     counts: state.counts,
+    ignoredElements: state.ignoredElements,
     timestamp: Date.now(),
   };
 
@@ -128,6 +132,7 @@ function createAppStore() {
             startGames: savedData.startGames,
             currentGames: savedData.currentGames,
             counts,
+            ignoredElements: savedData.ignoredElements,
           };
         }
 
@@ -143,6 +148,7 @@ function createAppStore() {
           startGames: 0,
           currentGames: 0,
           counts,
+          ignoredElements: {},
         };
         saveToStorage(newState);
         return newState;
@@ -246,6 +252,28 @@ function createAppStore() {
           startGames: 0,
           currentGames: 0,
           counts,
+          ignoredElements: {},
+        };
+        saveToStorage(newState);
+        return newState;
+      });
+    },
+
+    /**
+     * 要素の無視状態を切り替え
+     */
+    toggleIgnoreElement(elementId: string): void {
+      update((state) => {
+        const newIgnored = { ...state.ignoredElements };
+        if (newIgnored[elementId]) {
+          delete newIgnored[elementId];
+        } else {
+          newIgnored[elementId] = true;
+        }
+
+        const newState = {
+          ...state,
+          ignoredElements: newIgnored,
         };
         saveToStorage(newState);
         return newState;
@@ -299,6 +327,7 @@ export const estimation = derived(appStore, ($state): EstimationResult => {
   return calculateEstimations(
     $state.currentMachine,
     total,
-    $state.counts
+    $state.counts,
+    $state.ignoredElements
   );
 });

@@ -11,7 +11,14 @@
       "Bash(gh run rerun:*)",
       "Bash(npm run build:*)",
       "Bash(git add:*)",
-      "Bash(xargs:*)"
+      "Bash(xargs:*)",
+      "WebSearch",
+      "WebFetch(domain:1geki.jp)",
+      "WebFetch(domain:altema.jp)",
+      "WebFetch(domain:nana-press.com)",
+      "Bash(gh api:*)",
+      "Bash(powershell -Command \"Start-Process npm -ArgumentList ''run'',''dev'' -WorkingDirectory ''C:\\\\Users\\\\tcyyh\\\\repos\\\\slotlight'' -WindowStyle Hidden; Start-Sleep -Seconds 5; Invoke-WebRequest -Uri ''http://localhost:5173'' -UseBasicParsing -TimeoutSec 5 | Out-Null; Write-Host ''Server running at http://localhost:5173''\")",
+      "WebFetch(domain:p-town.dmm.com)"
     ]
   }
 }

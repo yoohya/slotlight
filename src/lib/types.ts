@@ -57,6 +57,8 @@ export interface AppState {
   currentGames: number;
   /** 要素ごとのカウント */
   counts: Counts;
+  /** 推測計算から無視する要素 */
+  ignoredElements: Record<string, boolean>;
   /** マイナスモード */
   minusMode: boolean;
   /** 設定表示モード */
@@ -84,5 +86,6 @@ export interface StorageData {
   startGames: number;
   currentGames: number;
   counts: Counts;
+  ignoredElements?: Record<string, boolean>;
   timestamp: number;
 }

@@ -15,6 +15,7 @@
   $: startGames = $appStore.startGames;
   $: currentGames = $appStore.currentGames;
   $: counts = $appStore.counts;
+  $: ignoredElements = $appStore.ignoredElements;
   $: minusMode = $appStore.minusMode;
   $: showSettings = $appStore.showSettings;
 
@@ -120,6 +121,11 @@
 
   function toggleShowSettings() {
     appStore.toggleShowSettings();
+  }
+
+  function handleToggleIgnore(e: Event, elementId: string) {
+    e.stopPropagation();
+    appStore.toggleIgnoreElement(elementId);
   }
 
   function openStartGamesInput() {
@@ -233,24 +239,47 @@
   <div class="flex-1 flex flex-col landscape:flex-row overflow-hidden">
     <!-- Counter Grid -->
     <main class="flex-1 p-2 overflow-auto">
-      <div class="grid grid-cols-2 landscape:grid-cols-3 gap-2 h-full portrait:auto-rows-fr" style="--landscape-rows: repeat(2, 1fr);">
+      <div class="grid grid-cols-2 landscape:grid-cols-3 gap-3 h-full portrait:auto-rows-fr" style="--landscape-rows: repeat(2, 1fr);">
         {#each machine.elements as element (element.id)}
           {@const count = counts[element.id] ?? 0}
           {@const badge = showSettings ? getSettingBadge(element) : null}
           {@const isFlashing = flashingElements.has(element.id)}
+          {@const isIgnored = !!ignoredElements[element.id]}
           <button
-            class="relative flex flex-col items-center justify-center rounded-xl border transition-all duration-150 cursor-pointer active:scale-[0.98] min-h-[80px] landscape:min-h-0 {minusMode ? 'bg-accent/10 border-accent/50 hover:bg-accent/20' : 'bg-bg-card border-border hover:bg-bg-card-hover'} {isFlashing ? (minusMode ? 'bg-accent/40 border-accent' : 'bg-success/30 border-success') : ''}"
+            class="relative flex flex-col items-center justify-center rounded-xl border-2 transition-all duration-150 cursor-pointer active:scale-[0.97] active:shadow-none active:translate-y-0.5 min-h-[80px] landscape:min-h-0 shadow-lg hover:shadow-xl {minusMode ? 'bg-gradient-to-b from-red-900/40 to-red-950/60 border-accent/50 hover:from-red-900/50 hover:to-red-950/70' : 'bg-gradient-to-b from-gray-700 to-gray-800 border-gray-600 hover:from-gray-600 hover:to-gray-700'} {isFlashing ? (minusMode ? 'bg-gradient-to-b from-accent/60 to-accent/40 border-accent shadow-accent/30' : 'bg-gradient-to-b from-success/50 to-success/30 border-success shadow-success/30') : ''} {isIgnored ? 'opacity-40' : ''}"
             onclick={() => handleCounterClick(element.id)}
             oncontextmenu={(e) => handleCounterRightClick(e, element.id)}
           >
             <!-- Element Name & Setting Badge -->
             <div class="absolute top-2 left-0 right-0 flex items-center justify-between px-2">
               <span class="text-sm font-bold text-gray-300">{element.name}</span>
-              {#if badge}
-                <span class="text-[9px] font-bold px-1 py-0.5 rounded {badge.colorClass}">
-                  {badge.text}
+              <div class="flex items-center gap-1">
+                {#if badge}
+                  <span class="text-[9px] font-bold px-1 py-0.5 rounded {badge.colorClass}">
+                    {badge.text}
+                  </span>
+                {/if}
+                <!-- Ignore Toggle -->
+                <span
+                  role="button"
+                  tabindex="0"
+                  class="w-5 h-5 flex items-center justify-center rounded transition-colors {isIgnored ? 'text-accent' : 'text-gray-600 hover:text-gray-400'}"
+                  onclick={(e) => handleToggleIgnore(e, element.id)}
+                  onkeydown={(e) => e.key === 'Enter' && handleToggleIgnore(e, element.id)}
+                  aria-label={isIgnored ? '推測に含める' : '推測から除外'}
+                >
+                  {#if isIgnored}
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21" />
+                    </svg>
+                  {:else}
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                  {/if}
                 </span>
-              {/if}
+              </div>
             </div>
 
             <!-- Count -->
