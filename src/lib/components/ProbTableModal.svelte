@@ -31,6 +31,20 @@
     return colorClasses[setting] ?? 'text-gray-400';
   }
 
+  // 分母の基準ラベルを取得
+  function getDenominatorLabel(element: CounterElement): string {
+    if (element.denominatorElementId) {
+      const refEl = machine.elements.find((el) => el.id === element.denominatorElementId);
+      return refEl ? `${refEl.name}回数` : '要素カウント';
+    }
+    switch (element.denominatorType) {
+      case 'normal': return '通常G数';
+      case 'at': return 'ATG数';
+      case 'total': return '総G数';
+      default: return '総G数';
+    }
+  }
+
   $: elementsWithDiff = machine.elements.filter((el) => hasSettingDiff(el));
 
   function handleBackdropClick(e: MouseEvent) {
@@ -60,8 +74,11 @@
       <div class="max-h-[60vh] overflow-y-auto space-y-4 pr-1">
         {#each elementsWithDiff as element (element.id)}
           <div class="bg-bg-primary rounded-xl p-3">
-            <!-- Element Name -->
-            <h4 class="text-sm font-bold text-accent mb-2">{element.name}</h4>
+            <!-- Element Name & Denominator Label -->
+            <div class="flex items-center gap-2 mb-2">
+              <h4 class="text-sm font-bold text-accent">{element.name}</h4>
+              <span class="text-[10px] text-gray-500 bg-gray-700/50 px-1.5 py-0.5 rounded">{getDenominatorLabel(element)}</span>
+            </div>
 
             <!-- Table -->
             <div class="grid grid-cols-3 gap-1 text-xs">

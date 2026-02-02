@@ -3,12 +3,17 @@ import type { CounterElement, MachineData, SettingEstimation } from './types';
 
 /**
  * 要素のdenominatorTypeに応じたゲーム数を返す
+ * denominatorElementIdが指定されている場合は、その要素のカウントを試行回数として使う
  */
 export function getSpinsForElement(
   element: CounterElement,
   totalSpins: number,
-  normalSpins: number
+  normalSpins: number,
+  counts?: Record<string, number>
 ): number {
+  if (element.denominatorElementId && counts) {
+    return counts[element.denominatorElementId] ?? 0;
+  }
   switch (element.denominatorType) {
     case 'normal':
       return normalSpins;
@@ -59,7 +64,7 @@ export function calculateEstimations(
       if (!probData) continue;
 
       // この要素に対応するゲーム数を取得
-      const N = getSpinsForElement(element, totalSpins, normalSpins);
+      const N = getSpinsForElement(element, totalSpins, normalSpins, counts);
       if (N <= 0) continue;
 
       // 確率 p を計算 (分母から変換)

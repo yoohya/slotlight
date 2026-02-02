@@ -30,6 +30,8 @@ export interface CounterElement {
   parentId?: string;
   /** 確率計算に使うゲーム数の種別（未指定時はtotalGamesを使用） */
   denominatorType?: DenominatorType;
+  /** 確率計算の分母に別要素のカウントを使う場合、その要素ID */
+  denominatorElementId?: string;
   /** 各設定ごとの確率データ */
   probabilities: SettingData[];
 }

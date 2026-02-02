@@ -8,15 +8,15 @@
   let showResetConfirm = false;
   let showEstimation = false;
   let showProbTable = false;
-  let showStartGamesInput = false;
-  let showNormalGamesInput = false;
-  let startGamesInputValue = '';
-  let normalGamesInputValue = '';
+  let showGamesModal = false;
+  let modalStart = '';
+  let modalTotal = '';
+  let modalNormal = '';
+  let modalAt = '';
   let flashingElements: Set<string> = new Set();
 
   $: machine = $appStore.currentMachine!;
   $: startGames = $appStore.startGames;
-  $: currentGames = $appStore.currentGames;
   $: counts = $appStore.counts;
   $: ignoredElements = $appStore.ignoredElements;
   $: minusMode = $appStore.minusMode;
@@ -32,7 +32,7 @@
 
   // 要素に対応するゲーム数を取得
   function getElementSpins(element: CounterElement): number {
-    return getSpinsForElement(element, $totalGames, $normalGames);
+    return getSpinsForElement(element, $totalGames, $normalGames, counts);
   }
 
   // 実測確率の分母を計算
@@ -120,16 +120,6 @@
     triggerFlash(elementId);
   }
 
-  function handleGamesDelta(delta: number) {
-    const actualDelta = minusMode ? -delta : delta;
-    appStore.updateCurrentGames(actualDelta);
-  }
-
-  function handleNormalGamesDelta(delta: number) {
-    const actualDelta = minusMode ? -delta : delta;
-    appStore.updateNormalGames(actualDelta);
-  }
-
   function toggleMinusMode() {
     appStore.toggleMinusMode();
   }
@@ -143,34 +133,58 @@
     appStore.toggleIgnoreElement(elementId);
   }
 
-  function openStartGamesInput() {
-    startGamesInputValue = startGames.toString();
-    showStartGamesInput = true;
+  function openGamesModal() {
+    modalStart = startGames.toString();
+    modalTotal = $totalGames.toString();
+    modalNormal = $normalGames.toString();
+    modalAt = $atGames.toString();
+    showGamesModal = true;
   }
 
-  function confirmStartGames() {
-    const value = parseInt(startGamesInputValue, 10);
-    if (!isNaN(value) && value >= 0) {
-      appStore.setStartGames(value);
-      // 現在ゲーム数も同じ値に設定（打ち始めから開始）
-      if (currentGames < value) {
-        appStore.setCurrentGames(value);
+  function confirmGamesModal() {
+    const start = parseInt(modalStart, 10);
+    const total = parseInt(modalTotal, 10);
+    if (isNaN(start) || start < 0 || isNaN(total) || total < 0) {
+      showGamesModal = false;
+      return;
+    }
+    appStore.setStartGames(start);
+    appStore.setCurrentGames(start + total);
+    if (hasNormalGames) {
+      const normal = parseInt(modalNormal, 10);
+      if (!isNaN(normal) && normal >= 0) {
+        const clamped = Math.min(normal, total);
+        appStore.setNormalGames(clamped);
       }
     }
-    showStartGamesInput = false;
+    showGamesModal = false;
   }
 
-  function openNormalGamesInput() {
-    normalGamesInputValue = $normalGames.toString();
-    showNormalGamesInput = true;
-  }
-
-  function confirmNormalGames() {
-    const value = parseInt(normalGamesInputValue, 10);
-    if (!isNaN(value) && value >= 0) {
-      appStore.setNormalGames(value);
+  // 総回転 = 通常 + AT
+  function autoCalcTotal() {
+    const normal = parseInt(modalNormal, 10);
+    const at = parseInt(modalAt, 10);
+    if (!isNaN(normal) && !isNaN(at)) {
+      modalTotal = (normal + at).toString();
     }
-    showNormalGamesInput = false;
+  }
+
+  // 通常 = 総回転 − AT
+  function autoCalcNormal() {
+    const total = parseInt(modalTotal, 10);
+    const at = parseInt(modalAt, 10);
+    if (!isNaN(total) && !isNaN(at)) {
+      modalNormal = Math.max(0, total - at).toString();
+    }
+  }
+
+  // AT = 総回転 − 通常
+  function autoCalcAt() {
+    const total = parseInt(modalTotal, 10);
+    const normal = parseInt(modalNormal, 10);
+    if (!isNaN(total) && !isNaN(normal)) {
+      modalAt = Math.max(0, total - normal).toString();
+    }
   }
 </script>
 
@@ -230,69 +244,24 @@
       </div>
     </div>
 
-    <!-- Row 2: Games Counter (Total) -->
-    <div class="flex items-center justify-end gap-3 px-2 py-1.5 border-t border-border/50 bg-bg-primary/50">
-      <!-- Start Games -->
+    <!-- Row 2: Compact Games Summary -->
+    <div class="flex items-center justify-end px-2 py-1.5 border-t border-border/50 bg-bg-primary/50">
       <button
-        class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-bg-card-hover hover:bg-gray-600 transition-all active:scale-95"
-        onclick={openStartGamesInput}
+        class="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-bg-card-hover hover:bg-gray-600 transition-all active:scale-95"
+        onclick={openGamesModal}
       >
-        <span class="text-[10px] text-gray-400">開始</span>
-        <span class="text-sm font-bold tabular-nums">{startGames.toLocaleString()}</span>
-      </button>
-
-      <!-- Current Games with +/- buttons -->
-      <div class="flex items-center gap-1">
-        <span class="text-[10px] text-gray-400 mr-1">現在</span>
-        <span class="text-sm font-bold tabular-nums min-w-[3rem] text-center">{currentGames.toLocaleString()}</span>
-        {#each [10, 100, 1000] as delta}
-          <button
-            class="px-2 py-1.5 text-[10px] font-bold rounded-lg transition-all active:scale-95 {minusMode ? 'bg-accent/80 hover:bg-accent text-white' : 'bg-bg-card-hover hover:bg-gray-600 text-gray-300'}"
-            onclick={() => handleGamesDelta(delta)}
-          >
-            {minusMode ? `−${delta}` : `+${delta}`}
-          </button>
-        {/each}
-      </div>
-
-      <!-- Total Games -->
-      <div class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-blue-500/20">
         <span class="text-[10px] text-blue-400">総回転</span>
         <span class="text-sm font-bold tabular-nums text-blue-400">{$totalGames.toLocaleString()}</span>
-      </div>
-    </div>
-
-    <!-- Row 3: Normal Games Counter (only for AT machines) -->
-    {#if hasNormalGames}
-      <div class="flex items-center justify-end gap-3 px-2 py-1.5 border-t border-border/50 bg-bg-primary/50">
-        <!-- Normal Games input -->
-        <button
-          class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-bg-card-hover hover:bg-gray-600 transition-all active:scale-95"
-          onclick={openNormalGamesInput}
-        >
+        {#if hasNormalGames}
+          <span class="text-gray-600">|</span>
           <span class="text-[10px] text-green-400">通常</span>
           <span class="text-sm font-bold tabular-nums text-green-400">{$normalGames.toLocaleString()}</span>
-        </button>
-
-        <!-- Normal Games +/- buttons -->
-        <div class="flex items-center gap-1">
-          {#each [10, 100, 1000] as delta}
-            <button
-              class="px-2 py-1.5 text-[10px] font-bold rounded-lg transition-all active:scale-95 {minusMode ? 'bg-accent/80 hover:bg-accent text-white' : 'bg-bg-card-hover hover:bg-gray-600 text-gray-300'}"
-              onclick={() => handleNormalGamesDelta(delta)}
-            >
-              {minusMode ? `−${delta}` : `+${delta}`}
-            </button>
-          {/each}
-        </div>
-
-        <!-- AT Games (derived) -->
-        <div class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-purple-500/20">
+          <span class="text-gray-600">|</span>
           <span class="text-[10px] text-purple-400">AT</span>
           <span class="text-sm font-bold tabular-nums text-purple-400">{$atGames.toLocaleString()}</span>
-        </div>
-      </div>
-    {/if}
+        {/if}
+      </button>
+    </div>
   </header>
 
   <!-- Main Content -->
@@ -400,12 +369,12 @@
     {/if}
   </div>
 
-  <!-- Start Games Input Modal -->
-  {#if showStartGamesInput}
+  <!-- Unified Games Setting Modal -->
+  {#if showGamesModal}
     <div
       class="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
-      onclick={() => showStartGamesInput = false}
-      onkeydown={(e) => e.key === 'Escape' && (showStartGamesInput = false)}
+      onclick={() => showGamesModal = false}
+      onkeydown={(e) => e.key === 'Escape' && (showGamesModal = false)}
       role="dialog"
       aria-modal="true"
       tabindex="-1"
@@ -415,69 +384,103 @@
         onclick={(e) => e.stopPropagation()}
         role="document"
       >
-        <h3 class="text-lg font-bold mb-4 text-center">打ち始めゲーム数</h3>
-        <input
-          type="number"
-          inputmode="numeric"
-          class="w-full px-4 py-3 rounded-xl bg-bg-primary border border-border text-center text-xl font-bold tabular-nums focus:outline-none focus:border-blue-500"
-          bind:value={startGamesInputValue}
-          onkeydown={(e) => e.key === 'Enter' && confirmStartGames()}
-        />
-        <p class="text-xs text-gray-500 text-center mt-2">台に表示されているゲーム数を入力</p>
-        <div class="flex gap-3 mt-4">
+        <h3 class="text-lg font-bold mb-4 text-center">ゲーム数設定</h3>
+
+        <div class="space-y-3">
+          <!-- 開始 -->
+          <div class="flex items-center gap-2">
+            <span class="text-sm text-gray-400 w-16 text-right shrink-0">開始</span>
+            <input
+              type="number"
+              inputmode="numeric"
+              class="flex-1 px-3 py-2 rounded-xl bg-bg-primary border border-border text-center text-base font-bold tabular-nums focus:outline-none focus:border-blue-500"
+              bind:value={modalStart}
+            />
+            {#if hasNormalGames}
+              <div class="w-8 shrink-0"></div>
+            {/if}
+          </div>
+
+          <!-- 総回転数 -->
+          <div class="flex items-center gap-2">
+            <span class="text-sm text-blue-400 w-16 text-right shrink-0">総回転数</span>
+            <input
+              type="number"
+              inputmode="numeric"
+              class="flex-1 px-3 py-2 rounded-xl bg-bg-primary border border-border text-center text-base font-bold tabular-nums focus:outline-none focus:border-blue-500"
+              bind:value={modalTotal}
+            />
+            {#if hasNormalGames}
+              <button
+                class="w-8 h-8 shrink-0 flex items-center justify-center rounded-lg transition-all active:scale-95 {modalNormal !== '' && modalAt !== '' ? 'bg-blue-500/30 text-blue-300 hover:bg-blue-500/50' : 'bg-gray-700/50 text-gray-600 cursor-not-allowed'}"
+                onclick={autoCalcTotal}
+                disabled={modalNormal === '' || modalAt === ''}
+                title="通常 + AT"
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                </svg>
+              </button>
+            {/if}
+          </div>
+
+          {#if hasNormalGames}
+            <!-- 通常時 -->
+            <div class="flex items-center gap-2">
+              <span class="text-sm text-green-400 w-16 text-right shrink-0">通常時</span>
+              <input
+                type="number"
+                inputmode="numeric"
+                class="flex-1 px-3 py-2 rounded-xl bg-bg-primary border border-border text-center text-base font-bold tabular-nums focus:outline-none focus:border-green-500"
+                bind:value={modalNormal}
+              />
+              <button
+                class="w-8 h-8 shrink-0 flex items-center justify-center rounded-lg transition-all active:scale-95 {modalTotal !== '' && modalAt !== '' ? 'bg-green-500/30 text-green-300 hover:bg-green-500/50' : 'bg-gray-700/50 text-gray-600 cursor-not-allowed'}"
+                onclick={autoCalcNormal}
+                disabled={modalTotal === '' || modalAt === ''}
+                title="総回転 − AT"
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                </svg>
+              </button>
+            </div>
+
+            <!-- AT時 -->
+            <div class="flex items-center gap-2">
+              <span class="text-sm text-purple-400 w-16 text-right shrink-0">AT時</span>
+              <input
+                type="number"
+                inputmode="numeric"
+                class="flex-1 px-3 py-2 rounded-xl bg-bg-primary border border-border text-center text-base font-bold tabular-nums focus:outline-none focus:border-purple-500"
+                bind:value={modalAt}
+              />
+              <button
+                class="w-8 h-8 shrink-0 flex items-center justify-center rounded-lg transition-all active:scale-95 {modalTotal !== '' && modalNormal !== '' ? 'bg-purple-500/30 text-purple-300 hover:bg-purple-500/50' : 'bg-gray-700/50 text-gray-600 cursor-not-allowed'}"
+                onclick={autoCalcAt}
+                disabled={modalTotal === '' || modalNormal === ''}
+                title="総回転 − 通常"
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                </svg>
+              </button>
+            </div>
+          {/if}
+        </div>
+
+        <div class="flex gap-3 mt-5">
           <button
             class="flex-1 py-3 rounded-xl bg-gray-700 hover:bg-gray-600 font-semibold transition-colors"
-            onclick={() => showStartGamesInput = false}
+            onclick={() => showGamesModal = false}
           >
             キャンセル
           </button>
           <button
             class="flex-1 py-3 rounded-xl bg-blue-500 hover:bg-blue-400 font-semibold transition-colors"
-            onclick={confirmStartGames}
+            onclick={confirmGamesModal}
           >
-            設定
-          </button>
-        </div>
-      </div>
-    </div>
-  {/if}
-
-  <!-- Normal Games Input Modal -->
-  {#if showNormalGamesInput}
-    <div
-      class="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
-      onclick={() => showNormalGamesInput = false}
-      onkeydown={(e) => e.key === 'Escape' && (showNormalGamesInput = false)}
-      role="dialog"
-      aria-modal="true"
-      tabindex="-1"
-    >
-      <div
-        class="bg-bg-card rounded-2xl p-6 mx-4 max-w-sm w-full"
-        onclick={(e) => e.stopPropagation()}
-        role="document"
-      >
-        <h3 class="text-lg font-bold mb-4 text-center">通常時ゲーム数</h3>
-        <input
-          type="number"
-          inputmode="numeric"
-          class="w-full px-4 py-3 rounded-xl bg-bg-primary border border-border text-center text-xl font-bold tabular-nums focus:outline-none focus:border-green-500"
-          bind:value={normalGamesInputValue}
-          onkeydown={(e) => e.key === 'Enter' && confirmNormalGames()}
-        />
-        <p class="text-xs text-gray-500 text-center mt-2">通常時の回転数を入力（総回転: {$totalGames.toLocaleString()}）</p>
-        <div class="flex gap-3 mt-4">
-          <button
-            class="flex-1 py-3 rounded-xl bg-gray-700 hover:bg-gray-600 font-semibold transition-colors"
-            onclick={() => showNormalGamesInput = false}
-          >
-            キャンセル
-          </button>
-          <button
-            class="flex-1 py-3 rounded-xl bg-green-500 hover:bg-green-400 font-semibold transition-colors"
-            onclick={confirmNormalGames}
-          >
-            設定
+            保存
           </button>
         </div>
       </div>

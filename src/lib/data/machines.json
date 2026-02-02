@@ -464,6 +464,32 @@
           { "setting": 5, "denominator": 1092.3 },
           { "setting": 6, "denominator": 1024.0 }
         ]
+      },
+      {
+        "id": "hikimodooshi",
+        "name": "引き戻し",
+        "denominatorElementId": "at-hit",
+        "probabilities": [
+          { "setting": 1, "denominator": 12.80 },
+          { "setting": 2, "denominator": 10.66 },
+          { "setting": 3, "denominator": 10.66 },
+          { "setting": 4, "denominator": 9.14 },
+          { "setting": 5, "denominator": 8.00 },
+          { "setting": 6, "denominator": 6.57 }
+        ]
+      },
+      {
+        "id": "ura-at",
+        "name": "裏AT突入",
+        "denominatorElementId": "at-hit",
+        "probabilities": [
+          { "setting": 1, "denominator": 90.91 },
+          { "setting": 2, "denominator": 75.76 },
+          { "setting": 3, "denominator": 61.35 },
+          { "setting": 4, "denominator": 45.66 },
+          { "setting": 5, "denominator": 35.09 },
+          { "setting": 6, "denominator": 30.12 }
+        ]
       }
     ]
   },
