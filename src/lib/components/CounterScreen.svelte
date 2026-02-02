@@ -221,12 +221,6 @@
           設定
         </button>
         <button
-          class="px-2.5 py-1.5 text-xs font-semibold rounded-lg bg-bg-card-hover text-gray-400 hover:bg-gray-600 transition-all active:scale-95"
-          onclick={() => showProbTable = true}
-        >
-          確率
-        </button>
-        <button
           class="px-2.5 py-1.5 text-xs font-semibold rounded-lg transition-all active:scale-95 {showEstimation ? 'bg-blue-500 text-white' : 'bg-bg-card-hover text-gray-400 hover:bg-gray-600'}"
           onclick={() => showEstimation = !showEstimation}
         >
@@ -244,8 +238,14 @@
       </div>
     </div>
 
-    <!-- Row 2: Compact Games Summary -->
-    <div class="flex items-center justify-end px-2 py-1.5 border-t border-border/50 bg-bg-primary/50">
+    <!-- Row 2: Prob Table Button + Games Summary -->
+    <div class="flex items-center justify-between px-2 py-1.5 border-t border-border/50 bg-bg-primary/50">
+      <button
+        class="px-2.5 py-1.5 text-xs font-semibold rounded-lg bg-bg-card-hover text-gray-400 hover:bg-gray-600 transition-all active:scale-95"
+        onclick={() => showProbTable = true}
+      >
+        確率表
+      </button>
       <button
         class="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-bg-card-hover hover:bg-gray-600 transition-all active:scale-95"
         onclick={openGamesModal}
