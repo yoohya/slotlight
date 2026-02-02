@@ -514,12 +514,37 @@
         "id": "at-hit",
         "name": "AT初当たり",
         "isBonus": true,
+        "denominatorType": "normal",
         "probabilities": [
           { "setting": 1, "denominator": 299.8 },
           { "setting": 2, "denominator": 295.5 },
           { "setting": 4, "denominator": 258.8 },
           { "setting": 5, "denominator": 235.7 },
           { "setting": 6, "denominator": 222.9 }
+        ]
+      },
+      {
+        "id": "gamo-mode",
+        "name": "蒲生モード",
+        "denominatorElementId": "at-hit",
+        "probabilities": [
+          { "setting": 1, "denominator": 12.82 },
+          { "setting": 2, "denominator": 12.20 },
+          { "setting": 4, "denominator": 9.17 },
+          { "setting": 5, "denominator": 7.09 },
+          { "setting": 6, "denominator": 6.41 }
+        ]
+      },
+      {
+        "id": "soku-yushutsu",
+        "name": "即優出",
+        "denominatorElementId": "at-hit",
+        "probabilities": [
+          { "setting": 1, "denominator": 62.50 },
+          { "setting": 2, "denominator": 58.82 },
+          { "setting": 4, "denominator": 45.45 },
+          { "setting": 5, "denominator": 33.33 },
+          { "setting": 6, "denominator": 27.03 }
         ]
       }
     ]
