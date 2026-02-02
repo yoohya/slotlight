@@ -1,16 +1,39 @@
 // logic.ts
-import type { MachineData, SettingEstimation } from './types';
+import type { CounterElement, MachineData, SettingEstimation } from './types';
+
+/**
+ * 要素のdenominatorTypeに応じたゲーム数を返す
+ */
+export function getSpinsForElement(
+  element: CounterElement,
+  totalSpins: number,
+  normalSpins: number
+): number {
+  switch (element.denominatorType) {
+    case 'normal':
+      return normalSpins;
+    case 'at':
+      return Math.max(0, totalSpins - normalSpins);
+    case 'total':
+      return totalSpins;
+    default:
+      // denominatorType未指定の場合はtotalSpinsを使用（後方互換）
+      return totalSpins;
+  }
+}
 
 /**
  * ベイズ推定を用いて設定期待度を計算する
  * @param machineData 機種データ
- * @param totalSpins 総回転数 (N)
+ * @param totalSpins 総回転数 (通常時+AT時)
+ * @param normalSpins 通常時ゲーム数
  * @param counts 各要素のカウント数 (n) { 'grape': 100, 'reg_solo': 2 ... }
  * @param ignoredElements 推測計算から無視する要素
  */
 export function calculateEstimations(
   machineData: MachineData,
   totalSpins: number,
+  normalSpins: number,
   counts: Record<string, number>,
   ignoredElements: Record<string, boolean> = {}
 ): SettingEstimation[] {
@@ -35,13 +58,17 @@ export function calculateEstimations(
 
       if (!probData) continue;
 
+      // この要素に対応するゲーム数を取得
+      const N = getSpinsForElement(element, totalSpins, normalSpins);
+      if (N <= 0) continue;
+
       // 確率 p を計算 (分母から変換)
       const p = 1 / probData.denominator;
 
       // 対数尤度の加算: n * log(p) + (N - n) * log(1 - p)
       // Math.log は自然対数
       const successPart = count * Math.log(p);
-      const failPart = (totalSpins - count) * Math.log(1 - p);
+      const failPart = (N - count) * Math.log(1 - p);
 
       sumLogLike += (successPart + failPart);
     }

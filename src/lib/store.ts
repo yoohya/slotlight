@@ -13,6 +13,7 @@ const initialState: AppState = {
   currentMachine: null,
   startGames: 0,
   currentGames: 0,
+  normalGames: 0,
   counts: {},
   ignoredElements: {},
   minusMode: false,
@@ -44,6 +45,7 @@ function loadFromStorage(): Partial<AppState> {
       currentMachine: machine,
       startGames: parsed.startGames || 0,
       currentGames: parsed.currentGames || 0,
+      normalGames: parsed.normalGames || 0,
       counts,
       ignoredElements: parsed.ignoredElements || {},
     };
@@ -55,7 +57,7 @@ function loadFromStorage(): Partial<AppState> {
 /**
  * ストレージから特定の機種のデータを読み込み
  */
-function loadMachineDataFromStorage(machineId: string): { startGames: number; currentGames: number; counts: Counts; ignoredElements: Record<string, boolean> } | null {
+function loadMachineDataFromStorage(machineId: string): { startGames: number; currentGames: number; normalGames: number; counts: Counts; ignoredElements: Record<string, boolean> } | null {
   try {
     const data = localStorage.getItem(STORAGE_KEY);
     if (!data) return null;
@@ -66,6 +68,7 @@ function loadMachineDataFromStorage(machineId: string): { startGames: number; cu
     return {
       startGames: parsed.startGames || 0,
       currentGames: parsed.currentGames || 0,
+      normalGames: parsed.normalGames || 0,
       counts: parsed.counts || {},
       ignoredElements: parsed.ignoredElements || {},
     };
@@ -84,12 +87,21 @@ function saveToStorage(state: AppState): void {
     machineId: state.currentMachine.id,
     startGames: state.startGames,
     currentGames: state.currentGames,
+    normalGames: state.normalGames,
     counts: state.counts,
     ignoredElements: state.ignoredElements,
     timestamp: Date.now(),
   };
 
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+/**
+ * 機種がdenominatorType付き要素を持つか（通常時ゲーム数の入力が必要か）
+ */
+export function needsNormalGames(machine: MachineData | null): boolean {
+  if (!machine) return false;
+  return machine.elements.some((el) => el.denominatorType === 'normal' || el.denominatorType === 'at');
 }
 
 /**
@@ -131,6 +143,7 @@ function createAppStore() {
             currentMachine: machine,
             startGames: savedData.startGames,
             currentGames: savedData.currentGames,
+            normalGames: savedData.normalGames,
             counts,
             ignoredElements: savedData.ignoredElements,
           };
@@ -147,6 +160,7 @@ function createAppStore() {
           currentMachine: machine,
           startGames: 0,
           currentGames: 0,
+          normalGames: 0,
           counts,
           ignoredElements: {},
         };
@@ -238,6 +252,36 @@ function createAppStore() {
     },
 
     /**
+     * 通常時ゲーム数を更新（デルタ）
+     */
+    updateNormalGames(delta: number): void {
+      update((state) => {
+        const total = Math.max(0, state.currentGames - state.startGames);
+        const newState = {
+          ...state,
+          normalGames: Math.max(0, Math.min(total, state.normalGames + delta)),
+        };
+        saveToStorage(newState);
+        return newState;
+      });
+    },
+
+    /**
+     * 通常時ゲーム数を直接設定
+     */
+    setNormalGames(value: number): void {
+      update((state) => {
+        const total = Math.max(0, state.currentGames - state.startGames);
+        const newState = {
+          ...state,
+          normalGames: Math.max(0, Math.min(total, value)),
+        };
+        saveToStorage(newState);
+        return newState;
+      });
+    },
+
+    /**
      * カウントをリセット
      */
     resetCounts(): void {
@@ -251,6 +295,7 @@ function createAppStore() {
           ...state,
           startGames: 0,
           currentGames: 0,
+          normalGames: 0,
           counts,
           ignoredElements: {},
         };
@@ -308,10 +353,25 @@ export const appStore = createAppStore();
 export { getClosestSetting };
 
 /**
- * 総回転数（計算値）
+ * 総回転数（計算値）= 通常時 + AT時
  */
 export const totalGames = derived(appStore, ($state): number => {
   return Math.max(0, $state.currentGames - $state.startGames);
+});
+
+/**
+ * 通常時ゲーム数
+ */
+export const normalGames = derived(appStore, ($state): number => {
+  return $state.normalGames;
+});
+
+/**
+ * AT時ゲーム数（= 総回転 - 通常時）
+ */
+export const atGames = derived(appStore, ($state): number => {
+  const total = Math.max(0, $state.currentGames - $state.startGames);
+  return Math.max(0, total - $state.normalGames);
 });
 
 /**
@@ -324,9 +384,11 @@ export const estimation = derived(appStore, ($state): EstimationResult => {
   }
 
   const total = Math.max(0, $state.currentGames - $state.startGames);
+  const normal = $state.normalGames;
   return calculateEstimations(
     $state.currentMachine,
     total,
+    normal,
     $state.counts,
     $state.ignoredElements
   );

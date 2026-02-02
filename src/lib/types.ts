@@ -9,6 +9,14 @@ export interface SettingData {
 }
 
 /**
+ * 確率計算に使うゲーム数の種別
+ * - "normal": 通常時ゲーム数のみ
+ * - "total": 通常時＋AT時の合計ゲーム数
+ * - "at": AT時ゲーム数のみ（= 合計 - 通常時）
+ */
+export type DenominatorType = "normal" | "total" | "at";
+
+/**
  * カウント要素（子役・ボーナス）の定義
  */
 export interface CounterElement {
@@ -20,6 +28,8 @@ export interface CounterElement {
   isBonus?: boolean;
   /** 親要素ID（この要素が別の要素の内訳である場合） */
   parentId?: string;
+  /** 確率計算に使うゲーム数の種別（未指定時はtotalGamesを使用） */
+  denominatorType?: DenominatorType;
   /** 各設定ごとの確率データ */
   probabilities: SettingData[];
 }
@@ -55,6 +65,8 @@ export interface AppState {
   startGames: number;
   /** 現在ゲーム数 */
   currentGames: number;
+  /** 通常時ゲーム数（ユーザー直接入力） */
+  normalGames: number;
   /** 要素ごとのカウント */
   counts: Counts;
   /** 推測計算から無視する要素 */
@@ -85,6 +97,7 @@ export interface StorageData {
   machineId: string;
   startGames: number;
   currentGames: number;
+  normalGames: number;
   counts: Counts;
   ignoredElements?: Record<string, boolean>;
   timestamp: number;

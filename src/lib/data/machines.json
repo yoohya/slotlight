@@ -390,6 +390,7 @@
         "id": "at-hit",
         "name": "AT初当たり",
         "isBonus": true,
+        "denominatorType": "normal",
         "probabilities": [
           { "setting": 1, "denominator": 394.4 },
           { "setting": 2, "denominator": 380.5 },
@@ -402,6 +403,7 @@
       {
         "id": "reminiscence",
         "name": "レミニセンス",
+        "denominatorType": "normal",
         "probabilities": [
           { "setting": 1, "denominator": 300.6 },
           { "setting": 2, "denominator": 295.3 },
@@ -414,6 +416,7 @@
       {
         "id": "ogui-rize",
         "name": "大喰いのリゼ",
+        "denominatorType": "normal",
         "probabilities": [
           { "setting": 1, "denominator": 2079.1 },
           { "setting": 2, "denominator": 1906.5 },
@@ -426,6 +429,7 @@
       {
         "id": "episode-bonus",
         "name": "エピソードボーナス",
+        "denominatorType": "normal",
         "probabilities": [
           { "setting": 1, "denominator": 6620.2 },
           { "setting": 2, "denominator": 5879.7 },
@@ -438,6 +442,7 @@
       {
         "id": "at-direct",
         "name": "AT直撃",
+        "denominatorType": "normal",
         "probabilities": [
           { "setting": 1, "denominator": 28460.6 },
           { "setting": 2, "denominator": 24453.5 },
@@ -450,6 +455,7 @@
       {
         "id": "kakugan-replay",
         "name": "赫眼リプレイ",
+        "denominatorType": "total",
         "probabilities": [
           { "setting": 1, "denominator": 1260.3 },
           { "setting": 2, "denominator": 1213.6 },

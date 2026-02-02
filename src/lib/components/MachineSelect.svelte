@@ -94,7 +94,7 @@
         >
           <!-- Favorite Button -->
           <button
-            class="absolute top-2 right-2 p-1.5 rounded-lg transition-all hover:bg-white/10 active:scale-90 z-10"
+            class="absolute top-2 right-8 p-1.5 rounded-lg transition-all hover:bg-white/10 active:scale-90 z-10"
             onclick={(e) => toggleFavorite(e, machine.id)}
             aria-label={isFavorite ? 'お気に入り解除' : 'お気に入り登録'}
           >

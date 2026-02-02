@@ -1,6 +1,7 @@
 <script lang="ts">
-  import { appStore, estimation, totalGames } from '../store';
+  import { appStore, estimation, totalGames, normalGames, atGames, needsNormalGames } from '../store';
   import { getClosestSetting } from '../estimation';
+  import { getSpinsForElement } from '../logic';
   import ProbTableModal from './ProbTableModal.svelte';
   import type { CounterElement } from '../types';
 
@@ -8,7 +9,9 @@
   let showEstimation = false;
   let showProbTable = false;
   let showStartGamesInput = false;
+  let showNormalGamesInput = false;
   let startGamesInputValue = '';
+  let normalGamesInputValue = '';
   let flashingElements: Set<string> = new Set();
 
   $: machine = $appStore.currentMachine!;
@@ -18,6 +21,7 @@
   $: ignoredElements = $appStore.ignoredElements;
   $: minusMode = $appStore.minusMode;
   $: showSettings = $appStore.showSettings;
+  $: hasNormalGames = needsNormalGames(machine);
 
   // 設定差があるか判定
   function hasSettingDiff(element: CounterElement): boolean {
@@ -26,22 +30,28 @@
     return element.probabilities.some((p) => p.denominator !== firstDenom);
   }
 
+  // 要素に対応するゲーム数を取得
+  function getElementSpins(element: CounterElement): number {
+    return getSpinsForElement(element, $totalGames, $normalGames);
+  }
+
   // 実測確率の分母を計算
-  function getActualDenom(elementId: string): number | null {
-    const count = counts[elementId] ?? 0;
-    return count > 0 && $totalGames > 0 ? $totalGames / count : null;
+  function getActualDenom(element: CounterElement): number | null {
+    const count = counts[element.id] ?? 0;
+    const spins = getElementSpins(element);
+    return count > 0 && spins > 0 ? spins / count : null;
   }
 
   // 確率テキスト
-  function getProbText(elementId: string): string {
-    const denom = getActualDenom(elementId);
+  function getProbText(element: CounterElement): string {
+    const denom = getActualDenom(element);
     return denom ? `1/${denom.toFixed(2)}` : '-';
   }
 
   // 設定バッジのテキストと色クラス
   function getSettingBadge(element: CounterElement): { text: string; colorClass: string } | null {
     if (!hasSettingDiff(element)) return null;
-    const denom = getActualDenom(element.id);
+    const denom = getActualDenom(element);
     if (!denom) return null;
 
     const setting = getClosestSetting(element, denom);
@@ -115,6 +125,11 @@
     appStore.updateCurrentGames(actualDelta);
   }
 
+  function handleNormalGamesDelta(delta: number) {
+    const actualDelta = minusMode ? -delta : delta;
+    appStore.updateNormalGames(actualDelta);
+  }
+
   function toggleMinusMode() {
     appStore.toggleMinusMode();
   }
@@ -143,6 +158,19 @@
       }
     }
     showStartGamesInput = false;
+  }
+
+  function openNormalGamesInput() {
+    normalGamesInputValue = $normalGames.toString();
+    showNormalGamesInput = true;
+  }
+
+  function confirmNormalGames() {
+    const value = parseInt(normalGamesInputValue, 10);
+    if (!isNaN(value) && value >= 0) {
+      appStore.setNormalGames(value);
+    }
+    showNormalGamesInput = false;
   }
 </script>
 
@@ -202,7 +230,7 @@
       </div>
     </div>
 
-    <!-- Row 2: Games Counter -->
+    <!-- Row 2: Games Counter (Total) -->
     <div class="flex items-center justify-end gap-3 px-2 py-1.5 border-t border-border/50 bg-bg-primary/50">
       <!-- Start Games -->
       <button
@@ -233,6 +261,38 @@
         <span class="text-sm font-bold tabular-nums text-blue-400">{$totalGames.toLocaleString()}</span>
       </div>
     </div>
+
+    <!-- Row 3: Normal Games Counter (only for AT machines) -->
+    {#if hasNormalGames}
+      <div class="flex items-center justify-end gap-3 px-2 py-1.5 border-t border-border/50 bg-bg-primary/50">
+        <!-- Normal Games input -->
+        <button
+          class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-bg-card-hover hover:bg-gray-600 transition-all active:scale-95"
+          onclick={openNormalGamesInput}
+        >
+          <span class="text-[10px] text-green-400">通常</span>
+          <span class="text-sm font-bold tabular-nums text-green-400">{$normalGames.toLocaleString()}</span>
+        </button>
+
+        <!-- Normal Games +/- buttons -->
+        <div class="flex items-center gap-1">
+          {#each [10, 100, 1000] as delta}
+            <button
+              class="px-2 py-1.5 text-[10px] font-bold rounded-lg transition-all active:scale-95 {minusMode ? 'bg-accent/80 hover:bg-accent text-white' : 'bg-bg-card-hover hover:bg-gray-600 text-gray-300'}"
+              onclick={() => handleNormalGamesDelta(delta)}
+            >
+              {minusMode ? `−${delta}` : `+${delta}`}
+            </button>
+          {/each}
+        </div>
+
+        <!-- AT Games (derived) -->
+        <div class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-purple-500/20">
+          <span class="text-[10px] text-purple-400">AT</span>
+          <span class="text-sm font-bold tabular-nums text-purple-400">{$atGames.toLocaleString()}</span>
+        </div>
+      </div>
+    {/if}
   </header>
 
   <!-- Main Content -->
@@ -287,7 +347,7 @@
 
             <!-- Probability -->
             <span class="absolute bottom-1.5 text-[10px] text-gray-500">
-              {getProbText(element.id)}
+              {getProbText(element)}
             </span>
           </button>
         {/each}
@@ -374,6 +434,48 @@
           <button
             class="flex-1 py-3 rounded-xl bg-blue-500 hover:bg-blue-400 font-semibold transition-colors"
             onclick={confirmStartGames}
+          >
+            設定
+          </button>
+        </div>
+      </div>
+    </div>
+  {/if}
+
+  <!-- Normal Games Input Modal -->
+  {#if showNormalGamesInput}
+    <div
+      class="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
+      onclick={() => showNormalGamesInput = false}
+      onkeydown={(e) => e.key === 'Escape' && (showNormalGamesInput = false)}
+      role="dialog"
+      aria-modal="true"
+      tabindex="-1"
+    >
+      <div
+        class="bg-bg-card rounded-2xl p-6 mx-4 max-w-sm w-full"
+        onclick={(e) => e.stopPropagation()}
+        role="document"
+      >
+        <h3 class="text-lg font-bold mb-4 text-center">通常時ゲーム数</h3>
+        <input
+          type="number"
+          inputmode="numeric"
+          class="w-full px-4 py-3 rounded-xl bg-bg-primary border border-border text-center text-xl font-bold tabular-nums focus:outline-none focus:border-green-500"
+          bind:value={normalGamesInputValue}
+          onkeydown={(e) => e.key === 'Enter' && confirmNormalGames()}
+        />
+        <p class="text-xs text-gray-500 text-center mt-2">通常時の回転数を入力（総回転: {$totalGames.toLocaleString()}）</p>
+        <div class="flex gap-3 mt-4">
+          <button
+            class="flex-1 py-3 rounded-xl bg-gray-700 hover:bg-gray-600 font-semibold transition-colors"
+            onclick={() => showNormalGamesInput = false}
+          >
+            キャンセル
+          </button>
+          <button
+            class="flex-1 py-3 rounded-xl bg-green-500 hover:bg-green-400 font-semibold transition-colors"
+            onclick={confirmNormalGames}
           >
             設定
           </button>
