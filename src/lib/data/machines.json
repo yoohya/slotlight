@@ -756,5 +756,70 @@
         ]
       }
     ]
+  },
+  {
+    "id": "hokuto-no-ken",
+    "machineName": "スマスロ北斗の拳",
+    "maker": "サミー",
+    "settings": [1, 2, 4, 5, 6],
+    "elements": [
+      {
+        "id": "weak-suika",
+        "name": "弱スイカ",
+        "probabilities": [
+          { "setting": 1, "denominator": 109.0 },
+          { "setting": 2, "denominator": 108.7 },
+          { "setting": 4, "denominator": 105.9 },
+          { "setting": 5, "denominator": 100.7 },
+          { "setting": 6, "denominator": 98.3 }
+        ]
+      },
+      {
+        "id": "strong-suika",
+        "name": "強スイカ合算",
+        "probabilities": [
+          { "setting": 1, "denominator": 409.6 },
+          { "setting": 2, "denominator": 404.5 },
+          { "setting": 4, "denominator": 376.6 },
+          { "setting": 5, "denominator": 352.3 },
+          { "setting": 6, "denominator": 337.8 }
+        ]
+      },
+      {
+        "id": "mid-cherry",
+        "name": "中段チェリー合算",
+        "probabilities": [
+          { "setting": 1, "denominator": 210.1 },
+          { "setting": 2, "denominator": 204.8 },
+          { "setting": 4, "denominator": 199.8 },
+          { "setting": 5, "denominator": 195.0 },
+          { "setting": 6, "denominator": 190.5 }
+        ]
+      },
+      {
+        "id": "reach-moku",
+        "name": "リーチ目",
+        "probabilities": [
+          { "setting": 1, "denominator": 16384.0 },
+          { "setting": 2, "denominator": 13107.2 },
+          { "setting": 4, "denominator": 10922.7 },
+          { "setting": 5, "denominator": 9362.3 },
+          { "setting": 6, "denominator": 8192.0 }
+        ]
+      },
+      {
+        "id": "at-hit",
+        "name": "BB初当たり",
+        "isBonus": true,
+        "denominatorType": "normal",
+        "probabilities": [
+          { "setting": 1, "denominator": 383.4 },
+          { "setting": 2, "denominator": 370.5 },
+          { "setting": 4, "denominator": 297.8 },
+          { "setting": 5, "denominator": 258.7 },
+          { "setting": 6, "denominator": 235.1 }
+        ]
+      }
+    ]
   }
 ]
