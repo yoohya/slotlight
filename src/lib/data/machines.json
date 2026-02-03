@@ -4,6 +4,14 @@
     "machineName": "マイジャグラーV",
     "maker": "北電子",
     "settings": [1, 2, 3, 4, 5, 6],
+    "payoutRates": [
+      { "setting": 1, "rate": 97.0 },
+      { "setting": 2, "rate": 98.1 },
+      { "setting": 3, "rate": 99.9 },
+      { "setting": 4, "rate": 102.8 },
+      { "setting": 5, "rate": 105.3 },
+      { "setting": 6, "rate": 109.4 }
+    ],
     "elements": [
       {
         "id": "grape",
@@ -88,6 +96,14 @@
     "machineName": "アイムジャグラーEX",
     "maker": "北電子",
     "settings": [1, 2, 3, 4, 5, 6],
+    "payoutRates": [
+      { "setting": 1, "rate": 97.0 },
+      { "setting": 2, "rate": 98.0 },
+      { "setting": 3, "rate": 99.5 },
+      { "setting": 4, "rate": 101.1 },
+      { "setting": 5, "rate": 103.3 },
+      { "setting": 6, "rate": 105.5 }
+    ],
     "elements": [
       {
         "id": "grape",
@@ -159,6 +175,14 @@
     "machineName": "ファンキージャグラー2",
     "maker": "北電子",
     "settings": [1, 2, 3, 4, 5, 6],
+    "payoutRates": [
+      { "setting": 1, "rate": 97.0 },
+      { "setting": 2, "rate": 98.2 },
+      { "setting": 3, "rate": 99.8 },
+      { "setting": 4, "rate": 102.0 },
+      { "setting": 5, "rate": 104.3 },
+      { "setting": 6, "rate": 109.0 }
+    ],
     "elements": [
       {
         "id": "grape",
@@ -243,6 +267,14 @@
     "machineName": "ゴーゴージャグラー3",
     "maker": "北電子",
     "settings": [1, 2, 3, 4, 5, 6],
+    "payoutRates": [
+      { "setting": 1, "rate": 97.2 },
+      { "setting": 2, "rate": 98.4 },
+      { "setting": 3, "rate": 99.8 },
+      { "setting": 4, "rate": 101.6 },
+      { "setting": 5, "rate": 103.8 },
+      { "setting": 6, "rate": 106.5 }
+    ],
     "elements": [
       {
         "id": "grape",
@@ -314,6 +346,14 @@
     "machineName": "ハッピージャグラーVⅢ",
     "maker": "北電子",
     "settings": [1, 2, 3, 4, 5, 6],
+    "payoutRates": [
+      { "setting": 1, "rate": 97.0 },
+      { "setting": 2, "rate": 98.5 },
+      { "setting": 3, "rate": 100.1 },
+      { "setting": 4, "rate": 102.5 },
+      { "setting": 5, "rate": 105.5 },
+      { "setting": 6, "rate": 108.4 }
+    ],
     "elements": [
       {
         "id": "grape",
@@ -385,6 +425,14 @@
     "machineName": "スマスロ東京グール",
     "maker": "スパイキー",
     "settings": [1, 2, 3, 4, 5, 6],
+    "payoutRates": [
+      { "setting": 1, "rate": 97.5 },
+      { "setting": 2, "rate": 99.0 },
+      { "setting": 3, "rate": 101.6 },
+      { "setting": 4, "rate": 105.6 },
+      { "setting": 5, "rate": 110.3 },
+      { "setting": 6, "rate": 114.9 }
+    ],
     "elements": [
       {
         "id": "at-hit",
@@ -498,6 +546,13 @@
     "machineName": "スマスロモンキーターン5",
     "maker": "山佐ネクスト",
     "settings": [1, 2, 4, 5, 6],
+    "payoutRates": [
+      { "setting": 1, "rate": 97.9 },
+      { "setting": 2, "rate": 98.9 },
+      { "setting": 4, "rate": 104.5 },
+      { "setting": 5, "rate": 110.2 },
+      { "setting": 6, "rate": 114.9 }
+    ],
     "elements": [
       {
         "id": "five-mai",
@@ -554,6 +609,14 @@
     "machineName": "スマスロクレアの秘宝伝BT",
     "maker": "大都技研",
     "settings": [1, 2, 3, 4, 5, 6],
+    "payoutRates": [
+      { "setting": 1, "rate": 99.3 },
+      { "setting": 2, "rate": 100.5 },
+      { "setting": 3, "rate": 102.5 },
+      { "setting": 4, "rate": 105.0 },
+      { "setting": 5, "rate": 108.0 },
+      { "setting": 6, "rate": 114.0 }
+    ],
     "elements": [
       {
         "id": "big",
@@ -588,6 +651,14 @@
     "machineName": "Lエヴァンゲリオン約束の扉BT",
     "maker": "ビスティ",
     "settings": [1, 2, 3, 4, 5, 6],
+    "payoutRates": [
+      { "setting": 1, "rate": 97.7 },
+      { "setting": 2, "rate": 98.9 },
+      { "setting": 3, "rate": 100.7 },
+      { "setting": 4, "rate": 104.5 },
+      { "setting": 5, "rate": 107.0 },
+      { "setting": 6, "rate": 110.0 }
+    ],
     "elements": [
       {
         "id": "big",
@@ -620,8 +691,14 @@
   {
     "id": "shake-bt",
     "machineName": "LシェイクBT",
-    "maker": "オリンピア",
+    "maker": "大都技研",
     "settings": [1, 2, 5, 6],
+    "payoutRates": [
+      { "setting": 1, "rate": 98.6 },
+      { "setting": 2, "rate": 100.6 },
+      { "setting": 5, "rate": 103.0 },
+      { "setting": 6, "rate": 106.1 }
+    ],
     "elements": [
       {
         "id": "bell",
@@ -680,8 +757,14 @@
   {
     "id": "cranky-crest",
     "machineName": "クランキークレスト",
-    "maker": "ユニバーサル",
+    "maker": "ミズホ",
     "settings": [1, 2, 5, 6],
+    "payoutRates": [
+      { "setting": 1, "rate": 100.5 },
+      { "setting": 2, "rate": 102.0 },
+      { "setting": 5, "rate": 105.2 },
+      { "setting": 6, "rate": 108.0 }
+    ],
     "elements": [
       {
         "id": "bell-a",
@@ -722,6 +805,12 @@
     "machineName": "アレックスブライト",
     "maker": "ユニバーサル",
     "settings": [1, 2, 5, 6],
+    "payoutRates": [
+      { "setting": 1, "rate": 98.8 },
+      { "setting": 2, "rate": 100.6 },
+      { "setting": 5, "rate": 103.5 },
+      { "setting": 6, "rate": 106.8 }
+    ],
     "elements": [
       {
         "id": "hane",
@@ -762,6 +851,13 @@
     "machineName": "スマスロ北斗の拳",
     "maker": "サミー",
     "settings": [1, 2, 4, 5, 6],
+    "payoutRates": [
+      { "setting": 1, "rate": 98.0 },
+      { "setting": 2, "rate": 98.9 },
+      { "setting": 4, "rate": 105.7 },
+      { "setting": 5, "rate": 110.0 },
+      { "setting": 6, "rate": 113.0 }
+    ],
     "elements": [
       {
         "id": "weak-suika",

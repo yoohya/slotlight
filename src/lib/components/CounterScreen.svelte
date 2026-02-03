@@ -3,11 +3,13 @@
   import { getClosestSetting } from '../estimation';
   import { getSpinsForElement } from '../logic';
   import ProbTableModal from './ProbTableModal.svelte';
+  import PayoutRateModal from './PayoutRateModal.svelte';
   import type { CounterElement } from '../types';
 
   let showResetConfirm = false;
   let showEstimation = false;
   let showProbTable = false;
+  let showPayoutRate = false;
   let showGamesModal = false;
   let modalStart = '';
   let modalTotal = '';
@@ -238,14 +240,22 @@
       </div>
     </div>
 
-    <!-- Row 2: Prob Table Button + Games Summary -->
+    <!-- Row 2: Payout Rate & Prob Table Buttons + Games Summary -->
     <div class="flex items-center justify-between px-2 py-1.5 border-t border-border/50 bg-bg-primary/50">
-      <button
-        class="px-2.5 py-1.5 text-xs font-semibold rounded-lg bg-bg-card-hover text-gray-400 hover:bg-gray-600 transition-all active:scale-95"
-        onclick={() => showProbTable = true}
-      >
-        確率表
-      </button>
+      <div class="flex items-center gap-1">
+        <button
+          class="px-2.5 py-1.5 text-xs font-semibold rounded-lg bg-bg-card-hover text-gray-400 hover:bg-gray-600 transition-all active:scale-95"
+          onclick={() => showPayoutRate = true}
+        >
+          機械割
+        </button>
+        <button
+          class="px-2.5 py-1.5 text-xs font-semibold rounded-lg bg-bg-card-hover text-gray-400 hover:bg-gray-600 transition-all active:scale-95"
+          onclick={() => showProbTable = true}
+        >
+          確率表
+        </button>
+      </div>
       <button
         class="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-bg-card-hover hover:bg-gray-600 transition-all active:scale-95"
         onclick={openGamesModal}
@@ -523,4 +533,7 @@
 
   <!-- Prob Table Modal -->
   <ProbTableModal {machine} isOpen={showProbTable} onClose={() => showProbTable = false} />
+
+  <!-- Payout Rate Modal -->
+  <PayoutRateModal {machine} isOpen={showPayoutRate} onClose={() => showPayoutRate = false} />
 </div>

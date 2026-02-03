@@ -37,6 +37,16 @@ export interface CounterElement {
 }
 
 /**
+ * 設定ごとの機械割データ
+ */
+export interface PayoutRate {
+  /** 設定 (1, 2, ..., 6 など) */
+  setting: number;
+  /** 機械割 (例: 97.0 = 97.0%) */
+  rate: number;
+}
+
+/**
  * 機種の定義
  */
 export interface MachineData {
@@ -50,6 +60,8 @@ export interface MachineData {
   settings: number[];
   /** カウントする要素のリスト */
   elements: CounterElement[];
+  /** 設定ごとの機械割 */
+  payoutRates?: PayoutRate[];
 }
 
 /**
