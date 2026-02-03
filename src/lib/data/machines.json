@@ -17,12 +17,12 @@
         "id": "grape",
         "name": "ぶどう",
         "probabilities": [
-          { "setting": 1, "denominator": 5.88 },
-          { "setting": 2, "denominator": 5.84 },
-          { "setting": 3, "denominator": 5.80 },
-          { "setting": 4, "denominator": 5.75 },
-          { "setting": 5, "denominator": 5.75 },
-          { "setting": 6, "denominator": 5.65 }
+          { "setting": 1, "denominator": 5.91 },
+          { "setting": 2, "denominator": 5.87 },
+          { "setting": 3, "denominator": 5.83 },
+          { "setting": 4, "denominator": 5.80 },
+          { "setting": 5, "denominator": 5.76 },
+          { "setting": 6, "denominator": 5.67 }
         ]
       },
       {
@@ -56,12 +56,12 @@
         "name": "単独REG",
         "parentId": "reg",
         "probabilities": [
-          { "setting": 1, "denominator": 662.5 },
-          { "setting": 2, "denominator": 601.7 },
-          { "setting": 3, "denominator": 489.1 },
-          { "setting": 4, "denominator": 413.3 },
-          { "setting": 5, "denominator": 395.8 },
-          { "setting": 6, "denominator": 330.3 }
+          { "setting": 1, "denominator": 655.36 },
+          { "setting": 2, "denominator": 595.78 },
+          { "setting": 3, "denominator": 496.48 },
+          { "setting": 4, "denominator": 404.54 },
+          { "setting": 5, "denominator": 390.10 },
+          { "setting": 6, "denominator": 327.68 }
         ]
       },
       {
@@ -69,12 +69,12 @@
         "name": "チェリーREG",
         "parentId": "reg",
         "probabilities": [
-          { "setting": 1, "denominator": 1104.5 },
-          { "setting": 2, "denominator": 1080.5 },
-          { "setting": 3, "denominator": 1065.3 },
-          { "setting": 4, "denominator": 1009.7 },
-          { "setting": 5, "denominator": 854.2 },
-          { "setting": 6, "denominator": 766.6 }
+          { "setting": 1, "denominator": 1092.27 },
+          { "setting": 2, "denominator": 1092.27 },
+          { "setting": 3, "denominator": 1040.25 },
+          { "setting": 4, "denominator": 1024.00 },
+          { "setting": 5, "denominator": 862.32 },
+          { "setting": 6, "denominator": 762.05 }
         ]
       }
     ]
