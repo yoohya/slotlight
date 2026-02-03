@@ -956,5 +956,48 @@
         ]
       }
     ]
+  },
+  {
+    "id": "koukaku-kidoutai",
+    "machineName": "スマスロ攻殻機動隊",
+    "maker": "サミー",
+    "settings": [1, 2, 3, 4, 5, 6],
+    "payoutRates": [
+      { "setting": 1, "rate": 97.9 },
+      { "setting": 2, "rate": 98.7 },
+      { "setting": 3, "rate": 100.8 },
+      { "setting": 4, "rate": 104.9 },
+      { "setting": 5, "rate": 109.3 },
+      { "setting": 6, "rate": 112.2 }
+    ],
+    "elements": [
+      {
+        "id": "at-hit",
+        "name": "AT初当たり",
+        "isBonus": true,
+        "denominatorType": "normal",
+        "probabilities": [
+          { "setting": 1, "denominator": 336.3 },
+          { "setting": 2, "denominator": 332.0 },
+          { "setting": 3, "denominator": 319.6 },
+          { "setting": 4, "denominator": 298.7 },
+          { "setting": 5, "denominator": 285.8 },
+          { "setting": 6, "denominator": 278.0 }
+        ]
+      },
+      {
+        "id": "cz",
+        "name": "CZ",
+        "denominatorType": "normal",
+        "probabilities": [
+          { "setting": 1, "denominator": 238.0 },
+          { "setting": 2, "denominator": 236.3 },
+          { "setting": 3, "denominator": 231.7 },
+          { "setting": 4, "denominator": 220.9 },
+          { "setting": 5, "denominator": 214.0 },
+          { "setting": 6, "denominator": 210.1 }
+        ]
+      }
+    ]
   }
 ]
