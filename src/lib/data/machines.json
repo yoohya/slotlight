@@ -6,7 +6,7 @@
     "settings": [1, 2, 3, 4, 5, 6],
     "payoutRates": [
       { "setting": 1, "rate": 97.0 },
-      { "setting": 2, "rate": 98.1 },
+      { "setting": 2, "rate": 98.0 },
       { "setting": 3, "rate": 99.9 },
       { "setting": 4, "rate": 102.8 },
       { "setting": 5, "rate": 105.3 },
@@ -17,24 +17,12 @@
         "id": "grape",
         "name": "ぶどう",
         "probabilities": [
-          { "setting": 1, "denominator": 5.98 },
-          { "setting": 2, "denominator": 5.88 },
-          { "setting": 3, "denominator": 5.84 },
-          { "setting": 4, "denominator": 5.81 },
-          { "setting": 5, "denominator": 5.76 },
+          { "setting": 1, "denominator": 5.88 },
+          { "setting": 2, "denominator": 5.84 },
+          { "setting": 3, "denominator": 5.80 },
+          { "setting": 4, "denominator": 5.75 },
+          { "setting": 5, "denominator": 5.75 },
           { "setting": 6, "denominator": 5.65 }
-        ]
-      },
-      {
-        "id": "cherry",
-        "name": "チェリー",
-        "probabilities": [
-          { "setting": 1, "denominator": 36.0 },
-          { "setting": 2, "denominator": 36.0 },
-          { "setting": 3, "denominator": 36.0 },
-          { "setting": 4, "denominator": 36.0 },
-          { "setting": 5, "denominator": 36.0 },
-          { "setting": 6, "denominator": 36.0 }
         ]
       },
       {
@@ -43,11 +31,11 @@
         "isBonus": true,
         "probabilities": [
           { "setting": 1, "denominator": 273.1 },
-          { "setting": 2, "denominator": 269.7 },
-          { "setting": 3, "denominator": 265.9 },
-          { "setting": 4, "denominator": 259.0 },
-          { "setting": 5, "denominator": 252.1 },
-          { "setting": 6, "denominator": 240.9 }
+          { "setting": 2, "denominator": 270.8 },
+          { "setting": 3, "denominator": 266.4 },
+          { "setting": 4, "denominator": 254.0 },
+          { "setting": 5, "denominator": 240.1 },
+          { "setting": 6, "denominator": 229.1 }
         ]
       },
       {
@@ -55,12 +43,12 @@
         "name": "REG",
         "isBonus": true,
         "probabilities": [
-          { "setting": 1, "denominator": 452.0 },
-          { "setting": 2, "denominator": 423.4 },
-          { "setting": 3, "denominator": 372.4 },
-          { "setting": 4, "denominator": 320.3 },
-          { "setting": 5, "denominator": 294.9 },
-          { "setting": 6, "denominator": 266.4 }
+          { "setting": 1, "denominator": 409.6 },
+          { "setting": 2, "denominator": 385.5 },
+          { "setting": 3, "denominator": 336.1 },
+          { "setting": 4, "denominator": 290.0 },
+          { "setting": 5, "denominator": 268.6 },
+          { "setting": 6, "denominator": 229.1 }
         ]
       },
       {
@@ -68,12 +56,12 @@
         "name": "単独REG",
         "parentId": "reg",
         "probabilities": [
-          { "setting": 1, "denominator": 628.1 },
-          { "setting": 2, "denominator": 598.1 },
-          { "setting": 3, "denominator": 498.3 },
-          { "setting": 4, "denominator": 403.4 },
-          { "setting": 5, "denominator": 381.1 },
-          { "setting": 6, "denominator": 334.3 }
+          { "setting": 1, "denominator": 662.5 },
+          { "setting": 2, "denominator": 601.7 },
+          { "setting": 3, "denominator": 489.1 },
+          { "setting": 4, "denominator": 413.3 },
+          { "setting": 5, "denominator": 395.8 },
+          { "setting": 6, "denominator": 330.3 }
         ]
       },
       {
@@ -81,12 +69,12 @@
         "name": "チェリーREG",
         "parentId": "reg",
         "probabilities": [
-          { "setting": 1, "denominator": 1079.9 },
-          { "setting": 2, "denominator": 1071.8 },
-          { "setting": 3, "denominator": 1079.9 },
-          { "setting": 4, "denominator": 1078.7 },
-          { "setting": 5, "denominator": 890.5 },
-          { "setting": 6, "denominator": 813.0 }
+          { "setting": 1, "denominator": 1104.5 },
+          { "setting": 2, "denominator": 1080.5 },
+          { "setting": 3, "denominator": 1065.3 },
+          { "setting": 4, "denominator": 1009.7 },
+          { "setting": 5, "denominator": 854.2 },
+          { "setting": 6, "denominator": 766.6 }
         ]
       }
     ]
