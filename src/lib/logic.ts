@@ -2,6 +2,19 @@
 import type { CounterElement, MachineData, SettingEstimation } from './types';
 
 /**
+ * 実際のカウント数を計算（現在カウント - 開始カウント）
+ */
+export function getActualCount(
+  elementId: string,
+  counts: Record<string, number>,
+  startCounts: Record<string, number> = {}
+): number {
+  const current = counts[elementId] ?? 0;
+  const start = startCounts[elementId] ?? 0;
+  return Math.max(0, current - start);
+}
+
+/**
  * 要素のdenominatorTypeに応じたゲーム数を返す
  * denominatorElementIdが指定されている場合は、その要素のカウントを試行回数として使う
  */
@@ -9,10 +22,11 @@ export function getSpinsForElement(
   element: CounterElement,
   totalSpins: number,
   normalSpins: number,
-  counts?: Record<string, number>
+  counts?: Record<string, number>,
+  startCounts?: Record<string, number>
 ): number {
   if (element.denominatorElementId && counts) {
-    return counts[element.denominatorElementId] ?? 0;
+    return getActualCount(element.denominatorElementId, counts, startCounts);
   }
   switch (element.denominatorType) {
     case 'normal':
@@ -34,13 +48,15 @@ export function getSpinsForElement(
  * @param normalSpins 通常時ゲーム数
  * @param counts 各要素のカウント数 (n) { 'grape': 100, 'reg_solo': 2 ... }
  * @param ignoredElements 推測計算から無視する要素
+ * @param startCounts 各要素の開始カウント（打ち始め時の値）
  */
 export function calculateEstimations(
   machineData: MachineData,
   totalSpins: number,
   normalSpins: number,
   counts: Record<string, number>,
-  ignoredElements: Record<string, boolean> = {}
+  ignoredElements: Record<string, boolean> = {},
+  startCounts: Record<string, number> = {}
 ): SettingEstimation[] {
 
   if (totalSpins <= 0) {
@@ -58,13 +74,14 @@ export function calculateEstimations(
       // 無視された要素はスキップ
       if (ignoredElements[element.id]) continue;
 
-      const count = counts[element.id] || 0; // ユーザーの入力値
+      // 実際のカウント数（現在 - 開始）
+      const count = getActualCount(element.id, counts, startCounts);
       const probData = element.probabilities.find(p => p.setting === setting);
 
       if (!probData) continue;
 
       // この要素に対応するゲーム数を取得
-      const N = getSpinsForElement(element, totalSpins, normalSpins, counts);
+      const N = getSpinsForElement(element, totalSpins, normalSpins, counts, startCounts);
       if (N <= 0) continue;
 
       // 確率 p を計算 (分母から変換)

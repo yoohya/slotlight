@@ -1,10 +1,10 @@
 <script lang="ts">
   import { appStore, estimation, totalGames, normalGames, atGames, needsNormalGames } from '../store';
   import { getClosestSetting } from '../estimation';
-  import { getSpinsForElement } from '../logic';
+  import { getSpinsForElement, getActualCount } from '../logic';
   import ProbTableModal from './ProbTableModal.svelte';
   import PayoutRateModal from './PayoutRateModal.svelte';
-  import type { CounterElement } from '../types';
+  import type { CounterElement, Counts } from '../types';
 
   let showResetConfirm = false;
   let showEstimation = false;
@@ -15,15 +15,20 @@
   let modalTotal = '';
   let modalNormal = '';
   let modalAt = '';
+  let modalStartCounts: Record<string, string> = {};
   let flashingElements: Set<string> = new Set();
 
   $: machine = $appStore.currentMachine!;
   $: startGames = $appStore.startGames;
   $: counts = $appStore.counts;
+  $: startCounts = $appStore.startCounts;
   $: ignoredElements = $appStore.ignoredElements;
   $: minusMode = $appStore.minusMode;
   $: showSettings = $appStore.showSettings;
   $: hasNormalGames = needsNormalGames(machine);
+
+  // 初期カウントを入力できる要素（親要素のみ = parentIdがない要素）
+  $: mainElements = machine?.elements.filter((el) => !el.parentId) ?? [];
 
   // 設定差があるか判定
   function hasSettingDiff(element: CounterElement): boolean {
@@ -34,12 +39,12 @@
 
   // 要素に対応するゲーム数を取得
   function getElementSpins(element: CounterElement): number {
-    return getSpinsForElement(element, $totalGames, $normalGames, counts);
+    return getSpinsForElement(element, $totalGames, $normalGames, counts, startCounts);
   }
 
-  // 実測確率の分母を計算
+  // 実測確率の分母を計算（実際のカウント = 現在 - 開始）
   function getActualDenom(element: CounterElement): number | null {
-    const count = counts[element.id] ?? 0;
+    const count = getActualCount(element.id, counts, startCounts);
     const spins = getElementSpins(element);
     return count > 0 && spins > 0 ? spins / count : null;
   }
@@ -140,6 +145,11 @@
     modalTotal = $totalGames.toString();
     modalNormal = $normalGames.toString();
     modalAt = $atGames.toString();
+    // 初期カウントを設定
+    modalStartCounts = {};
+    mainElements.forEach((el) => {
+      modalStartCounts[el.id] = (startCounts[el.id] ?? 0).toString();
+    });
     showGamesModal = true;
   }
 
@@ -159,6 +169,15 @@
         appStore.setNormalGames(clamped);
       }
     }
+    // 初期カウントを保存
+    const newStartCounts: Record<string, number> = {};
+    mainElements.forEach((el) => {
+      const val = parseInt(modalStartCounts[el.id] ?? '0', 10);
+      if (!isNaN(val) && val >= 0) {
+        newStartCounts[el.id] = val;
+      }
+    });
+    appStore.setStartCounts(newStartCounts);
     showGamesModal = false;
   }
 
@@ -475,6 +494,26 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                 </svg>
               </button>
+            </div>
+          {/if}
+
+          <!-- 初期カウント入力 -->
+          {#if mainElements.length > 0}
+            <div class="border-t border-border pt-3 mt-3">
+              <p class="text-xs text-gray-500 mb-2">打ち始め時の回数（任意）</p>
+              <div class="grid grid-cols-2 gap-2">
+                {#each mainElements as el (el.id)}
+                  <div class="flex items-center gap-1.5">
+                    <span class="text-xs text-gray-400 w-14 text-right shrink-0 truncate" title={el.name}>{el.name}</span>
+                    <input
+                      type="number"
+                      inputmode="numeric"
+                      class="flex-1 px-2 py-1.5 rounded-lg bg-bg-primary border border-border text-center text-sm font-bold tabular-nums focus:outline-none focus:border-orange-500 min-w-0"
+                      bind:value={modalStartCounts[el.id]}
+                    />
+                  </div>
+                {/each}
+              </div>
             </div>
           {/if}
         </div>

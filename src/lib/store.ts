@@ -15,6 +15,7 @@ const initialState: AppState = {
   currentGames: 0,
   normalGames: 0,
   counts: {},
+  startCounts: {},
   ignoredElements: {},
   minusMode: false,
   showSettings: false,
@@ -47,6 +48,7 @@ function loadFromStorage(): Partial<AppState> {
       currentGames: parsed.currentGames || 0,
       normalGames: parsed.normalGames || 0,
       counts,
+      startCounts: parsed.startCounts || {},
       ignoredElements: parsed.ignoredElements || {},
     };
   } catch {
@@ -57,7 +59,7 @@ function loadFromStorage(): Partial<AppState> {
 /**
  * ストレージから特定の機種のデータを読み込み
  */
-function loadMachineDataFromStorage(machineId: string): { startGames: number; currentGames: number; normalGames: number; counts: Counts; ignoredElements: Record<string, boolean> } | null {
+function loadMachineDataFromStorage(machineId: string): { startGames: number; currentGames: number; normalGames: number; counts: Counts; startCounts: Counts; ignoredElements: Record<string, boolean> } | null {
   try {
     const data = localStorage.getItem(STORAGE_KEY);
     if (!data) return null;
@@ -70,6 +72,7 @@ function loadMachineDataFromStorage(machineId: string): { startGames: number; cu
       currentGames: parsed.currentGames || 0,
       normalGames: parsed.normalGames || 0,
       counts: parsed.counts || {},
+      startCounts: parsed.startCounts || {},
       ignoredElements: parsed.ignoredElements || {},
     };
   } catch {
@@ -89,6 +92,7 @@ function saveToStorage(state: AppState): void {
     currentGames: state.currentGames,
     normalGames: state.normalGames,
     counts: state.counts,
+    startCounts: state.startCounts,
     ignoredElements: state.ignoredElements,
     timestamp: Date.now(),
   };
@@ -132,9 +136,13 @@ function createAppStore() {
         if (savedData) {
           // 足りない要素があれば追加
           const counts: Counts = { ...savedData.counts };
+          const startCounts: Counts = { ...savedData.startCounts };
           machine.elements.forEach((el) => {
             if (!(el.id in counts)) {
               counts[el.id] = 0;
+            }
+            if (!(el.id in startCounts)) {
+              startCounts[el.id] = 0;
             }
           });
 
@@ -145,14 +153,17 @@ function createAppStore() {
             currentGames: savedData.currentGames,
             normalGames: savedData.normalGames,
             counts,
+            startCounts,
             ignoredElements: savedData.ignoredElements,
           };
         }
 
         // 新規または別の機種の場合はリセット
         const counts: Counts = {};
+        const startCounts: Counts = {};
         machine.elements.forEach((el) => {
           counts[el.id] = 0;
+          startCounts[el.id] = 0;
         });
 
         const newState = {
@@ -162,6 +173,7 @@ function createAppStore() {
           currentGames: 0,
           normalGames: 0,
           counts,
+          startCounts,
           ignoredElements: {},
         };
         saveToStorage(newState);
@@ -287,8 +299,10 @@ function createAppStore() {
     resetCounts(): void {
       update((state) => {
         const counts: Counts = {};
+        const startCounts: Counts = {};
         state.currentMachine?.elements.forEach((el) => {
           counts[el.id] = 0;
+          startCounts[el.id] = 0;
         });
 
         const newState = {
@@ -297,7 +311,22 @@ function createAppStore() {
           currentGames: 0,
           normalGames: 0,
           counts,
+          startCounts,
           ignoredElements: {},
+        };
+        saveToStorage(newState);
+        return newState;
+      });
+    },
+
+    /**
+     * 要素の開始カウントを設定
+     */
+    setStartCounts(newStartCounts: Counts): void {
+      update((state) => {
+        const newState = {
+          ...state,
+          startCounts: { ...state.startCounts, ...newStartCounts },
         };
         saveToStorage(newState);
         return newState;
@@ -390,6 +419,7 @@ export const estimation = derived(appStore, ($state): EstimationResult => {
     total,
     normal,
     $state.counts,
-    $state.ignoredElements
+    $state.ignoredElements,
+    $state.startCounts
   );
 });

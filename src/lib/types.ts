@@ -83,6 +83,8 @@ export interface AppState {
   normalGames: number;
   /** 要素ごとのカウント */
   counts: Counts;
+  /** 要素ごとの開始カウント（打ち始め時の値） */
+  startCounts: Counts;
   /** 推測計算から無視する要素 */
   ignoredElements: Record<string, boolean>;
   /** マイナスモード */
@@ -113,6 +115,7 @@ export interface StorageData {
   currentGames: number;
   normalGames: number;
   counts: Counts;
+  startCounts?: Counts;
   ignoredElements?: Record<string, boolean>;
   timestamp: number;
 }
