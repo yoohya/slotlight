@@ -4,19 +4,22 @@
   import { getSpinsForElement, getActualCount } from '../logic';
   import ProbTableModal from './ProbTableModal.svelte';
   import PayoutRateModal from './PayoutRateModal.svelte';
-  import type { CounterElement, Counts } from '../types';
+  import type { CounterElement } from '../types';
 
   let showResetConfirm = false;
   let showEstimation = false;
   let showProbTable = false;
   let showPayoutRate = false;
   let showGamesModal = false;
+  let showStartCountModal = false;
+  let startCountEditElement: CounterElement | null = null;
   let modalStart = '';
   let modalTotal = '';
   let modalNormal = '';
   let modalAt = '';
-  let modalStartCounts: Record<string, string> = {};
   let flashingElements: Set<string> = new Set();
+  let longPressTimer: ReturnType<typeof setTimeout> | null = null;
+  let isLongPress = false;
 
   $: machine = $appStore.currentMachine!;
   $: startGames = $appStore.startGames;
@@ -26,9 +29,6 @@
   $: minusMode = $appStore.minusMode;
   $: showSettings = $appStore.showSettings;
   $: hasNormalGames = needsNormalGames(machine);
-
-  // 初期カウントを入力できる要素（親要素のみ = parentIdがない要素）
-  $: mainElements = machine?.elements.filter((el) => !el.parentId) ?? [];
 
   // 設定差があるか判定
   function hasSettingDiff(element: CounterElement): boolean {
@@ -115,6 +115,11 @@
   }
 
   function handleCounterClick(elementId: string) {
+    // 長押しの場合はカウントしない
+    if (isLongPress) {
+      isLongPress = false;
+      return;
+    }
     const delta = minusMode ? -1 : 1;
     appStore.updateCount(elementId, delta);
     triggerFlash(elementId);
@@ -122,6 +127,11 @@
 
   function handleCounterRightClick(e: MouseEvent, elementId: string) {
     e.preventDefault();
+    // 長押しの場合はカウントしない
+    if (isLongPress) {
+      isLongPress = false;
+      return;
+    }
     const delta = minusMode ? 1 : -1;
     appStore.updateCount(elementId, delta);
     triggerFlash(elementId);
@@ -140,16 +150,49 @@
     appStore.toggleIgnoreElement(elementId);
   }
 
+  // 長押し開始
+  function handlePointerDown(element: CounterElement) {
+    isLongPress = false;
+    longPressTimer = setTimeout(() => {
+      isLongPress = true;
+      openStartCountModal(element);
+    }, 500); // 500ms長押しで発火
+  }
+
+  // 長押しキャンセル
+  function handlePointerUp() {
+    if (longPressTimer) {
+      clearTimeout(longPressTimer);
+      longPressTimer = null;
+    }
+  }
+
+  // 初期カウント設定モーダルを開く
+  function openStartCountModal(element: CounterElement) {
+    startCountEditElement = element;
+    showStartCountModal = true;
+  }
+
+  // 初期カウントを更新
+  function updateStartCount(delta: number) {
+    if (!startCountEditElement) return;
+    const elementId = startCountEditElement.id;
+    const current = startCounts[elementId] ?? 0;
+    const newValue = Math.max(0, current + delta);
+    appStore.setStartCounts({ [elementId]: newValue });
+  }
+
+  // 初期カウント設定モーダルを閉じる
+  function closeStartCountModal() {
+    showStartCountModal = false;
+    startCountEditElement = null;
+  }
+
   function openGamesModal() {
     modalStart = startGames.toString();
     modalTotal = $totalGames.toString();
     modalNormal = $normalGames.toString();
     modalAt = $atGames.toString();
-    // 初期カウントを設定
-    modalStartCounts = {};
-    mainElements.forEach((el) => {
-      modalStartCounts[el.id] = (startCounts[el.id] ?? 0).toString();
-    });
     showGamesModal = true;
   }
 
@@ -169,15 +212,6 @@
         appStore.setNormalGames(clamped);
       }
     }
-    // 初期カウントを保存
-    const newStartCounts: Record<string, number> = {};
-    mainElements.forEach((el) => {
-      const val = parseInt(modalStartCounts[el.id] ?? '0', 10);
-      if (!isNaN(val) && val >= 0) {
-        newStartCounts[el.id] = val;
-      }
-    });
-    appStore.setStartCounts(newStartCounts);
     showGamesModal = false;
   }
 
@@ -300,6 +334,8 @@
       <div class="grid grid-cols-2 landscape:grid-cols-3 gap-3 h-full portrait:auto-rows-fr" style="--landscape-rows: repeat(2, 1fr);">
         {#each machine.elements as element (element.id)}
           {@const count = counts[element.id] ?? 0}
+          {@const startCount = startCounts[element.id] ?? 0}
+          {@const delta = count - startCount}
           {@const badge = showSettings ? getSettingBadge(element) : null}
           {@const isFlashing = flashingElements.has(element.id)}
           {@const isIgnored = !!ignoredElements[element.id]}
@@ -307,6 +343,10 @@
             class="relative flex flex-col items-center justify-center rounded-xl border-2 transition-all duration-150 cursor-pointer active:scale-[0.97] active:shadow-none active:translate-y-0.5 min-h-[80px] landscape:min-h-0 shadow-lg hover:shadow-xl {minusMode ? 'bg-gradient-to-b from-red-900/40 to-red-950/60 border-accent/50 hover:from-red-900/50 hover:to-red-950/70' : 'bg-gradient-to-b from-gray-700 to-gray-800 border-gray-600 hover:from-gray-600 hover:to-gray-700'} {isFlashing ? (minusMode ? 'bg-gradient-to-b from-accent/60 to-accent/40 border-accent shadow-accent/30' : 'bg-gradient-to-b from-success/50 to-success/30 border-success shadow-success/30') : ''} {isIgnored ? 'opacity-40' : ''}"
             onclick={() => handleCounterClick(element.id)}
             oncontextmenu={(e) => handleCounterRightClick(e, element.id)}
+            onpointerdown={() => handlePointerDown(element)}
+            onpointerup={handlePointerUp}
+            onpointerleave={handlePointerUp}
+            onpointercancel={handlePointerUp}
           >
             <!-- Element Name & Setting Badge -->
             <div class="absolute top-2 left-0 right-0 flex items-center justify-between px-2">
@@ -342,6 +382,10 @@
 
             <!-- Count -->
             <span class="text-3xl font-bold tabular-nums">{count}</span>
+            <!-- Delta (自分で引いた分) -->
+            {#if startCount > 0}
+              <span class="text-xs text-orange-400 tabular-nums">(+{delta})</span>
+            {/if}
 
             <!-- Probability -->
             <span class="absolute bottom-1.5 text-[10px] text-gray-500">
@@ -496,26 +540,6 @@
               </button>
             </div>
           {/if}
-
-          <!-- 初期カウント入力 -->
-          {#if mainElements.length > 0}
-            <div class="border-t border-border pt-3 mt-3">
-              <p class="text-xs text-gray-500 mb-2">打ち始め時の回数（任意）</p>
-              <div class="grid grid-cols-2 gap-2">
-                {#each mainElements as el (el.id)}
-                  <div class="flex items-center gap-1.5">
-                    <span class="text-xs text-gray-400 w-14 text-right shrink-0 truncate" title={el.name}>{el.name}</span>
-                    <input
-                      type="number"
-                      inputmode="numeric"
-                      class="flex-1 px-2 py-1.5 rounded-lg bg-bg-primary border border-border text-center text-sm font-bold tabular-nums focus:outline-none focus:border-orange-500 min-w-0"
-                      bind:value={modalStartCounts[el.id]}
-                    />
-                  </div>
-                {/each}
-              </div>
-            </div>
-          {/if}
         </div>
 
         <div class="flex gap-3 mt-5">
@@ -566,6 +590,69 @@
             リセット
           </button>
         </div>
+      </div>
+    </div>
+  {/if}
+
+  <!-- Start Count Setting Modal -->
+  {#if showStartCountModal && startCountEditElement}
+    {@const elementId = startCountEditElement.id}
+    {@const currentStartCount = startCounts[elementId] ?? 0}
+    <div
+      class="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
+      onclick={closeStartCountModal}
+      onkeydown={(e) => e.key === 'Escape' && closeStartCountModal()}
+      role="dialog"
+      aria-modal="true"
+      tabindex="-1"
+    >
+      <div
+        class="bg-bg-card rounded-2xl p-6 mx-4 max-w-xs w-full"
+        onclick={(e) => e.stopPropagation()}
+        role="document"
+      >
+        <h3 class="text-lg font-bold mb-2 text-center">{startCountEditElement.name}</h3>
+        <p class="text-xs text-gray-500 text-center mb-4">打ち始め時の回数</p>
+
+        <!-- Current Value -->
+        <div class="text-center mb-4">
+          <span class="text-4xl font-bold tabular-nums text-orange-400">{currentStartCount}</span>
+        </div>
+
+        <!-- +/- Buttons -->
+        <div class="grid grid-cols-4 gap-2 mb-4">
+          <button
+            class="py-3 rounded-xl bg-red-600/80 hover:bg-red-500 font-bold text-lg transition-colors active:scale-95"
+            onclick={() => updateStartCount(-10)}
+          >
+            -10
+          </button>
+          <button
+            class="py-3 rounded-xl bg-red-600/50 hover:bg-red-500/70 font-bold text-lg transition-colors active:scale-95"
+            onclick={() => updateStartCount(-1)}
+          >
+            -1
+          </button>
+          <button
+            class="py-3 rounded-xl bg-green-600/50 hover:bg-green-500/70 font-bold text-lg transition-colors active:scale-95"
+            onclick={() => updateStartCount(1)}
+          >
+            +1
+          </button>
+          <button
+            class="py-3 rounded-xl bg-green-600/80 hover:bg-green-500 font-bold text-lg transition-colors active:scale-95"
+            onclick={() => updateStartCount(10)}
+          >
+            +10
+          </button>
+        </div>
+
+        <button
+          class="w-full py-3 rounded-xl bg-gray-700 hover:bg-gray-600 font-semibold transition-colors"
+          onclick={closeStartCountModal}
+        >
+          閉じる
+        </button>
       </div>
     </div>
   {/if}
