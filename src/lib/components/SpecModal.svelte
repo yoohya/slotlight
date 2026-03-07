@@ -5,20 +5,17 @@
   export let isOpen = false;
   export let onClose: () => void;
 
-  // 設定差があるか判定
   function hasSettingDiff(element: CounterElement): boolean {
     if (element.probabilities.length === 0) return false;
     const firstDenom = element.probabilities[0].denominator;
     return element.probabilities.some((p) => p.denominator !== firstDenom);
   }
 
-  // 特定設定の確率分母を取得
   function getDenominator(element: CounterElement, setting: number): number | null {
     const prob = element.probabilities.find((p) => p.setting === setting);
     return prob?.denominator ?? null;
   }
 
-  // 設定の色クラス取得
   function getSettingColorClass(setting: number): string {
     const colorClasses: Record<number, string> = {
       1: 'text-setting-1',
@@ -31,7 +28,16 @@
     return colorClasses[setting] ?? 'text-gray-400';
   }
 
-  // 分母の基準ラベルを取得
+  function getRateColorClass(rate: number): string {
+    if (rate >= 100) return 'text-success';
+    return 'text-gray-300';
+  }
+
+  function getRate(setting: number): number | null {
+    const entry = machine.payoutRates?.find((p) => p.setting === setting);
+    return entry?.rate ?? null;
+  }
+
   function getDenominatorLabel(element: CounterElement): string {
     if (element.denominatorElementId) {
       const refEl = machine.elements.find((el) => el.id === element.denominatorElementId);
@@ -45,7 +51,8 @@
     }
   }
 
-  $: elementsWithDiff = machine.elements.filter((el) => hasSettingDiff(el));
+  $: bonusElements = machine.elements.filter((el) => el.isBonus && hasSettingDiff(el));
+  $: smallRoleElements = machine.elements.filter((el) => !el.isBonus && hasSettingDiff(el));
 
   function handleBackdropClick(e: MouseEvent) {
     if (e.target === e.currentTarget) {
@@ -67,27 +74,41 @@
       <!-- Header -->
       <div class="flex items-center justify-between mb-4">
         <h3 class="text-lg font-bold">{machine.machineName}</h3>
-        <span class="text-xs text-gray-500">確率表</span>
+        <span class="text-xs text-gray-500">スペック</span>
       </div>
 
-      <!-- Tables Container -->
+      <!-- Scrollable content -->
       <div class="max-h-[60vh] overflow-y-auto space-y-4 pr-1">
-        {#each elementsWithDiff as element (element.id)}
+
+        <!-- 機械割 -->
+        {#if machine.payoutRates && machine.payoutRates.length > 0}
           <div class="bg-bg-primary rounded-xl p-3">
-            <!-- Element Name & Denominator Label -->
+            <h4 class="text-sm font-bold text-accent mb-2">機械割</h4>
+            <div class="grid grid-cols-2 gap-1 text-xs">
+              <div class="text-gray-500 font-semibold py-1">設定</div>
+              <div class="text-gray-500 font-semibold py-1 text-right">機械割</div>
+              {#each machine.settings as setting (setting)}
+                {@const rate = getRate(setting)}
+                <div class="py-1.5 font-semibold {getSettingColorClass(setting)}">設定{setting}</div>
+                <div class="py-1.5 text-right tabular-nums font-semibold {rate !== null ? getRateColorClass(rate) : 'text-gray-600'}">
+                  {rate !== null ? `${rate.toFixed(1)}%` : '-'}
+                </div>
+              {/each}
+            </div>
+          </div>
+        {/if}
+
+        <!-- ボーナス確率 -->
+        {#each bonusElements as element (element.id)}
+          <div class="bg-bg-primary rounded-xl p-3">
             <div class="flex items-center gap-2 mb-2">
               <h4 class="text-sm font-bold text-accent">{element.name}</h4>
               <span class="text-[10px] text-gray-500 bg-gray-700/50 px-1.5 py-0.5 rounded">{getDenominatorLabel(element)}</span>
             </div>
-
-            <!-- Table -->
             <div class="grid grid-cols-3 gap-1 text-xs">
-              <!-- Header -->
               <div class="text-gray-500 font-semibold py-1">設定</div>
               <div class="text-gray-500 font-semibold py-1 text-center">確率</div>
               <div class="text-gray-500 font-semibold py-1 text-right">%</div>
-
-              <!-- Rows -->
               {#each machine.settings as setting (setting)}
                 {@const denom = getDenominator(element, setting) ?? 0}
                 {@const prob = denom > 0 ? (1 / denom * 100).toFixed(3) : '0.000'}
@@ -98,6 +119,29 @@
             </div>
           </div>
         {/each}
+
+        <!-- 小役確率 -->
+        {#each smallRoleElements as element (element.id)}
+          <div class="bg-bg-primary rounded-xl p-3">
+            <div class="flex items-center gap-2 mb-2">
+              <h4 class="text-sm font-bold text-accent">{element.name}</h4>
+              <span class="text-[10px] text-gray-500 bg-gray-700/50 px-1.5 py-0.5 rounded">{getDenominatorLabel(element)}</span>
+            </div>
+            <div class="grid grid-cols-3 gap-1 text-xs">
+              <div class="text-gray-500 font-semibold py-1">設定</div>
+              <div class="text-gray-500 font-semibold py-1 text-center">確率</div>
+              <div class="text-gray-500 font-semibold py-1 text-right">%</div>
+              {#each machine.settings as setting (setting)}
+                {@const denom = getDenominator(element, setting) ?? 0}
+                {@const prob = denom > 0 ? (1 / denom * 100).toFixed(3) : '0.000'}
+                <div class="py-1.5 font-semibold {getSettingColorClass(setting)}">設定{setting}</div>
+                <div class="py-1.5 text-center tabular-nums">1/{denom.toFixed(2)}</div>
+                <div class="py-1.5 text-right tabular-nums text-gray-400">{prob}%</div>
+              {/each}
+            </div>
+          </div>
+        {/each}
+
       </div>
 
       <!-- Close Button -->

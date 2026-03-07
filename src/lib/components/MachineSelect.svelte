@@ -1,26 +1,44 @@
 <script lang="ts">
   import { getMachineList } from '../machines';
   import { appStore } from '../store';
-  import type { MachineData } from '../types';
+  import type { MachineData, PriorData } from '../types';
+  import StartModeModal from './StartModeModal.svelte';
+  import PriorDataModal from './PriorDataModal.svelte';
 
   const machines = getMachineList();
-  const STORAGE_KEY = 'slotlight_data';
+  const STORAGE_KEY_PREFIX = 'slotlight_data_';
   const FAVORITES_KEY = 'slotlight_favorites';
 
-  // 保存データを取得
-  function getSavedData(): { machineId: string; totalGames: number } | null {
+  let showStartModeModal = $state(false);
+  let showPriorDataModal = $state(false);
+  let selectedMachine = $state<MachineData | null>(null);
+
+  // 特定機種の保存データを取得
+  function getMachineSavedData(machineId: string): { totalGames: number } | null {
     try {
-      const data = localStorage.getItem(STORAGE_KEY);
+      const data = localStorage.getItem(STORAGE_KEY_PREFIX + machineId);
       if (!data) return null;
       const parsed = JSON.parse(data);
       const totalGames = Math.max(0, (parsed.currentGames || 0) - (parsed.startGames || 0));
-      return {
-        machineId: parsed.machineId,
-        totalGames,
-      };
+      const hasCounts = Object.values(parsed.counts || {}).some((c) => (c as number) > 0);
+      if (!hasCounts && totalGames === 0) return null;
+      return { totalGames };
     } catch {
       return null;
     }
+  }
+
+  // 各機種の保存データマップ（リアクティブ）
+  let savedDataMap = $state(new Map(machines.map((m) => [m.id, getMachineSavedData(m.id)])));
+
+  function refreshSavedData() {
+    savedDataMap = new Map(machines.map((m) => [m.id, getMachineSavedData(m.id)]));
+  }
+
+  function handleClearData(e: MouseEvent, machineId: string) {
+    e.stopPropagation();
+    appStore.clearMachineData(machineId);
+    refreshSavedData();
   }
 
   // お気に入り機種を取得
@@ -39,7 +57,6 @@
     localStorage.setItem(FAVORITES_KEY, JSON.stringify([...favorites]));
   }
 
-  const savedData = getSavedData();
   let favorites = $state(getFavorites());
 
   // お気に入りをトグル
@@ -64,7 +81,49 @@
   );
 
   function handleSelect(machine: MachineData) {
-    appStore.selectMachine(machine);
+    selectedMachine = machine;
+
+    // 保存データがある場合は直接復元、ない場合はモード選択モーダルを表示
+    const hasSavedData = savedDataMap.get(machine.id) != null;
+    if (hasSavedData) {
+      appStore.selectMachine(machine);
+    } else {
+      showStartModeModal = true;
+    }
+  }
+
+  function handleSelectMode(mode: 'fresh' | 'midway') {
+    showStartModeModal = false;
+
+    if (mode === 'fresh') {
+      // 最初から打つ
+      if (selectedMachine) {
+        appStore.selectMachine(selectedMachine);
+      }
+    } else {
+      // 途中から打つ - 前提情報入力モーダルを表示
+      showPriorDataModal = true;
+    }
+  }
+
+  function handlePriorDataConfirm(priorData: PriorData) {
+    showPriorDataModal = false;
+
+    if (selectedMachine) {
+      // 機種を選択
+      appStore.selectMachine(selectedMachine);
+      // 開始ゲーム数を設定
+      appStore.setStartGames(priorData.games);
+      appStore.setCurrentGames(priorData.games);
+      // 前提情報を設定
+      appStore.setPriorData(priorData);
+    }
+  }
+
+  function handleCloseModals() {
+    showStartModeModal = false;
+    showPriorDataModal = false;
+    selectedMachine = null;
   }
 </script>
 
@@ -83,7 +142,8 @@
   <main class="flex-1 overflow-auto p-4">
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 max-w-4xl mx-auto">
       {#each sortedMachines as machine (machine.id)}
-        {@const hasSavedData = savedData?.machineId === machine.id && savedData.totalGames > 0}
+        {@const machineData = savedDataMap.get(machine.id)}
+        {@const hasSavedData = machineData != null}
         {@const isFavorite = favorites.has(machine.id)}
         <div
           class="relative flex items-center justify-between p-4 bg-bg-card rounded-xl border transition-all text-left cursor-pointer active:scale-[0.98] {hasSavedData ? 'border-success/50 hover:border-success' : 'border-border hover:border-gray-600'} hover:bg-bg-card-hover"
@@ -114,7 +174,17 @@
                   </svg>
                   プレイ中
                 </span>
-                <span class="text-[10px] text-gray-500">{savedData.totalGames.toLocaleString()}G</span>
+                <span class="text-[10px] text-gray-500">{machineData!.totalGames.toLocaleString()}G</span>
+                <button
+                  class="ml-1 p-0.5 rounded text-gray-600 hover:text-red-400 transition-colors active:scale-90"
+                  onclick={(e) => handleClearData(e, machine.id)}
+                  aria-label="データクリア"
+                  title="データクリア"
+                >
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
+                </button>
               </div>
             {/if}
           </div>
@@ -125,4 +195,19 @@
       {/each}
     </div>
   </main>
+
+  <!-- Modals -->
+  <StartModeModal
+    isOpen={showStartModeModal}
+    machine={selectedMachine}
+    onSelectMode={handleSelectMode}
+    onClose={handleCloseModals}
+  />
+
+  <PriorDataModal
+    isOpen={showPriorDataModal}
+    machine={selectedMachine}
+    onConfirm={handlePriorDataConfirm}
+    onClose={handleCloseModals}
+  />
 </div>

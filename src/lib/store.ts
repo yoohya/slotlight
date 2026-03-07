@@ -1,10 +1,16 @@
 import { writable, derived } from 'svelte/store';
-import type { AppState, MachineData, Counts, StorageData, EstimationResult } from './types';
+import type { AppState, MachineData, Counts, StorageData, EstimationResult, PriorData } from './types';
 import { getMachineById } from './machines';
-import { calculateEstimations } from './logic';
+import { calculateEstimations, calculateEstimationsWithPrior } from './logic';
 import { getClosestSetting } from './estimation';
 
-const STORAGE_KEY = 'slotlight_data';
+const OLD_STORAGE_KEY = 'slotlight_data';
+const STORAGE_KEY_PREFIX = 'slotlight_data_';
+const LAST_MACHINE_KEY = 'slotlight_last_machine';
+
+function getStorageKey(machineId: string): string {
+  return STORAGE_KEY_PREFIX + machineId;
+}
 
 /**
  * 初期状態
@@ -19,38 +25,66 @@ const initialState: AppState = {
   ignoredElements: {},
   minusMode: false,
   showSettings: false,
+  priorData: null,
 };
 
 /**
- * ローカルストレージから読み込み
+ * ローカルストレージから読み込み（起動時のレジューム用）
  */
 function loadFromStorage(): Partial<AppState> {
   try {
-    const data = localStorage.getItem(STORAGE_KEY);
-    if (!data) return {};
-
-    const parsed: StorageData = JSON.parse(data);
-    const machine = getMachineById(parsed.machineId);
-
-    if (!machine) return {};
-
-    // 足りない要素があれば追加
-    const counts: Counts = { ...parsed.counts };
-    machine.elements.forEach((el) => {
-      if (!(el.id in counts)) {
-        counts[el.id] = 0;
+    // 新形式: 最後に使った機種IDを参照
+    const lastMachineId = localStorage.getItem(LAST_MACHINE_KEY);
+    if (lastMachineId) {
+      const machine = getMachineById(lastMachineId);
+      if (machine) {
+        const data = loadMachineDataFromStorage(lastMachineId);
+        if (data) {
+          const counts: Counts = { ...data.counts };
+          machine.elements.forEach((el) => {
+            if (!(el.id in counts)) counts[el.id] = 0;
+          });
+          return {
+            currentMachine: machine,
+            startGames: data.startGames,
+            currentGames: data.currentGames,
+            normalGames: data.normalGames,
+            counts,
+            startCounts: data.startCounts || {},
+            ignoredElements: data.ignoredElements || {},
+            priorData: data.priorData || null,
+          };
+        }
       }
-    });
+    }
 
-    return {
-      currentMachine: machine,
-      startGames: parsed.startGames || 0,
-      currentGames: parsed.currentGames || 0,
-      normalGames: parsed.normalGames || 0,
-      counts,
-      startCounts: parsed.startCounts || {},
-      ignoredElements: parsed.ignoredElements || {},
-    };
+    // 旧形式からのマイグレーション
+    const oldData = localStorage.getItem(OLD_STORAGE_KEY);
+    if (oldData) {
+      const parsed: StorageData = JSON.parse(oldData);
+      const machine = getMachineById(parsed.machineId);
+      if (machine) {
+        localStorage.setItem(getStorageKey(parsed.machineId), oldData);
+        localStorage.setItem(LAST_MACHINE_KEY, parsed.machineId);
+        localStorage.removeItem(OLD_STORAGE_KEY);
+        const counts: Counts = { ...parsed.counts };
+        machine.elements.forEach((el) => {
+          if (!(el.id in counts)) counts[el.id] = 0;
+        });
+        return {
+          currentMachine: machine,
+          startGames: parsed.startGames || 0,
+          currentGames: parsed.currentGames || 0,
+          normalGames: parsed.normalGames || 0,
+          counts,
+          startCounts: parsed.startCounts || {},
+          ignoredElements: parsed.ignoredElements || {},
+          priorData: parsed.priorData || null,
+        };
+      }
+    }
+
+    return {};
   } catch {
     return {};
   }
@@ -59,14 +93,12 @@ function loadFromStorage(): Partial<AppState> {
 /**
  * ストレージから特定の機種のデータを読み込み
  */
-function loadMachineDataFromStorage(machineId: string): { startGames: number; currentGames: number; normalGames: number; counts: Counts; startCounts: Counts; ignoredElements: Record<string, boolean> } | null {
+function loadMachineDataFromStorage(machineId: string): { startGames: number; currentGames: number; normalGames: number; counts: Counts; startCounts: Counts; ignoredElements: Record<string, boolean>; priorData: PriorData | null } | null {
   try {
-    const data = localStorage.getItem(STORAGE_KEY);
+    const data = localStorage.getItem(getStorageKey(machineId));
     if (!data) return null;
 
     const parsed: StorageData = JSON.parse(data);
-    if (parsed.machineId !== machineId) return null;
-
     return {
       startGames: parsed.startGames || 0,
       currentGames: parsed.currentGames || 0,
@@ -74,6 +106,7 @@ function loadMachineDataFromStorage(machineId: string): { startGames: number; cu
       counts: parsed.counts || {},
       startCounts: parsed.startCounts || {},
       ignoredElements: parsed.ignoredElements || {},
+      priorData: parsed.priorData || null,
     };
   } catch {
     return null;
@@ -81,7 +114,7 @@ function loadMachineDataFromStorage(machineId: string): { startGames: number; cu
 }
 
 /**
- * ローカルストレージに保存
+ * ローカルストレージに保存（機種ごとの独立したキーを使用）
  */
 function saveToStorage(state: AppState): void {
   if (!state.currentMachine) return;
@@ -94,10 +127,12 @@ function saveToStorage(state: AppState): void {
     counts: state.counts,
     startCounts: state.startCounts,
     ignoredElements: state.ignoredElements,
+    priorData: state.priorData,
     timestamp: Date.now(),
   };
 
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  localStorage.setItem(getStorageKey(state.currentMachine.id), JSON.stringify(data));
+  localStorage.setItem(LAST_MACHINE_KEY, state.currentMachine.id);
 }
 
 /**
@@ -155,6 +190,7 @@ function createAppStore() {
             counts,
             startCounts,
             ignoredElements: savedData.ignoredElements,
+            priorData: savedData.priorData,
           };
         }
 
@@ -175,6 +211,7 @@ function createAppStore() {
           counts,
           startCounts,
           ignoredElements: {},
+          priorData: null,
         };
         saveToStorage(newState);
         return newState;
@@ -189,6 +226,16 @@ function createAppStore() {
         ...state,
         currentMachine: null,
       }));
+    },
+
+    /**
+     * 特定機種のデータをストレージから削除
+     */
+    clearMachineData(machineId: string): void {
+      localStorage.removeItem(getStorageKey(machineId));
+      if (localStorage.getItem(LAST_MACHINE_KEY) === machineId) {
+        localStorage.removeItem(LAST_MACHINE_KEY);
+      }
     },
 
     /**
@@ -313,6 +360,7 @@ function createAppStore() {
           counts,
           startCounts,
           ignoredElements: {},
+          priorData: null,
         };
         saveToStorage(newState);
         return newState;
@@ -373,6 +421,20 @@ function createAppStore() {
         showSettings: !state.showSettings,
       }));
     },
+
+    /**
+     * 前提情報を設定
+     */
+    setPriorData(priorData: PriorData | null): void {
+      update((state) => {
+        const newState = {
+          ...state,
+          priorData,
+        };
+        saveToStorage(newState);
+        return newState;
+      });
+    },
   };
 }
 
@@ -412,12 +474,26 @@ export const estimation = derived(appStore, ($state): EstimationResult => {
     return [1, 2, 3, 4, 5, 6].map((setting) => ({ setting, percentage: 16.67 }));
   }
 
-  const total = Math.max(0, $state.currentGames - $state.startGames);
-  const normal = $state.normalGames;
+  const userSpins = Math.max(0, $state.currentGames - $state.startGames);
+  const userNormalSpins = $state.normalGames;
+
+  // 前提情報がある場合は新しい計算関数を使用
+  if ($state.priorData) {
+    return calculateEstimationsWithPrior(
+      $state.currentMachine,
+      $state.priorData,
+      userSpins,
+      userNormalSpins,
+      $state.counts,
+      $state.ignoredElements
+    );
+  }
+
+  // 前提情報がない場合は従来の計算関数を使用
   return calculateEstimations(
     $state.currentMachine,
-    total,
-    normal,
+    userSpins,
+    userNormalSpins,
     $state.counts,
     $state.ignoredElements,
     $state.startCounts

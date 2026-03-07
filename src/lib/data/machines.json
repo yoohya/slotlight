@@ -1,80 +1,257 @@
 [
   {
-    "id": "my-juggler-v",
-    "machineName": "マイジャグラーV",
+    "id": "mr-juggler",
+    "machineName": "ミスタージャグラー",
     "maker": "北電子",
     "settings": [1, 2, 3, 4, 5, 6],
     "payoutRates": [
-      { "setting": 1, "rate": 97.0 },
-      { "setting": 2, "rate": 98.0 },
-      { "setting": 3, "rate": 99.9 },
-      { "setting": 4, "rate": 102.8 },
-      { "setting": 5, "rate": 105.3 },
-      { "setting": 6, "rate": 109.4 }
+      { "setting": 1, "rate": 99.5 },
+      { "setting": 2, "rate": 100.52 },
+      { "setting": 3, "rate": 102.37 },
+      { "setting": 4, "rate": 105.24 },
+      { "setting": 5, "rate": 108.09 },
+      { "setting": 6, "rate": 109.89 }
     ],
     "elements": [
       {
         "id": "grape",
         "name": "ぶどう",
+        "visibleInHistory": false,
         "probabilities": [
-          { "setting": 1, "denominator": 5.91 },
-          { "setting": 2, "denominator": 5.87 },
-          { "setting": 3, "denominator": 5.83 },
-          { "setting": 4, "denominator": 5.80 },
-          { "setting": 5, "denominator": 5.76 },
-          { "setting": 6, "denominator": 5.67 }
+          { "setting": 1, "denominator": 6.29 },
+          { "setting": 2, "denominator": 6.22 },
+          { "setting": 3, "denominator": 6.15 },
+          { "setting": 4, "denominator": 6.09 },
+          { "setting": 5, "denominator": 6.02 },
+          { "setting": 6, "denominator": 5.96 }
         ]
       },
       {
         "id": "big",
         "name": "BIG",
         "isBonus": true,
+        "visibleInHistory": true,
         "probabilities": [
-          { "setting": 1, "denominator": 273.1 },
-          { "setting": 2, "denominator": 270.8 },
-          { "setting": 3, "denominator": 266.4 },
-          { "setting": 4, "denominator": 254.0 },
-          { "setting": 5, "denominator": 240.1 },
-          { "setting": 6, "denominator": 229.1 }
+          { "setting": 1, "denominator": 268.6 },
+          { "setting": 2, "denominator": 267.5 },
+          { "setting": 3, "denominator": 260.1 },
+          { "setting": 4, "denominator": 249.2 },
+          { "setting": 5, "denominator": 240.9 },
+          { "setting": 6, "denominator": 237.4 }
         ]
       },
       {
         "id": "reg",
         "name": "REG",
         "isBonus": true,
+        "visibleInHistory": true,
         "probabilities": [
-          { "setting": 1, "denominator": 409.6 },
-          { "setting": 2, "denominator": 385.5 },
-          { "setting": 3, "denominator": 336.1 },
-          { "setting": 4, "denominator": 290.0 },
-          { "setting": 5, "denominator": 268.6 },
-          { "setting": 6, "denominator": 229.1 }
+          { "setting": 1, "denominator": 374.5 },
+          { "setting": 2, "denominator": 354.2 },
+          { "setting": 3, "denominator": 331.0 },
+          { "setting": 4, "denominator": 291.3 },
+          { "setting": 5, "denominator": 257.0 },
+          { "setting": 6, "denominator": 237.4 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "my-juggler-v",
+    "machineName": "マイジャグラーV",
+    "maker": "北電子",
+    "settings": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "payoutRates": [
+      {
+        "setting": 1,
+        "rate": 97
+      },
+      {
+        "setting": 2,
+        "rate": 98
+      },
+      {
+        "setting": 3,
+        "rate": 99.9
+      },
+      {
+        "setting": 4,
+        "rate": 102.8
+      },
+      {
+        "setting": 5,
+        "rate": 105.3
+      },
+      {
+        "setting": 6,
+        "rate": 109.4
+      }
+    ],
+    "elements": [
+      {
+        "id": "grape",
+        "name": "ぶどう",
+        "visibleInHistory": false,
+        "probabilities": [
+          {
+            "setting": 1,
+            "denominator": 5.91
+          },
+          {
+            "setting": 2,
+            "denominator": 5.87
+          },
+          {
+            "setting": 3,
+            "denominator": 5.83
+          },
+          {
+            "setting": 4,
+            "denominator": 5.8
+          },
+          {
+            "setting": 5,
+            "denominator": 5.76
+          },
+          {
+            "setting": 6,
+            "denominator": 5.67
+          }
+        ]
+      },
+      {
+        "id": "big",
+        "name": "BIG",
+        "isBonus": true,
+        "visibleInHistory": true,
+        "probabilities": [
+          {
+            "setting": 1,
+            "denominator": 273.1
+          },
+          {
+            "setting": 2,
+            "denominator": 270.8
+          },
+          {
+            "setting": 3,
+            "denominator": 266.4
+          },
+          {
+            "setting": 4,
+            "denominator": 254
+          },
+          {
+            "setting": 5,
+            "denominator": 240.1
+          },
+          {
+            "setting": 6,
+            "denominator": 229.1
+          }
+        ]
+      },
+      {
+        "id": "reg",
+        "name": "REG",
+        "isBonus": true,
+        "visibleInHistory": true,
+        "probabilities": [
+          {
+            "setting": 1,
+            "denominator": 409.6
+          },
+          {
+            "setting": 2,
+            "denominator": 385.5
+          },
+          {
+            "setting": 3,
+            "denominator": 336.1
+          },
+          {
+            "setting": 4,
+            "denominator": 290
+          },
+          {
+            "setting": 5,
+            "denominator": 268.6
+          },
+          {
+            "setting": 6,
+            "denominator": 229.1
+          }
         ]
       },
       {
         "id": "solo-reg",
         "name": "単独REG",
         "parentId": "reg",
+        "visibleInHistory": false,
         "probabilities": [
-          { "setting": 1, "denominator": 655.36 },
-          { "setting": 2, "denominator": 595.78 },
-          { "setting": 3, "denominator": 496.48 },
-          { "setting": 4, "denominator": 404.54 },
-          { "setting": 5, "denominator": 390.10 },
-          { "setting": 6, "denominator": 327.68 }
+          {
+            "setting": 1,
+            "denominator": 655.36
+          },
+          {
+            "setting": 2,
+            "denominator": 595.78
+          },
+          {
+            "setting": 3,
+            "denominator": 496.48
+          },
+          {
+            "setting": 4,
+            "denominator": 404.54
+          },
+          {
+            "setting": 5,
+            "denominator": 390.1
+          },
+          {
+            "setting": 6,
+            "denominator": 327.68
+          }
         ]
       },
       {
         "id": "cherry-reg",
         "name": "チェリーREG",
         "parentId": "reg",
+        "visibleInHistory": false,
         "probabilities": [
-          { "setting": 1, "denominator": 1092.27 },
-          { "setting": 2, "denominator": 1092.27 },
-          { "setting": 3, "denominator": 1040.25 },
-          { "setting": 4, "denominator": 1024.00 },
-          { "setting": 5, "denominator": 862.32 },
-          { "setting": 6, "denominator": 762.05 }
+          {
+            "setting": 1,
+            "denominator": 1092.27
+          },
+          {
+            "setting": 2,
+            "denominator": 1092.27
+          },
+          {
+            "setting": 3,
+            "denominator": 1040.25
+          },
+          {
+            "setting": 4,
+            "denominator": 1024
+          },
+          {
+            "setting": 5,
+            "denominator": 862.32
+          },
+          {
+            "setting": 6,
+            "denominator": 762.05
+          }
         ]
       }
     ]
@@ -83,78 +260,198 @@
     "id": "aim-juggler-ex",
     "machineName": "アイムジャグラーEX",
     "maker": "北電子",
-    "settings": [1, 2, 3, 4, 5, 6],
+    "settings": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
     "payoutRates": [
-      { "setting": 1, "rate": 97.0 },
-      { "setting": 2, "rate": 98.0 },
-      { "setting": 3, "rate": 99.5 },
-      { "setting": 4, "rate": 101.1 },
-      { "setting": 5, "rate": 103.3 },
-      { "setting": 6, "rate": 105.5 }
+      {
+        "setting": 1,
+        "rate": 97
+      },
+      {
+        "setting": 2,
+        "rate": 98
+      },
+      {
+        "setting": 3,
+        "rate": 99.5
+      },
+      {
+        "setting": 4,
+        "rate": 101.1
+      },
+      {
+        "setting": 5,
+        "rate": 103.3
+      },
+      {
+        "setting": 6,
+        "rate": 105.5
+      }
     ],
     "elements": [
       {
         "id": "grape",
         "name": "ぶどう",
         "probabilities": [
-          { "setting": 1, "denominator": 6.01 },
-          { "setting": 2, "denominator": 6.01 },
-          { "setting": 3, "denominator": 6.01 },
-          { "setting": 4, "denominator": 6.01 },
-          { "setting": 5, "denominator": 6.01 },
-          { "setting": 6, "denominator": 5.8 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 6.01
+          },
+          {
+            "setting": 2,
+            "denominator": 6.01
+          },
+          {
+            "setting": 3,
+            "denominator": 6.01
+          },
+          {
+            "setting": 4,
+            "denominator": 6.01
+          },
+          {
+            "setting": 5,
+            "denominator": 6.01
+          },
+          {
+            "setting": 6,
+            "denominator": 5.8
+          }
+        ],
+        "visibleInHistory": false
       },
       {
         "id": "cherry",
         "name": "チェリー",
         "probabilities": [
-          { "setting": 1, "denominator": 35.5 },
-          { "setting": 2, "denominator": 35.5 },
-          { "setting": 3, "denominator": 35.5 },
-          { "setting": 4, "denominator": 35.5 },
-          { "setting": 5, "denominator": 35.5 },
-          { "setting": 6, "denominator": 35.5 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 35.5
+          },
+          {
+            "setting": 2,
+            "denominator": 35.5
+          },
+          {
+            "setting": 3,
+            "denominator": 35.5
+          },
+          {
+            "setting": 4,
+            "denominator": 35.5
+          },
+          {
+            "setting": 5,
+            "denominator": 35.5
+          },
+          {
+            "setting": 6,
+            "denominator": 35.5
+          }
+        ],
+        "visibleInHistory": false
       },
       {
         "id": "big",
         "name": "BIG",
         "isBonus": true,
         "probabilities": [
-          { "setting": 1, "denominator": 273.1 },
-          { "setting": 2, "denominator": 269.7 },
-          { "setting": 3, "denominator": 269.7 },
-          { "setting": 4, "denominator": 259.0 },
-          { "setting": 5, "denominator": 259.0 },
-          { "setting": 6, "denominator": 255.0 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 273.1
+          },
+          {
+            "setting": 2,
+            "denominator": 269.7
+          },
+          {
+            "setting": 3,
+            "denominator": 269.7
+          },
+          {
+            "setting": 4,
+            "denominator": 259
+          },
+          {
+            "setting": 5,
+            "denominator": 259
+          },
+          {
+            "setting": 6,
+            "denominator": 255
+          }
+        ],
+        "visibleInHistory": true
       },
       {
         "id": "reg",
         "name": "REG",
         "isBonus": true,
         "probabilities": [
-          { "setting": 1, "denominator": 439.8 },
-          { "setting": 2, "denominator": 399.6 },
-          { "setting": 3, "denominator": 331.0 },
-          { "setting": 4, "denominator": 315.1 },
-          { "setting": 5, "denominator": 255.0 },
-          { "setting": 6, "denominator": 255.0 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 439.8
+          },
+          {
+            "setting": 2,
+            "denominator": 399.6
+          },
+          {
+            "setting": 3,
+            "denominator": 331
+          },
+          {
+            "setting": 4,
+            "denominator": 315.1
+          },
+          {
+            "setting": 5,
+            "denominator": 255
+          },
+          {
+            "setting": 6,
+            "denominator": 255
+          }
+        ],
+        "visibleInHistory": true
       },
       {
         "id": "cherry-reg",
         "name": "チェリーREG",
         "parentId": "reg",
         "probabilities": [
-          { "setting": 1, "denominator": 1388.9 },
-          { "setting": 2, "denominator": 1234.6 },
-          { "setting": 3, "denominator": 1098.9 },
-          { "setting": 4, "denominator": 1052.6 },
-          { "setting": 5, "denominator": 854.7 },
-          { "setting": 6, "denominator": 847.5 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 1388.9
+          },
+          {
+            "setting": 2,
+            "denominator": 1234.6
+          },
+          {
+            "setting": 3,
+            "denominator": 1098.9
+          },
+          {
+            "setting": 4,
+            "denominator": 1052.6
+          },
+          {
+            "setting": 5,
+            "denominator": 854.7
+          },
+          {
+            "setting": 6,
+            "denominator": 847.5
+          }
+        ],
+        "visibleInHistory": false
       }
     ]
   },
@@ -162,91 +459,230 @@
     "id": "funky-juggler-2",
     "machineName": "ファンキージャグラー2",
     "maker": "北電子",
-    "settings": [1, 2, 3, 4, 5, 6],
+    "settings": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
     "payoutRates": [
-      { "setting": 1, "rate": 97.0 },
-      { "setting": 2, "rate": 98.2 },
-      { "setting": 3, "rate": 99.8 },
-      { "setting": 4, "rate": 102.0 },
-      { "setting": 5, "rate": 104.3 },
-      { "setting": 6, "rate": 109.0 }
+      {
+        "setting": 1,
+        "rate": 97
+      },
+      {
+        "setting": 2,
+        "rate": 98.2
+      },
+      {
+        "setting": 3,
+        "rate": 99.8
+      },
+      {
+        "setting": 4,
+        "rate": 102
+      },
+      {
+        "setting": 5,
+        "rate": 104.3
+      },
+      {
+        "setting": 6,
+        "rate": 109
+      }
     ],
     "elements": [
       {
         "id": "grape",
         "name": "ぶどう",
         "probabilities": [
-          { "setting": 1, "denominator": 5.94 },
-          { "setting": 2, "denominator": 5.92 },
-          { "setting": 3, "denominator": 5.9 },
-          { "setting": 4, "denominator": 5.83 },
-          { "setting": 5, "denominator": 5.8 },
-          { "setting": 6, "denominator": 5.7 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 5.94
+          },
+          {
+            "setting": 2,
+            "denominator": 5.92
+          },
+          {
+            "setting": 3,
+            "denominator": 5.9
+          },
+          {
+            "setting": 4,
+            "denominator": 5.83
+          },
+          {
+            "setting": 5,
+            "denominator": 5.8
+          },
+          {
+            "setting": 6,
+            "denominator": 5.7
+          }
+        ],
+        "visibleInHistory": false
       },
       {
         "id": "cherry",
         "name": "チェリー",
         "probabilities": [
-          { "setting": 1, "denominator": 36.0 },
-          { "setting": 2, "denominator": 36.0 },
-          { "setting": 3, "denominator": 36.0 },
-          { "setting": 4, "denominator": 36.0 },
-          { "setting": 5, "denominator": 36.0 },
-          { "setting": 6, "denominator": 36.0 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 36
+          },
+          {
+            "setting": 2,
+            "denominator": 36
+          },
+          {
+            "setting": 3,
+            "denominator": 36
+          },
+          {
+            "setting": 4,
+            "denominator": 36
+          },
+          {
+            "setting": 5,
+            "denominator": 36
+          },
+          {
+            "setting": 6,
+            "denominator": 36
+          }
+        ],
+        "visibleInHistory": false
       },
       {
         "id": "big",
         "name": "BIG",
         "isBonus": true,
         "probabilities": [
-          { "setting": 1, "denominator": 266.4 },
-          { "setting": 2, "denominator": 264.3 },
-          { "setting": 3, "denominator": 260.1 },
-          { "setting": 4, "denominator": 253.0 },
-          { "setting": 5, "denominator": 249.2 },
-          { "setting": 6, "denominator": 219.9 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 266.4
+          },
+          {
+            "setting": 2,
+            "denominator": 264.3
+          },
+          {
+            "setting": 3,
+            "denominator": 260.1
+          },
+          {
+            "setting": 4,
+            "denominator": 253
+          },
+          {
+            "setting": 5,
+            "denominator": 249.2
+          },
+          {
+            "setting": 6,
+            "denominator": 219.9
+          }
+        ],
+        "visibleInHistory": true
       },
       {
         "id": "reg",
         "name": "REG",
         "isBonus": true,
         "probabilities": [
-          { "setting": 1, "denominator": 439.8 },
-          { "setting": 2, "denominator": 404.5 },
-          { "setting": 3, "denominator": 356.2 },
-          { "setting": 4, "denominator": 312.1 },
-          { "setting": 5, "denominator": 286.2 },
-          { "setting": 6, "denominator": 262.1 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 439.8
+          },
+          {
+            "setting": 2,
+            "denominator": 404.5
+          },
+          {
+            "setting": 3,
+            "denominator": 356.2
+          },
+          {
+            "setting": 4,
+            "denominator": 312.1
+          },
+          {
+            "setting": 5,
+            "denominator": 286.2
+          },
+          {
+            "setting": 6,
+            "denominator": 262.1
+          }
+        ],
+        "visibleInHistory": true
       },
       {
         "id": "solo-reg",
         "name": "単独REG",
         "parentId": "reg",
         "probabilities": [
-          { "setting": 1, "denominator": 632.1 },
-          { "setting": 2, "denominator": 598.8 },
-          { "setting": 3, "denominator": 498.3 },
-          { "setting": 4, "denominator": 402.3 },
-          { "setting": 5, "denominator": 381.7 },
-          { "setting": 6, "denominator": 330.8 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 632.1
+          },
+          {
+            "setting": 2,
+            "denominator": 598.8
+          },
+          {
+            "setting": 3,
+            "denominator": 498.3
+          },
+          {
+            "setting": 4,
+            "denominator": 402.3
+          },
+          {
+            "setting": 5,
+            "denominator": 381.7
+          },
+          {
+            "setting": 6,
+            "denominator": 330.8
+          }
+        ],
+        "visibleInHistory": false
       },
       {
         "id": "cherry-reg",
         "name": "チェリーREG",
         "parentId": "reg",
         "probabilities": [
-          { "setting": 1, "denominator": 1488.1 },
-          { "setting": 2, "denominator": 1173.7 },
-          { "setting": 3, "denominator": 1075.3 },
-          { "setting": 4, "denominator": 1057.1 },
-          { "setting": 5, "denominator": 871.1 },
-          { "setting": 6, "denominator": 814.3 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 1488.1
+          },
+          {
+            "setting": 2,
+            "denominator": 1173.7
+          },
+          {
+            "setting": 3,
+            "denominator": 1075.3
+          },
+          {
+            "setting": 4,
+            "denominator": 1057.1
+          },
+          {
+            "setting": 5,
+            "denominator": 871.1
+          },
+          {
+            "setting": 6,
+            "denominator": 814.3
+          }
+        ],
+        "visibleInHistory": false
       }
     ]
   },
@@ -254,78 +690,198 @@
     "id": "gogo-juggler-3",
     "machineName": "ゴーゴージャグラー3",
     "maker": "北電子",
-    "settings": [1, 2, 3, 4, 5, 6],
+    "settings": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
     "payoutRates": [
-      { "setting": 1, "rate": 97.2 },
-      { "setting": 2, "rate": 98.4 },
-      { "setting": 3, "rate": 99.8 },
-      { "setting": 4, "rate": 101.6 },
-      { "setting": 5, "rate": 103.8 },
-      { "setting": 6, "rate": 106.5 }
+      {
+        "setting": 1,
+        "rate": 97.2
+      },
+      {
+        "setting": 2,
+        "rate": 98.4
+      },
+      {
+        "setting": 3,
+        "rate": 99.8
+      },
+      {
+        "setting": 4,
+        "rate": 101.6
+      },
+      {
+        "setting": 5,
+        "rate": 103.8
+      },
+      {
+        "setting": 6,
+        "rate": 106.5
+      }
     ],
     "elements": [
       {
         "id": "grape",
         "name": "ぶどう",
         "probabilities": [
-          { "setting": 1, "denominator": 6.25 },
-          { "setting": 2, "denominator": 6.2 },
-          { "setting": 3, "denominator": 6.15 },
-          { "setting": 4, "denominator": 6.07 },
-          { "setting": 5, "denominator": 6.0 },
-          { "setting": 6, "denominator": 5.92 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 6.25
+          },
+          {
+            "setting": 2,
+            "denominator": 6.2
+          },
+          {
+            "setting": 3,
+            "denominator": 6.15
+          },
+          {
+            "setting": 4,
+            "denominator": 6.07
+          },
+          {
+            "setting": 5,
+            "denominator": 6
+          },
+          {
+            "setting": 6,
+            "denominator": 5.92
+          }
+        ],
+        "visibleInHistory": false
       },
       {
         "id": "cherry",
         "name": "チェリー",
         "probabilities": [
-          { "setting": 1, "denominator": 36.0 },
-          { "setting": 2, "denominator": 36.0 },
-          { "setting": 3, "denominator": 36.0 },
-          { "setting": 4, "denominator": 36.0 },
-          { "setting": 5, "denominator": 36.0 },
-          { "setting": 6, "denominator": 36.0 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 36
+          },
+          {
+            "setting": 2,
+            "denominator": 36
+          },
+          {
+            "setting": 3,
+            "denominator": 36
+          },
+          {
+            "setting": 4,
+            "denominator": 36
+          },
+          {
+            "setting": 5,
+            "denominator": 36
+          },
+          {
+            "setting": 6,
+            "denominator": 36
+          }
+        ],
+        "visibleInHistory": false
       },
       {
         "id": "big",
         "name": "BIG",
         "isBonus": true,
         "probabilities": [
-          { "setting": 1, "denominator": 259.0 },
-          { "setting": 2, "denominator": 258.0 },
-          { "setting": 3, "denominator": 257.0 },
-          { "setting": 4, "denominator": 254.0 },
-          { "setting": 5, "denominator": 247.3 },
-          { "setting": 6, "denominator": 234.9 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 259
+          },
+          {
+            "setting": 2,
+            "denominator": 258
+          },
+          {
+            "setting": 3,
+            "denominator": 257
+          },
+          {
+            "setting": 4,
+            "denominator": 254
+          },
+          {
+            "setting": 5,
+            "denominator": 247.3
+          },
+          {
+            "setting": 6,
+            "denominator": 234.9
+          }
+        ],
+        "visibleInHistory": true
       },
       {
         "id": "reg",
         "name": "REG",
         "isBonus": true,
         "probabilities": [
-          { "setting": 1, "denominator": 354.2 },
-          { "setting": 2, "denominator": 332.7 },
-          { "setting": 3, "denominator": 306.2 },
-          { "setting": 4, "denominator": 268.6 },
-          { "setting": 5, "denominator": 247.3 },
-          { "setting": 6, "denominator": 234.9 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 354.2
+          },
+          {
+            "setting": 2,
+            "denominator": 332.7
+          },
+          {
+            "setting": 3,
+            "denominator": 306.2
+          },
+          {
+            "setting": 4,
+            "denominator": 268.6
+          },
+          {
+            "setting": 5,
+            "denominator": 247.3
+          },
+          {
+            "setting": 6,
+            "denominator": 234.9
+          }
+        ],
+        "visibleInHistory": true
       },
       {
         "id": "solo-reg",
         "name": "単独REG",
         "parentId": "reg",
         "probabilities": [
-          { "setting": 1, "denominator": 472.3 },
-          { "setting": 2, "denominator": 447.4 },
-          { "setting": 3, "denominator": 417.8 },
-          { "setting": 4, "denominator": 362.9 },
-          { "setting": 5, "denominator": 331.0 },
-          { "setting": 6, "denominator": 317.2 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 472.3
+          },
+          {
+            "setting": 2,
+            "denominator": 447.4
+          },
+          {
+            "setting": 3,
+            "denominator": 417.8
+          },
+          {
+            "setting": 4,
+            "denominator": 362.9
+          },
+          {
+            "setting": 5,
+            "denominator": 331
+          },
+          {
+            "setting": 6,
+            "denominator": 317.2
+          }
+        ],
+        "visibleInHistory": false
       }
     ]
   },
@@ -333,78 +889,198 @@
     "id": "happy-juggler-v3",
     "machineName": "ハッピージャグラーVⅢ",
     "maker": "北電子",
-    "settings": [1, 2, 3, 4, 5, 6],
+    "settings": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
     "payoutRates": [
-      { "setting": 1, "rate": 97.0 },
-      { "setting": 2, "rate": 98.5 },
-      { "setting": 3, "rate": 100.1 },
-      { "setting": 4, "rate": 102.5 },
-      { "setting": 5, "rate": 105.5 },
-      { "setting": 6, "rate": 108.4 }
+      {
+        "setting": 1,
+        "rate": 97
+      },
+      {
+        "setting": 2,
+        "rate": 98.5
+      },
+      {
+        "setting": 3,
+        "rate": 100.1
+      },
+      {
+        "setting": 4,
+        "rate": 102.5
+      },
+      {
+        "setting": 5,
+        "rate": 105.5
+      },
+      {
+        "setting": 6,
+        "rate": 108.4
+      }
     ],
     "elements": [
       {
         "id": "grape",
         "name": "ぶどう",
         "probabilities": [
-          { "setting": 1, "denominator": 6.05 },
-          { "setting": 2, "denominator": 6.03 },
-          { "setting": 3, "denominator": 6.02 },
-          { "setting": 4, "denominator": 5.93 },
-          { "setting": 5, "denominator": 5.85 },
-          { "setting": 6, "denominator": 5.79 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 6.05
+          },
+          {
+            "setting": 2,
+            "denominator": 6.03
+          },
+          {
+            "setting": 3,
+            "denominator": 6.02
+          },
+          {
+            "setting": 4,
+            "denominator": 5.93
+          },
+          {
+            "setting": 5,
+            "denominator": 5.85
+          },
+          {
+            "setting": 6,
+            "denominator": 5.79
+          }
+        ],
+        "visibleInHistory": false
       },
       {
         "id": "cherry",
         "name": "チェリー",
         "probabilities": [
-          { "setting": 1, "denominator": 36.0 },
-          { "setting": 2, "denominator": 36.0 },
-          { "setting": 3, "denominator": 36.0 },
-          { "setting": 4, "denominator": 36.0 },
-          { "setting": 5, "denominator": 36.0 },
-          { "setting": 6, "denominator": 36.0 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 36
+          },
+          {
+            "setting": 2,
+            "denominator": 36
+          },
+          {
+            "setting": 3,
+            "denominator": 36
+          },
+          {
+            "setting": 4,
+            "denominator": 36
+          },
+          {
+            "setting": 5,
+            "denominator": 36
+          },
+          {
+            "setting": 6,
+            "denominator": 36
+          }
+        ],
+        "visibleInHistory": false
       },
       {
         "id": "big",
         "name": "BIG",
         "isBonus": true,
         "probabilities": [
-          { "setting": 1, "denominator": 273.1 },
-          { "setting": 2, "denominator": 270.8 },
-          { "setting": 3, "denominator": 263.2 },
-          { "setting": 4, "denominator": 256.0 },
-          { "setting": 5, "denominator": 249.2 },
-          { "setting": 6, "denominator": 229.1 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 273.1
+          },
+          {
+            "setting": 2,
+            "denominator": 270.8
+          },
+          {
+            "setting": 3,
+            "denominator": 263.2
+          },
+          {
+            "setting": 4,
+            "denominator": 256
+          },
+          {
+            "setting": 5,
+            "denominator": 249.2
+          },
+          {
+            "setting": 6,
+            "denominator": 229.1
+          }
+        ],
+        "visibleInHistory": true
       },
       {
         "id": "reg",
         "name": "REG",
         "isBonus": true,
         "probabilities": [
-          { "setting": 1, "denominator": 397.2 },
-          { "setting": 2, "denominator": 362.1 },
-          { "setting": 3, "denominator": 332.7 },
-          { "setting": 4, "denominator": 293.7 },
-          { "setting": 5, "denominator": 268.6 },
-          { "setting": 6, "denominator": 256.0 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 397.2
+          },
+          {
+            "setting": 2,
+            "denominator": 362.1
+          },
+          {
+            "setting": 3,
+            "denominator": 332.7
+          },
+          {
+            "setting": 4,
+            "denominator": 293.7
+          },
+          {
+            "setting": 5,
+            "denominator": 268.6
+          },
+          {
+            "setting": 6,
+            "denominator": 256
+          }
+        ],
+        "visibleInHistory": true
       },
       {
         "id": "cherry-reg",
         "name": "チェリーREG",
         "parentId": "reg",
         "probabilities": [
-          { "setting": 1, "denominator": 1057.1 },
-          { "setting": 2, "denominator": 993.0 },
-          { "setting": 3, "denominator": 885.7 },
-          { "setting": 4, "denominator": 809.1 },
-          { "setting": 5, "denominator": 728.9 },
-          { "setting": 6, "denominator": 641.0 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 1057.1
+          },
+          {
+            "setting": 2,
+            "denominator": 993
+          },
+          {
+            "setting": 3,
+            "denominator": 885.7
+          },
+          {
+            "setting": 4,
+            "denominator": 809.1
+          },
+          {
+            "setting": 5,
+            "denominator": 728.9
+          },
+          {
+            "setting": 6,
+            "denominator": 641
+          }
+        ],
+        "visibleInHistory": false
       }
     ]
   },
@@ -412,14 +1088,39 @@
     "id": "tokyo-ghoul",
     "machineName": "スマスロ東京グール",
     "maker": "スパイキー",
-    "settings": [1, 2, 3, 4, 5, 6],
+    "settings": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
     "payoutRates": [
-      { "setting": 1, "rate": 97.5 },
-      { "setting": 2, "rate": 99.0 },
-      { "setting": 3, "rate": 101.6 },
-      { "setting": 4, "rate": 105.6 },
-      { "setting": 5, "rate": 110.3 },
-      { "setting": 6, "rate": 114.9 }
+      {
+        "setting": 1,
+        "rate": 97.5
+      },
+      {
+        "setting": 2,
+        "rate": 99
+      },
+      {
+        "setting": 3,
+        "rate": 101.6
+      },
+      {
+        "setting": 4,
+        "rate": 105.6
+      },
+      {
+        "setting": 5,
+        "rate": 110.3
+      },
+      {
+        "setting": 6,
+        "rate": 114.9
+      }
     ],
     "elements": [
       {
@@ -428,104 +1129,256 @@
         "isBonus": true,
         "denominatorType": "normal",
         "probabilities": [
-          { "setting": 1, "denominator": 394.4 },
-          { "setting": 2, "denominator": 380.5 },
-          { "setting": 3, "denominator": 357.0 },
-          { "setting": 4, "denominator": 325.9 },
-          { "setting": 5, "denominator": 291.2 },
-          { "setting": 6, "denominator": 261.3 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 394.4
+          },
+          {
+            "setting": 2,
+            "denominator": 380.5
+          },
+          {
+            "setting": 3,
+            "denominator": 357
+          },
+          {
+            "setting": 4,
+            "denominator": 325.9
+          },
+          {
+            "setting": 5,
+            "denominator": 291.2
+          },
+          {
+            "setting": 6,
+            "denominator": 261.3
+          }
+        ],
+        "visibleInHistory": true
       },
       {
         "id": "reminiscence",
         "name": "レミニセンス",
         "denominatorType": "normal",
         "probabilities": [
-          { "setting": 1, "denominator": 300.6 },
-          { "setting": 2, "denominator": 295.3 },
-          { "setting": 3, "denominator": 287.6 },
-          { "setting": 4, "denominator": 276.7 },
-          { "setting": 5, "denominator": 262.7 },
-          { "setting": 6, "denominator": 251.3 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 300.6
+          },
+          {
+            "setting": 2,
+            "denominator": 295.3
+          },
+          {
+            "setting": 3,
+            "denominator": 287.6
+          },
+          {
+            "setting": 4,
+            "denominator": 276.7
+          },
+          {
+            "setting": 5,
+            "denominator": 262.7
+          },
+          {
+            "setting": 6,
+            "denominator": 251.3
+          }
+        ],
+        "visibleInHistory": true
       },
       {
         "id": "ogui-rize",
         "name": "大喰いのリゼ",
         "denominatorType": "normal",
         "probabilities": [
-          { "setting": 1, "denominator": 2079.1 },
-          { "setting": 2, "denominator": 1906.5 },
-          { "setting": 3, "denominator": 1722.8 },
-          { "setting": 4, "denominator": 1478.9 },
-          { "setting": 5, "denominator": 1226.6 },
-          { "setting": 6, "denominator": 1074.9 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 2079.1
+          },
+          {
+            "setting": 2,
+            "denominator": 1906.5
+          },
+          {
+            "setting": 3,
+            "denominator": 1722.8
+          },
+          {
+            "setting": 4,
+            "denominator": 1478.9
+          },
+          {
+            "setting": 5,
+            "denominator": 1226.6
+          },
+          {
+            "setting": 6,
+            "denominator": 1074.9
+          }
+        ],
+        "visibleInHistory": true
       },
       {
         "id": "episode-bonus",
         "name": "エピソードボーナス",
         "denominatorType": "normal",
         "probabilities": [
-          { "setting": 1, "denominator": 6620.2 },
-          { "setting": 2, "denominator": 5879.7 },
-          { "setting": 3, "denominator": 5114.5 },
-          { "setting": 4, "denominator": 4062.5 },
-          { "setting": 5, "denominator": 3166.7 },
-          { "setting": 6, "denominator": 2639.5 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 6620.2
+          },
+          {
+            "setting": 2,
+            "denominator": 5879.7
+          },
+          {
+            "setting": 3,
+            "denominator": 5114.5
+          },
+          {
+            "setting": 4,
+            "denominator": 4062.5
+          },
+          {
+            "setting": 5,
+            "denominator": 3166.7
+          },
+          {
+            "setting": 6,
+            "denominator": 2639.5
+          }
+        ],
+        "visibleInHistory": false
       },
       {
         "id": "at-direct",
         "name": "AT直撃",
         "denominatorType": "normal",
         "probabilities": [
-          { "setting": 1, "denominator": 28460.6 },
-          { "setting": 2, "denominator": 24453.5 },
-          { "setting": 3, "denominator": 18093.0 },
-          { "setting": 4, "denominator": 12019.5 },
-          { "setting": 5, "denominator": 8615.4 },
-          { "setting": 6, "denominator": 7036.8 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 28460.6
+          },
+          {
+            "setting": 2,
+            "denominator": 24453.5
+          },
+          {
+            "setting": 3,
+            "denominator": 18093
+          },
+          {
+            "setting": 4,
+            "denominator": 12019.5
+          },
+          {
+            "setting": 5,
+            "denominator": 8615.4
+          },
+          {
+            "setting": 6,
+            "denominator": 7036.8
+          }
+        ],
+        "visibleInHistory": false
       },
       {
         "id": "kakugan-replay",
         "name": "赫眼リプレイ",
         "denominatorType": "total",
         "probabilities": [
-          { "setting": 1, "denominator": 1260.3 },
-          { "setting": 2, "denominator": 1213.6 },
-          { "setting": 3, "denominator": 1170.3 },
-          { "setting": 4, "denominator": 1129.9 },
-          { "setting": 5, "denominator": 1092.3 },
-          { "setting": 6, "denominator": 1024.0 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 1260.3
+          },
+          {
+            "setting": 2,
+            "denominator": 1213.6
+          },
+          {
+            "setting": 3,
+            "denominator": 1170.3
+          },
+          {
+            "setting": 4,
+            "denominator": 1129.9
+          },
+          {
+            "setting": 5,
+            "denominator": 1092.3
+          },
+          {
+            "setting": 6,
+            "denominator": 1024
+          }
+        ],
+        "visibleInHistory": false
       },
       {
         "id": "hikimodooshi",
         "name": "引き戻し",
         "denominatorElementId": "at-hit",
         "probabilities": [
-          { "setting": 1, "denominator": 12.80 },
-          { "setting": 2, "denominator": 10.66 },
-          { "setting": 3, "denominator": 10.66 },
-          { "setting": 4, "denominator": 9.14 },
-          { "setting": 5, "denominator": 8.00 },
-          { "setting": 6, "denominator": 6.57 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 12.8
+          },
+          {
+            "setting": 2,
+            "denominator": 10.66
+          },
+          {
+            "setting": 3,
+            "denominator": 10.66
+          },
+          {
+            "setting": 4,
+            "denominator": 9.14
+          },
+          {
+            "setting": 5,
+            "denominator": 8
+          },
+          {
+            "setting": 6,
+            "denominator": 6.57
+          }
+        ],
+        "visibleInHistory": false
       },
       {
         "id": "ura-at",
         "name": "裏AT突入",
         "denominatorElementId": "at-hit",
         "probabilities": [
-          { "setting": 1, "denominator": 90.91 },
-          { "setting": 2, "denominator": 75.76 },
-          { "setting": 3, "denominator": 61.35 },
-          { "setting": 4, "denominator": 45.66 },
-          { "setting": 5, "denominator": 35.09 },
-          { "setting": 6, "denominator": 30.12 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 90.91
+          },
+          {
+            "setting": 2,
+            "denominator": 75.76
+          },
+          {
+            "setting": 3,
+            "denominator": 61.35
+          },
+          {
+            "setting": 4,
+            "denominator": 45.66
+          },
+          {
+            "setting": 5,
+            "denominator": 35.09
+          },
+          {
+            "setting": 6,
+            "denominator": 30.12
+          }
+        ],
+        "visibleInHistory": false
       }
     ]
   },
@@ -533,25 +1386,62 @@
     "id": "monkey-turn-5",
     "machineName": "スマスロモンキーターン5",
     "maker": "山佐ネクスト",
-    "settings": [1, 2, 4, 5, 6],
+    "settings": [
+      1,
+      2,
+      4,
+      5,
+      6
+    ],
     "payoutRates": [
-      { "setting": 1, "rate": 97.9 },
-      { "setting": 2, "rate": 98.9 },
-      { "setting": 4, "rate": 104.5 },
-      { "setting": 5, "rate": 110.2 },
-      { "setting": 6, "rate": 114.9 }
+      {
+        "setting": 1,
+        "rate": 97.9
+      },
+      {
+        "setting": 2,
+        "rate": 98.9
+      },
+      {
+        "setting": 4,
+        "rate": 104.5
+      },
+      {
+        "setting": 5,
+        "rate": 110.2
+      },
+      {
+        "setting": 6,
+        "rate": 114.9
+      }
     ],
     "elements": [
       {
         "id": "five-mai",
         "name": "5枚役",
         "probabilities": [
-          { "setting": 1, "denominator": 38.15 },
-          { "setting": 2, "denominator": 36.86 },
-          { "setting": 4, "denominator": 30.27 },
-          { "setting": 5, "denominator": 24.51 },
-          { "setting": 6, "denominator": 22.53 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 38.15
+          },
+          {
+            "setting": 2,
+            "denominator": 36.86
+          },
+          {
+            "setting": 4,
+            "denominator": 30.27
+          },
+          {
+            "setting": 5,
+            "denominator": 24.51
+          },
+          {
+            "setting": 6,
+            "denominator": 22.53
+          }
+        ],
+        "visibleInHistory": false
       },
       {
         "id": "at-hit",
@@ -559,36 +1449,84 @@
         "isBonus": true,
         "denominatorType": "normal",
         "probabilities": [
-          { "setting": 1, "denominator": 299.8 },
-          { "setting": 2, "denominator": 295.5 },
-          { "setting": 4, "denominator": 258.8 },
-          { "setting": 5, "denominator": 235.7 },
-          { "setting": 6, "denominator": 222.9 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 299.8
+          },
+          {
+            "setting": 2,
+            "denominator": 295.5
+          },
+          {
+            "setting": 4,
+            "denominator": 258.8
+          },
+          {
+            "setting": 5,
+            "denominator": 235.7
+          },
+          {
+            "setting": 6,
+            "denominator": 222.9
+          }
+        ],
+        "visibleInHistory": true
       },
       {
         "id": "gamo-mode",
         "name": "蒲生モード",
         "denominatorElementId": "at-hit",
         "probabilities": [
-          { "setting": 1, "denominator": 12.82 },
-          { "setting": 2, "denominator": 12.20 },
-          { "setting": 4, "denominator": 9.17 },
-          { "setting": 5, "denominator": 7.09 },
-          { "setting": 6, "denominator": 6.41 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 12.82
+          },
+          {
+            "setting": 2,
+            "denominator": 12.2
+          },
+          {
+            "setting": 4,
+            "denominator": 9.17
+          },
+          {
+            "setting": 5,
+            "denominator": 7.09
+          },
+          {
+            "setting": 6,
+            "denominator": 6.41
+          }
+        ],
+        "visibleInHistory": false
       },
       {
         "id": "soku-yushutsu",
         "name": "即優出",
         "denominatorElementId": "at-hit",
         "probabilities": [
-          { "setting": 1, "denominator": 62.50 },
-          { "setting": 2, "denominator": 58.82 },
-          { "setting": 4, "denominator": 45.45 },
-          { "setting": 5, "denominator": 33.33 },
-          { "setting": 6, "denominator": 27.03 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 62.5
+          },
+          {
+            "setting": 2,
+            "denominator": 58.82
+          },
+          {
+            "setting": 4,
+            "denominator": 45.45
+          },
+          {
+            "setting": 5,
+            "denominator": 33.33
+          },
+          {
+            "setting": 6,
+            "denominator": 27.03
+          }
+        ],
+        "visibleInHistory": false
       }
     ]
   },
@@ -596,14 +1534,39 @@
     "id": "crea-hihouden-bt",
     "machineName": "スマスロクレアの秘宝伝BT",
     "maker": "大都技研",
-    "settings": [1, 2, 3, 4, 5, 6],
+    "settings": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
     "payoutRates": [
-      { "setting": 1, "rate": 99.3 },
-      { "setting": 2, "rate": 100.5 },
-      { "setting": 3, "rate": 102.5 },
-      { "setting": 4, "rate": 105.0 },
-      { "setting": 5, "rate": 108.0 },
-      { "setting": 6, "rate": 114.0 }
+      {
+        "setting": 1,
+        "rate": 99.3
+      },
+      {
+        "setting": 2,
+        "rate": 100.5
+      },
+      {
+        "setting": 3,
+        "rate": 102.5
+      },
+      {
+        "setting": 4,
+        "rate": 105
+      },
+      {
+        "setting": 5,
+        "rate": 108
+      },
+      {
+        "setting": 6,
+        "rate": 114
+      }
     ],
     "elements": [
       {
@@ -611,26 +1574,64 @@
         "name": "BIG",
         "isBonus": true,
         "probabilities": [
-          { "setting": 1, "denominator": 299.3 },
-          { "setting": 2, "denominator": 293.9 },
-          { "setting": 3, "denominator": 284.9 },
-          { "setting": 4, "denominator": 274.2 },
-          { "setting": 5, "denominator": 262.1 },
-          { "setting": 6, "denominator": 240.1 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 299.3
+          },
+          {
+            "setting": 2,
+            "denominator": 293.9
+          },
+          {
+            "setting": 3,
+            "denominator": 284.9
+          },
+          {
+            "setting": 4,
+            "denominator": 274.2
+          },
+          {
+            "setting": 5,
+            "denominator": 262.1
+          },
+          {
+            "setting": 6,
+            "denominator": 240.1
+          }
+        ],
+        "visibleInHistory": true
       },
       {
         "id": "reg",
         "name": "REG",
         "isBonus": true,
         "probabilities": [
-          { "setting": 1, "denominator": 383.3 },
-          { "setting": 2, "denominator": 376.6 },
-          { "setting": 3, "denominator": 358.1 },
-          { "setting": 4, "denominator": 334.4 },
-          { "setting": 5, "denominator": 299.3 },
-          { "setting": 6, "denominator": 247.3 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 383.3
+          },
+          {
+            "setting": 2,
+            "denominator": 376.6
+          },
+          {
+            "setting": 3,
+            "denominator": 358.1
+          },
+          {
+            "setting": 4,
+            "denominator": 334.4
+          },
+          {
+            "setting": 5,
+            "denominator": 299.3
+          },
+          {
+            "setting": 6,
+            "denominator": 247.3
+          }
+        ],
+        "visibleInHistory": true
       }
     ]
   },
@@ -638,14 +1639,39 @@
     "id": "eva-bt",
     "machineName": "Lエヴァンゲリオン約束の扉BT",
     "maker": "ビスティ",
-    "settings": [1, 2, 3, 4, 5, 6],
+    "settings": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
     "payoutRates": [
-      { "setting": 1, "rate": 97.7 },
-      { "setting": 2, "rate": 98.9 },
-      { "setting": 3, "rate": 100.7 },
-      { "setting": 4, "rate": 104.5 },
-      { "setting": 5, "rate": 107.0 },
-      { "setting": 6, "rate": 110.0 }
+      {
+        "setting": 1,
+        "rate": 97.7
+      },
+      {
+        "setting": 2,
+        "rate": 98.9
+      },
+      {
+        "setting": 3,
+        "rate": 100.7
+      },
+      {
+        "setting": 4,
+        "rate": 104.5
+      },
+      {
+        "setting": 5,
+        "rate": 107
+      },
+      {
+        "setting": 6,
+        "rate": 110
+      }
     ],
     "elements": [
       {
@@ -653,65 +1679,160 @@
         "name": "赤SBIG",
         "isBonus": true,
         "probabilities": [
-          { "setting": 1, "denominator": 1985.9 },
-          { "setting": 2, "denominator": 1560.4 },
-          { "setting": 3, "denominator": 1872.5 },
-          { "setting": 4, "denominator": 1524.1 },
-          { "setting": 5, "denominator": 1771.2 },
-          { "setting": 6, "denominator": 1424.7 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 1985.9
+          },
+          {
+            "setting": 2,
+            "denominator": 1560.4
+          },
+          {
+            "setting": 3,
+            "denominator": 1872.5
+          },
+          {
+            "setting": 4,
+            "denominator": 1524.1
+          },
+          {
+            "setting": 5,
+            "denominator": 1771.2
+          },
+          {
+            "setting": 6,
+            "denominator": 1424.7
+          }
+        ],
+        "visibleInHistory": true
       },
       {
         "id": "blue-sbig",
         "name": "青SBIG",
         "isBonus": true,
         "probabilities": [
-          { "setting": 1, "denominator": 1365.3 },
-          { "setting": 2, "denominator": 1524.1 },
-          { "setting": 3, "denominator": 1365.3 },
-          { "setting": 4, "denominator": 1524.1 },
-          { "setting": 5, "denominator": 1365.3 },
-          { "setting": 6, "denominator": 1560.4 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 1365.3
+          },
+          {
+            "setting": 2,
+            "denominator": 1524.1
+          },
+          {
+            "setting": 3,
+            "denominator": 1365.3
+          },
+          {
+            "setting": 4,
+            "denominator": 1524.1
+          },
+          {
+            "setting": 5,
+            "denominator": 1365.3
+          },
+          {
+            "setting": 6,
+            "denominator": 1560.4
+          }
+        ],
+        "visibleInHistory": true
       },
       {
         "id": "yellow-big",
         "name": "黄BIG",
         "isBonus": true,
         "probabilities": [
-          { "setting": 1, "denominator": 520.1 },
-          { "setting": 2, "denominator": 508.0 },
-          { "setting": 3, "denominator": 478.4 },
-          { "setting": 4, "denominator": 448.9 },
-          { "setting": 5, "denominator": 414.8 },
-          { "setting": 6, "denominator": 390.1 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 520.1
+          },
+          {
+            "setting": 2,
+            "denominator": 508
+          },
+          {
+            "setting": 3,
+            "denominator": 478.4
+          },
+          {
+            "setting": 4,
+            "denominator": 448.9
+          },
+          {
+            "setting": 5,
+            "denominator": 414.8
+          },
+          {
+            "setting": 6,
+            "denominator": 390.1
+          }
+        ],
+        "visibleInHistory": true
       },
       {
         "id": "bousou-mode",
         "name": "暴走モード",
         "isBonus": true,
         "probabilities": [
-          { "setting": 1, "denominator": 5957.8 },
-          { "setting": 2, "denominator": 5461.3 },
-          { "setting": 3, "denominator": 5041.2 },
-          { "setting": 4, "denominator": 4681.1 },
-          { "setting": 5, "denominator": 4369.1 },
-          { "setting": 6, "denominator": 4096.0 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 5957.8
+          },
+          {
+            "setting": 2,
+            "denominator": 5461.3
+          },
+          {
+            "setting": 3,
+            "denominator": 5041.2
+          },
+          {
+            "setting": 4,
+            "denominator": 4681.1
+          },
+          {
+            "setting": 5,
+            "denominator": 4369.1
+          },
+          {
+            "setting": 6,
+            "denominator": 4096
+          }
+        ],
+        "visibleInHistory": true
       },
       {
         "id": "reg",
         "name": "REG",
         "isBonus": true,
         "probabilities": [
-          { "setting": 1, "denominator": 569.9 },
-          { "setting": 2, "denominator": 546.1 },
-          { "setting": 3, "denominator": 508.0 },
-          { "setting": 4, "denominator": 474.9 },
-          { "setting": 5, "denominator": 442.8 },
-          { "setting": 6, "denominator": 404.5 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 569.9
+          },
+          {
+            "setting": 2,
+            "denominator": 546.1
+          },
+          {
+            "setting": 3,
+            "denominator": 508
+          },
+          {
+            "setting": 4,
+            "denominator": 474.9
+          },
+          {
+            "setting": 5,
+            "denominator": 442.8
+          },
+          {
+            "setting": 6,
+            "denominator": 404.5
+          }
+        ],
+        "visibleInHistory": true
       }
     ]
   },
@@ -719,65 +1840,147 @@
     "id": "shake-bt",
     "machineName": "LシェイクBT",
     "maker": "大都技研",
-    "settings": [1, 2, 5, 6],
+    "settings": [
+      1,
+      2,
+      5,
+      6
+    ],
     "payoutRates": [
-      { "setting": 1, "rate": 98.6 },
-      { "setting": 2, "rate": 100.6 },
-      { "setting": 5, "rate": 103.0 },
-      { "setting": 6, "rate": 106.1 }
+      {
+        "setting": 1,
+        "rate": 98.6
+      },
+      {
+        "setting": 2,
+        "rate": 100.6
+      },
+      {
+        "setting": 5,
+        "rate": 103
+      },
+      {
+        "setting": 6,
+        "rate": 106.1
+      }
     ],
     "elements": [
       {
         "id": "bell",
         "name": "ベル",
         "probabilities": [
-          { "setting": 1, "denominator": 10.3 },
-          { "setting": 2, "denominator": 10.2 },
-          { "setting": 5, "denominator": 9.9 },
-          { "setting": 6, "denominator": 9.6 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 10.3
+          },
+          {
+            "setting": 2,
+            "denominator": 10.2
+          },
+          {
+            "setting": 5,
+            "denominator": 9.9
+          },
+          {
+            "setting": 6,
+            "denominator": 9.6
+          }
+        ],
+        "visibleInHistory": false
       },
       {
         "id": "cherry",
         "name": "チェリー",
         "probabilities": [
-          { "setting": 1, "denominator": 36.9 },
-          { "setting": 2, "denominator": 36.4 },
-          { "setting": 5, "denominator": 35.9 },
-          { "setting": 6, "denominator": 33.6 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 36.9
+          },
+          {
+            "setting": 2,
+            "denominator": 36.4
+          },
+          {
+            "setting": 5,
+            "denominator": 35.9
+          },
+          {
+            "setting": 6,
+            "denominator": 33.6
+          }
+        ],
+        "visibleInHistory": false
       },
       {
         "id": "suika",
         "name": "スイカ",
         "probabilities": [
-          { "setting": 1, "denominator": 65.5 },
-          { "setting": 2, "denominator": 63.6 },
-          { "setting": 5, "denominator": 60.0 },
-          { "setting": 6, "denominator": 58.4 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 65.5
+          },
+          {
+            "setting": 2,
+            "denominator": 63.6
+          },
+          {
+            "setting": 5,
+            "denominator": 60
+          },
+          {
+            "setting": 6,
+            "denominator": 58.4
+          }
+        ],
+        "visibleInHistory": false
       },
       {
         "id": "big",
         "name": "BIG",
         "isBonus": true,
         "probabilities": [
-          { "setting": 1, "denominator": 350.5 },
-          { "setting": 2, "denominator": 327.7 },
-          { "setting": 5, "denominator": 341.3 },
-          { "setting": 6, "denominator": 297.9 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 350.5
+          },
+          {
+            "setting": 2,
+            "denominator": 327.7
+          },
+          {
+            "setting": 5,
+            "denominator": 341.3
+          },
+          {
+            "setting": 6,
+            "denominator": 297.9
+          }
+        ],
+        "visibleInHistory": true
       },
       {
         "id": "reg",
         "name": "REG",
         "isBonus": true,
         "probabilities": [
-          { "setting": 1, "denominator": 425.6 },
-          { "setting": 2, "denominator": 332.7 },
-          { "setting": 5, "denominator": 409.6 },
-          { "setting": 6, "denominator": 297.9 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 425.6
+          },
+          {
+            "setting": 2,
+            "denominator": 332.7
+          },
+          {
+            "setting": 5,
+            "denominator": 409.6
+          },
+          {
+            "setting": 6,
+            "denominator": 297.9
+          }
+        ],
+        "visibleInHistory": true
       }
     ]
   },
@@ -785,45 +1988,101 @@
     "id": "cranky-crest",
     "machineName": "クランキークレスト",
     "maker": "ミズホ",
-    "settings": [1, 2, 5, 6],
+    "settings": [
+      1,
+      2,
+      5,
+      6
+    ],
     "payoutRates": [
-      { "setting": 1, "rate": 100.5 },
-      { "setting": 2, "rate": 102.0 },
-      { "setting": 5, "rate": 105.2 },
-      { "setting": 6, "rate": 108.0 }
+      {
+        "setting": 1,
+        "rate": 100.5
+      },
+      {
+        "setting": 2,
+        "rate": 102
+      },
+      {
+        "setting": 5,
+        "rate": 105.2
+      },
+      {
+        "setting": 6,
+        "rate": 108
+      }
     ],
     "elements": [
       {
         "id": "bell-a",
         "name": "ベルA",
         "probabilities": [
-          { "setting": 1, "denominator": 12.7 },
-          { "setting": 2, "denominator": 12.4 },
-          { "setting": 5, "denominator": 12.1 },
-          { "setting": 6, "denominator": 11.8 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 12.7
+          },
+          {
+            "setting": 2,
+            "denominator": 12.4
+          },
+          {
+            "setting": 5,
+            "denominator": 12.1
+          },
+          {
+            "setting": 6,
+            "denominator": 11.8
+          }
+        ],
+        "visibleInHistory": false
       },
       {
         "id": "big",
         "name": "BIG",
         "isBonus": true,
         "probabilities": [
-          { "setting": 1, "denominator": 275.4 },
-          { "setting": 2, "denominator": 275.4 },
-          { "setting": 5, "denominator": 262.1 },
-          { "setting": 6, "denominator": 254.0 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 275.4
+          },
+          {
+            "setting": 2,
+            "denominator": 275.4
+          },
+          {
+            "setting": 5,
+            "denominator": 262.1
+          },
+          {
+            "setting": 6,
+            "denominator": 254
+          }
+        ],
+        "visibleInHistory": true
       },
       {
         "id": "reg",
         "name": "REG",
         "isBonus": true,
         "probabilities": [
-          { "setting": 1, "denominator": 407.1 },
-          { "setting": 2, "denominator": 370.3 },
-          { "setting": 5, "denominator": 336.1 },
-          { "setting": 6, "denominator": 304.8 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 407.1
+          },
+          {
+            "setting": 2,
+            "denominator": 370.3
+          },
+          {
+            "setting": 5,
+            "denominator": 336.1
+          },
+          {
+            "setting": 6,
+            "denominator": 304.8
+          }
+        ],
+        "visibleInHistory": true
       }
     ]
   },
@@ -831,45 +2090,101 @@
     "id": "alex-bright",
     "machineName": "アレックスブライト",
     "maker": "ユニバーサル",
-    "settings": [1, 2, 5, 6],
+    "settings": [
+      1,
+      2,
+      5,
+      6
+    ],
     "payoutRates": [
-      { "setting": 1, "rate": 98.8 },
-      { "setting": 2, "rate": 100.6 },
-      { "setting": 5, "rate": 103.5 },
-      { "setting": 6, "rate": 106.8 }
+      {
+        "setting": 1,
+        "rate": 98.8
+      },
+      {
+        "setting": 2,
+        "rate": 100.6
+      },
+      {
+        "setting": 5,
+        "rate": 103.5
+      },
+      {
+        "setting": 6,
+        "rate": 106.8
+      }
     ],
     "elements": [
       {
         "id": "hane",
         "name": "羽",
         "probabilities": [
-          { "setting": 1, "denominator": 13.4 },
-          { "setting": 2, "denominator": 13.0 },
-          { "setting": 5, "denominator": 12.6 },
-          { "setting": 6, "denominator": 12.2 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 13.4
+          },
+          {
+            "setting": 2,
+            "denominator": 13
+          },
+          {
+            "setting": 5,
+            "denominator": 12.6
+          },
+          {
+            "setting": 6,
+            "denominator": 12.2
+          }
+        ],
+        "visibleInHistory": false
       },
       {
         "id": "big",
         "name": "BIG",
         "isBonus": true,
         "probabilities": [
-          { "setting": 1, "denominator": 309.1 },
-          { "setting": 2, "denominator": 303.4 },
-          { "setting": 5, "denominator": 295.2 },
-          { "setting": 6, "denominator": 287.4 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 309.1
+          },
+          {
+            "setting": 2,
+            "denominator": 303.4
+          },
+          {
+            "setting": 5,
+            "denominator": 295.2
+          },
+          {
+            "setting": 6,
+            "denominator": 287.4
+          }
+        ],
+        "visibleInHistory": true
       },
       {
         "id": "reg",
         "name": "REG",
         "isBonus": true,
         "probabilities": [
-          { "setting": 1, "denominator": 428.3 },
-          { "setting": 2, "denominator": 409.6 },
-          { "setting": 5, "denominator": 366.1 },
-          { "setting": 6, "denominator": 312.1 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 428.3
+          },
+          {
+            "setting": 2,
+            "denominator": 409.6
+          },
+          {
+            "setting": 5,
+            "denominator": 366.1
+          },
+          {
+            "setting": 6,
+            "denominator": 312.1
+          }
+        ],
+        "visibleInHistory": true
       }
     ]
   },
@@ -877,58 +2192,143 @@
     "id": "hokuto-no-ken",
     "machineName": "スマスロ北斗の拳",
     "maker": "サミー",
-    "settings": [1, 2, 4, 5, 6],
+    "settings": [
+      1,
+      2,
+      4,
+      5,
+      6
+    ],
     "payoutRates": [
-      { "setting": 1, "rate": 98.0 },
-      { "setting": 2, "rate": 98.9 },
-      { "setting": 4, "rate": 105.7 },
-      { "setting": 5, "rate": 110.0 },
-      { "setting": 6, "rate": 113.0 }
+      {
+        "setting": 1,
+        "rate": 98
+      },
+      {
+        "setting": 2,
+        "rate": 98.9
+      },
+      {
+        "setting": 4,
+        "rate": 105.7
+      },
+      {
+        "setting": 5,
+        "rate": 110
+      },
+      {
+        "setting": 6,
+        "rate": 113
+      }
     ],
     "elements": [
       {
         "id": "weak-suika",
         "name": "弱スイカ",
         "probabilities": [
-          { "setting": 1, "denominator": 109.0 },
-          { "setting": 2, "denominator": 108.7 },
-          { "setting": 4, "denominator": 105.9 },
-          { "setting": 5, "denominator": 100.7 },
-          { "setting": 6, "denominator": 98.3 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 109
+          },
+          {
+            "setting": 2,
+            "denominator": 108.7
+          },
+          {
+            "setting": 4,
+            "denominator": 105.9
+          },
+          {
+            "setting": 5,
+            "denominator": 100.7
+          },
+          {
+            "setting": 6,
+            "denominator": 98.3
+          }
+        ],
+        "visibleInHistory": false
       },
       {
         "id": "strong-suika",
         "name": "強スイカ合算",
         "probabilities": [
-          { "setting": 1, "denominator": 409.6 },
-          { "setting": 2, "denominator": 404.5 },
-          { "setting": 4, "denominator": 376.6 },
-          { "setting": 5, "denominator": 352.3 },
-          { "setting": 6, "denominator": 337.8 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 409.6
+          },
+          {
+            "setting": 2,
+            "denominator": 404.5
+          },
+          {
+            "setting": 4,
+            "denominator": 376.6
+          },
+          {
+            "setting": 5,
+            "denominator": 352.3
+          },
+          {
+            "setting": 6,
+            "denominator": 337.8
+          }
+        ],
+        "visibleInHistory": false
       },
       {
         "id": "mid-cherry",
         "name": "中段チェリー合算",
         "probabilities": [
-          { "setting": 1, "denominator": 210.1 },
-          { "setting": 2, "denominator": 204.8 },
-          { "setting": 4, "denominator": 199.8 },
-          { "setting": 5, "denominator": 195.0 },
-          { "setting": 6, "denominator": 190.5 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 210.1
+          },
+          {
+            "setting": 2,
+            "denominator": 204.8
+          },
+          {
+            "setting": 4,
+            "denominator": 199.8
+          },
+          {
+            "setting": 5,
+            "denominator": 195
+          },
+          {
+            "setting": 6,
+            "denominator": 190.5
+          }
+        ],
+        "visibleInHistory": false
       },
       {
         "id": "reach-moku",
         "name": "リーチ目",
         "probabilities": [
-          { "setting": 1, "denominator": 16384.0 },
-          { "setting": 2, "denominator": 13107.2 },
-          { "setting": 4, "denominator": 10922.7 },
-          { "setting": 5, "denominator": 9362.3 },
-          { "setting": 6, "denominator": 8192.0 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 16384
+          },
+          {
+            "setting": 2,
+            "denominator": 13107.2
+          },
+          {
+            "setting": 4,
+            "denominator": 10922.7
+          },
+          {
+            "setting": 5,
+            "denominator": 9362.3
+          },
+          {
+            "setting": 6,
+            "denominator": 8192
+          }
+        ],
+        "visibleInHistory": false
       },
       {
         "id": "at-hit",
@@ -936,12 +2336,28 @@
         "isBonus": true,
         "denominatorType": "normal",
         "probabilities": [
-          { "setting": 1, "denominator": 383.4 },
-          { "setting": 2, "denominator": 370.5 },
-          { "setting": 4, "denominator": 297.8 },
-          { "setting": 5, "denominator": 258.7 },
-          { "setting": 6, "denominator": 235.1 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 383.4
+          },
+          {
+            "setting": 2,
+            "denominator": 370.5
+          },
+          {
+            "setting": 4,
+            "denominator": 297.8
+          },
+          {
+            "setting": 5,
+            "denominator": 258.7
+          },
+          {
+            "setting": 6,
+            "denominator": 235.1
+          }
+        ],
+        "visibleInHistory": true
       }
     ]
   },
@@ -949,14 +2365,39 @@
     "id": "koukaku-kidoutai",
     "machineName": "スマスロ攻殻機動隊",
     "maker": "サミー",
-    "settings": [1, 2, 3, 4, 5, 6],
+    "settings": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
     "payoutRates": [
-      { "setting": 1, "rate": 97.9 },
-      { "setting": 2, "rate": 98.7 },
-      { "setting": 3, "rate": 100.8 },
-      { "setting": 4, "rate": 104.9 },
-      { "setting": 5, "rate": 109.3 },
-      { "setting": 6, "rate": 112.2 }
+      {
+        "setting": 1,
+        "rate": 97.9
+      },
+      {
+        "setting": 2,
+        "rate": 98.7
+      },
+      {
+        "setting": 3,
+        "rate": 100.8
+      },
+      {
+        "setting": 4,
+        "rate": 104.9
+      },
+      {
+        "setting": 5,
+        "rate": 109.3
+      },
+      {
+        "setting": 6,
+        "rate": 112.2
+      }
     ],
     "elements": [
       {
@@ -965,26 +2406,64 @@
         "isBonus": true,
         "denominatorType": "normal",
         "probabilities": [
-          { "setting": 1, "denominator": 336.3 },
-          { "setting": 2, "denominator": 332.0 },
-          { "setting": 3, "denominator": 319.6 },
-          { "setting": 4, "denominator": 298.7 },
-          { "setting": 5, "denominator": 285.8 },
-          { "setting": 6, "denominator": 278.0 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 336.3
+          },
+          {
+            "setting": 2,
+            "denominator": 332
+          },
+          {
+            "setting": 3,
+            "denominator": 319.6
+          },
+          {
+            "setting": 4,
+            "denominator": 298.7
+          },
+          {
+            "setting": 5,
+            "denominator": 285.8
+          },
+          {
+            "setting": 6,
+            "denominator": 278
+          }
+        ],
+        "visibleInHistory": true
       },
       {
         "id": "cz",
         "name": "CZ",
         "denominatorType": "normal",
         "probabilities": [
-          { "setting": 1, "denominator": 238.0 },
-          { "setting": 2, "denominator": 236.3 },
-          { "setting": 3, "denominator": 231.7 },
-          { "setting": 4, "denominator": 220.9 },
-          { "setting": 5, "denominator": 214.0 },
-          { "setting": 6, "denominator": 210.1 }
-        ]
+          {
+            "setting": 1,
+            "denominator": 238
+          },
+          {
+            "setting": 2,
+            "denominator": 236.3
+          },
+          {
+            "setting": 3,
+            "denominator": 231.7
+          },
+          {
+            "setting": 4,
+            "denominator": 220.9
+          },
+          {
+            "setting": 5,
+            "denominator": 214
+          },
+          {
+            "setting": 6,
+            "denominator": 210.1
+          }
+        ],
+        "visibleInHistory": false
       }
     ]
   }

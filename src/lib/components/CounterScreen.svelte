@@ -2,21 +2,14 @@
   import { appStore, estimation, totalGames, normalGames, atGames, needsNormalGames } from '../store';
   import { getClosestSetting } from '../estimation';
   import { getSpinsForElement, getActualCount } from '../logic';
-  import ProbTableModal from './ProbTableModal.svelte';
-  import PayoutRateModal from './PayoutRateModal.svelte';
+  import SpecModal from './SpecModal.svelte';
   import type { CounterElement } from '../types';
 
   let showResetConfirm = false;
   let showEstimation = false;
-  let showProbTable = false;
-  let showPayoutRate = false;
-  let showGamesModal = false;
+  let showSpec = false;
   let showStartCountModal = false;
   let startCountEditElement: CounterElement | null = null;
-  let modalStart = '';
-  let modalTotal = '';
-  let modalNormal = '';
-  let modalAt = '';
   let flashingElements: Set<string> = new Set();
   let longPressTimer: ReturnType<typeof setTimeout> | null = null;
   let isLongPress = false;
@@ -188,58 +181,21 @@
     startCountEditElement = null;
   }
 
-  function openGamesModal() {
-    modalStart = startGames.toString();
-    modalTotal = $totalGames.toString();
-    modalNormal = $normalGames.toString();
-    modalAt = $atGames.toString();
-    showGamesModal = true;
-  }
-
-  function confirmGamesModal() {
-    const start = parseInt(modalStart, 10);
-    const total = parseInt(modalTotal, 10);
-    if (isNaN(start) || start < 0 || isNaN(total) || total < 0) {
-      showGamesModal = false;
-      return;
-    }
-    appStore.setStartGames(start);
-    appStore.setCurrentGames(start + total);
+  function adjustTotal(amount: number) {
+    const delta = minusMode ? -amount : amount;
+    const newTotal = Math.max(0, $totalGames + delta);
+    appStore.setCurrentGames(startGames + newTotal);
     if (hasNormalGames) {
-      const normal = parseInt(modalNormal, 10);
-      if (!isNaN(normal) && normal >= 0) {
-        const clamped = Math.min(normal, total);
-        appStore.setNormalGames(clamped);
-      }
-    }
-    showGamesModal = false;
-  }
-
-  // 総回転 = 通常 + AT
-  function autoCalcTotal() {
-    const normal = parseInt(modalNormal, 10);
-    const at = parseInt(modalAt, 10);
-    if (!isNaN(normal) && !isNaN(at)) {
-      modalTotal = (normal + at).toString();
+      // ATを変えず、normalGamesを同量調整する
+      const newNormal = Math.max(0, $normalGames + delta);
+      appStore.setNormalGames(newNormal);
     }
   }
 
-  // 通常 = 総回転 − AT
-  function autoCalcNormal() {
-    const total = parseInt(modalTotal, 10);
-    const at = parseInt(modalAt, 10);
-    if (!isNaN(total) && !isNaN(at)) {
-      modalNormal = Math.max(0, total - at).toString();
-    }
-  }
-
-  // AT = 総回転 − 通常
-  function autoCalcAt() {
-    const total = parseInt(modalTotal, 10);
-    const normal = parseInt(modalNormal, 10);
-    if (!isNaN(total) && !isNaN(normal)) {
-      modalAt = Math.max(0, total - normal).toString();
-    }
+  function adjustAt(amount: number) {
+    const delta = minusMode ? -amount : amount;
+    const newAt = Math.max(0, Math.min($atGames + delta, $totalGames));
+    appStore.setNormalGames($totalGames - newAt);
   }
 </script>
 
@@ -282,6 +238,12 @@
           推測
         </button>
         <button
+          class="px-2.5 py-1.5 text-xs font-semibold rounded-lg bg-bg-card-hover text-gray-400 hover:bg-gray-600 transition-all active:scale-95"
+          onclick={() => showSpec = true}
+        >
+          スペック
+        </button>
+        <button
           class="w-8 h-8 flex items-center justify-center rounded-lg bg-bg-card-hover hover:bg-gray-600 active:scale-95 transition-all"
           onclick={handleReset}
           aria-label="リセット"
@@ -293,38 +255,39 @@
       </div>
     </div>
 
-    <!-- Row 2: Payout Rate & Prob Table Buttons + Games Summary -->
+    <!-- Row 2: 総回転数 -->
     <div class="flex items-center justify-between px-2 py-1.5 border-t border-border/50 bg-bg-primary/50">
-      <div class="flex items-center gap-1">
-        <button
-          class="px-2.5 py-1.5 text-xs font-semibold rounded-lg bg-bg-card-hover text-gray-400 hover:bg-gray-600 transition-all active:scale-95"
-          onclick={() => showPayoutRate = true}
-        >
-          機械割
-        </button>
-        <button
-          class="px-2.5 py-1.5 text-xs font-semibold rounded-lg bg-bg-card-hover text-gray-400 hover:bg-gray-600 transition-all active:scale-95"
-          onclick={() => showProbTable = true}
-        >
-          確率表
-        </button>
+      <div class="flex items-center gap-2">
+        <span class="text-[10px] text-blue-400 font-semibold w-10">総回転</span>
+        <span class="text-sm font-bold tabular-nums text-blue-400 w-14 text-right">{(startGames + $totalGames).toLocaleString()}</span>
       </div>
-      <button
-        class="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-bg-card-hover hover:bg-gray-600 transition-all active:scale-95"
-        onclick={openGamesModal}
-      >
-        <span class="text-[10px] text-blue-400">総回転</span>
-        <span class="text-sm font-bold tabular-nums text-blue-400">{$totalGames.toLocaleString()}</span>
-        {#if hasNormalGames}
-          <span class="text-gray-600">|</span>
-          <span class="text-[10px] text-green-400">通常</span>
-          <span class="text-sm font-bold tabular-nums text-green-400">{$normalGames.toLocaleString()}</span>
-          <span class="text-gray-600">|</span>
-          <span class="text-[10px] text-purple-400">AT</span>
-          <span class="text-sm font-bold tabular-nums text-purple-400">{$atGames.toLocaleString()}</span>
-        {/if}
-      </button>
+      <div class="flex items-center gap-1">
+        {#each [10, 100, 1000] as step}
+          <button
+            class="px-1.5 py-1 text-[11px] font-semibold rounded active:scale-95 transition-all {minusMode ? 'bg-red-600/20 border border-red-500/30 text-red-400 hover:bg-red-600/30' : 'bg-green-600/20 border border-green-500/30 text-green-400 hover:bg-green-600/30'}"
+            onclick={() => adjustTotal(step)}
+          >{minusMode ? '-' : '+'}{step}</button>
+        {/each}
+      </div>
     </div>
+
+    {#if hasNormalGames}
+    <!-- Row 3: AT数 -->
+    <div class="flex items-center justify-between px-2 py-1.5 border-t border-border/50 bg-bg-primary/50">
+      <div class="flex items-center gap-2">
+        <span class="text-[10px] text-purple-400 font-semibold w-10">AT</span>
+        <span class="text-sm font-bold tabular-nums text-purple-400 w-14 text-right">{$atGames.toLocaleString()}</span>
+      </div>
+      <div class="flex items-center gap-1">
+        {#each [10, 100, 1000] as step}
+          <button
+            class="px-1.5 py-1 text-[11px] font-semibold rounded active:scale-95 transition-all {minusMode ? 'bg-red-600/20 border border-red-500/30 text-red-400 hover:bg-red-600/30' : 'bg-green-600/20 border border-green-500/30 text-green-400 hover:bg-green-600/30'}"
+            onclick={() => adjustAt(step)}
+          >{minusMode ? '-' : '+'}{step}</button>
+        {/each}
+      </div>
+    </div>
+    {/if}
   </header>
 
   <!-- Main Content -->
@@ -442,124 +405,6 @@
     {/if}
   </div>
 
-  <!-- Unified Games Setting Modal -->
-  {#if showGamesModal}
-    <div
-      class="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
-      onclick={() => showGamesModal = false}
-      onkeydown={(e) => e.key === 'Escape' && (showGamesModal = false)}
-      role="dialog"
-      aria-modal="true"
-      tabindex="-1"
-    >
-      <div
-        class="bg-bg-card rounded-2xl p-6 mx-4 max-w-sm w-full"
-        onclick={(e) => e.stopPropagation()}
-        role="document"
-      >
-        <h3 class="text-lg font-bold mb-4 text-center">ゲーム数設定</h3>
-
-        <div class="space-y-3">
-          <!-- 開始 -->
-          <div class="flex items-center gap-2">
-            <span class="text-sm text-gray-400 w-16 text-right shrink-0">開始</span>
-            <input
-              type="number"
-              inputmode="numeric"
-              class="flex-1 px-3 py-2 rounded-xl bg-bg-primary border border-border text-center text-base font-bold tabular-nums focus:outline-none focus:border-blue-500"
-              bind:value={modalStart}
-            />
-            {#if hasNormalGames}
-              <div class="w-8 shrink-0"></div>
-            {/if}
-          </div>
-
-          <!-- 総回転数 -->
-          <div class="flex items-center gap-2">
-            <span class="text-sm text-blue-400 w-16 text-right shrink-0">総回転数</span>
-            <input
-              type="number"
-              inputmode="numeric"
-              class="flex-1 px-3 py-2 rounded-xl bg-bg-primary border border-border text-center text-base font-bold tabular-nums focus:outline-none focus:border-blue-500"
-              bind:value={modalTotal}
-            />
-            {#if hasNormalGames}
-              <button
-                class="w-8 h-8 shrink-0 flex items-center justify-center rounded-lg transition-all active:scale-95 {modalNormal !== '' && modalAt !== '' ? 'bg-blue-500/30 text-blue-300 hover:bg-blue-500/50' : 'bg-gray-700/50 text-gray-600 cursor-not-allowed'}"
-                onclick={autoCalcTotal}
-                disabled={modalNormal === '' || modalAt === ''}
-                title="通常 + AT"
-              >
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                </svg>
-              </button>
-            {/if}
-          </div>
-
-          {#if hasNormalGames}
-            <!-- 通常時 -->
-            <div class="flex items-center gap-2">
-              <span class="text-sm text-green-400 w-16 text-right shrink-0">通常時</span>
-              <input
-                type="number"
-                inputmode="numeric"
-                class="flex-1 px-3 py-2 rounded-xl bg-bg-primary border border-border text-center text-base font-bold tabular-nums focus:outline-none focus:border-green-500"
-                bind:value={modalNormal}
-              />
-              <button
-                class="w-8 h-8 shrink-0 flex items-center justify-center rounded-lg transition-all active:scale-95 {modalTotal !== '' && modalAt !== '' ? 'bg-green-500/30 text-green-300 hover:bg-green-500/50' : 'bg-gray-700/50 text-gray-600 cursor-not-allowed'}"
-                onclick={autoCalcNormal}
-                disabled={modalTotal === '' || modalAt === ''}
-                title="総回転 − AT"
-              >
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                </svg>
-              </button>
-            </div>
-
-            <!-- AT時 -->
-            <div class="flex items-center gap-2">
-              <span class="text-sm text-purple-400 w-16 text-right shrink-0">AT時</span>
-              <input
-                type="number"
-                inputmode="numeric"
-                class="flex-1 px-3 py-2 rounded-xl bg-bg-primary border border-border text-center text-base font-bold tabular-nums focus:outline-none focus:border-purple-500"
-                bind:value={modalAt}
-              />
-              <button
-                class="w-8 h-8 shrink-0 flex items-center justify-center rounded-lg transition-all active:scale-95 {modalTotal !== '' && modalNormal !== '' ? 'bg-purple-500/30 text-purple-300 hover:bg-purple-500/50' : 'bg-gray-700/50 text-gray-600 cursor-not-allowed'}"
-                onclick={autoCalcAt}
-                disabled={modalTotal === '' || modalNormal === ''}
-                title="総回転 − 通常"
-              >
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                </svg>
-              </button>
-            </div>
-          {/if}
-        </div>
-
-        <div class="flex gap-3 mt-5">
-          <button
-            class="flex-1 py-3 rounded-xl bg-gray-700 hover:bg-gray-600 font-semibold transition-colors"
-            onclick={() => showGamesModal = false}
-          >
-            キャンセル
-          </button>
-          <button
-            class="flex-1 py-3 rounded-xl bg-blue-500 hover:bg-blue-400 font-semibold transition-colors"
-            onclick={confirmGamesModal}
-          >
-            保存
-          </button>
-        </div>
-      </div>
-    </div>
-  {/if}
-
   <!-- Reset Confirmation Modal -->
   {#if showResetConfirm}
     <div
@@ -657,9 +502,6 @@
     </div>
   {/if}
 
-  <!-- Prob Table Modal -->
-  <ProbTableModal {machine} isOpen={showProbTable} onClose={() => showProbTable = false} />
-
-  <!-- Payout Rate Modal -->
-  <PayoutRateModal {machine} isOpen={showPayoutRate} onClose={() => showPayoutRate = false} />
+  <!-- Spec Modal -->
+  <SpecModal {machine} isOpen={showSpec} onClose={() => showSpec = false} />
 </div>

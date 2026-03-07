@@ -1,5 +1,5 @@
 // logic.ts
-import type { CounterElement, MachineData, SettingEstimation } from './types';
+import type { CounterElement, MachineData, SettingEstimation, PriorData, Counts } from './types';
 
 /**
  * 実際のカウント数を計算（現在カウント - 開始カウント）
@@ -122,6 +122,109 @@ export function calculateEstimations(
     return {
       setting: item.setting,
       percentage: parseFloat(percentage.toFixed(2)) // 小数点第2位まで
+    };
+  });
+}
+
+/**
+ * 前提情報を考慮したベイズ推定による設定期待度計算
+ * @param machineData 機種データ
+ * @param priorData 前提情報（途中から打つ場合の台の履歴データ）
+ * @param userSpins ユーザーが打ったゲーム数
+ * @param userNormalSpins ユーザーが打った通常時ゲーム数
+ * @param userCounts ユーザーのカウント（差分）
+ * @param ignoredElements 推測計算から無視する要素
+ */
+export function calculateEstimationsWithPrior(
+  machineData: MachineData,
+  priorData: PriorData | null,
+  userSpins: number,
+  userNormalSpins: number,
+  userCounts: Counts,
+  ignoredElements: Record<string, boolean> = {}
+): SettingEstimation[] {
+
+  // 前提情報もユーザーデータもない場合は均等割り
+  const hasPrior = priorData && priorData.games > 0;
+  const hasUser = userSpins > 0;
+
+  if (!hasPrior && !hasUser) {
+    const prob = 100 / machineData.settings.length;
+    return machineData.settings.map(s => ({ setting: s, percentage: prob }));
+  }
+
+  // 各設定ごとの対数尤度を計算
+  const logLikelihoods = machineData.settings.map(setting => {
+    let sumLogLike = 0;
+
+    // === 第1期間: 前提情報（台が既に回っていた期間） ===
+    if (hasPrior) {
+      for (const element of machineData.elements) {
+        // 履歴で確認できない要素はスキップ
+        if (!element.visibleInHistory) continue;
+        // 無視された要素はスキップ
+        if (ignoredElements[element.id]) continue;
+
+        const count = priorData.counts[element.id] || 0;
+        const probData = element.probabilities.find(p => p.setting === setting);
+        if (!probData) continue;
+
+        // 前提期間のゲーム数
+        const N = priorData.games;
+        if (N <= 0) continue;
+
+        // 確率 p を計算
+        const p = 1 / probData.denominator;
+
+        // 対数尤度を加算
+        sumLogLike += count * Math.log(p) + (N - count) * Math.log(1 - p);
+      }
+    }
+
+    // === 第2期間: ユーザーが打った期間 ===
+    if (hasUser) {
+      for (const element of machineData.elements) {
+        // 無視された要素はスキップ
+        if (ignoredElements[element.id]) continue;
+
+        const count = userCounts[element.id] || 0;
+        const probData = element.probabilities.find(p => p.setting === setting);
+        if (!probData) continue;
+
+        // この要素に対応するゲーム数を取得
+        const N = getSpinsForElement(element, userSpins, userNormalSpins);
+        if (N <= 0) continue;
+
+        // 確率 p を計算
+        const p = 1 / probData.denominator;
+
+        // 対数尤度を加算
+        sumLogLike += count * Math.log(p) + (N - count) * Math.log(1 - p);
+      }
+    }
+
+    return { setting, logLike: sumLogLike };
+  });
+
+  // Log-Sum-Exp Trick
+  const maxLogLike = Math.max(...logLikelihoods.map(l => l.logLike));
+
+  const likelihoods = logLikelihoods.map(item => ({
+    setting: item.setting,
+    relativeProb: Math.exp(item.logLike - maxLogLike)
+  }));
+
+  // パーセント化
+  const totalLikelihood = likelihoods.reduce((sum, item) => sum + item.relativeProb, 0);
+
+  return likelihoods.map(item => {
+    const percentage = totalLikelihood === 0
+      ? 0
+      : (item.relativeProb / totalLikelihood) * 100;
+
+    return {
+      setting: item.setting,
+      percentage: parseFloat(percentage.toFixed(2))
     };
   });
 }

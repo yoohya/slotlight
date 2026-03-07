@@ -32,6 +32,8 @@ export interface CounterElement {
   denominatorType?: DenominatorType;
   /** 確率計算の分母に別要素のカウントを使う場合、その要素ID */
   denominatorElementId?: string;
+  /** 台の履歴画面で確認可能か（途中から打つ場合の前提情報として入力可能） */
+  visibleInHistory?: boolean;
   /** 各設定ごとの確率データ */
   probabilities: SettingData[];
 }
@@ -70,6 +72,16 @@ export interface MachineData {
 export type Counts = Record<string, number>;
 
 /**
+ * 前提情報（途中から打つ場合の台の履歴データ）
+ */
+export interface PriorData {
+  /** 前提期間のゲーム数（台が既に回っていたゲーム数） */
+  games: number;
+  /** 前提期間のカウント（台の履歴で確認できた要素のみ） */
+  counts: Counts;
+}
+
+/**
  * アプリの状態
  */
 export interface AppState {
@@ -91,6 +103,8 @@ export interface AppState {
   minusMode: boolean;
   /** 設定表示モード */
   showSettings: boolean;
+  /** 前提情報（途中から打つ場合の台の履歴データ） */
+  priorData: PriorData | null;
 }
 
 /**
@@ -117,5 +131,6 @@ export interface StorageData {
   counts: Counts;
   startCounts?: Counts;
   ignoredElements?: Record<string, boolean>;
+  priorData?: PriorData;
   timestamp: number;
 }
